@@ -1,0 +1,279 @@
+﻿<Window x:Class="CampInfoBoard.DisplayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:CampInfoBoard.Converters"
+        WindowStyle="None"
+        WindowState="Maximized"
+        Background="Black">
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+    </Window.Resources>
+
+    <Grid>
+
+        <!-- ================= BACKGROUND ================= -->
+        <Image Source="{Binding BackgroundImagePath}"
+               Stretch="UniformToFill"
+               Opacity="0.5"/>
+
+        <!-- readability overlay -->
+        <Rectangle Fill="Black" Opacity="0.45"/>
+
+        <!-- ================= MAIN LAYOUT ================= -->
+        <Grid Margin="32">
+
+            <Grid.ColumnDefinitions>
+                <!-- LEFT INFO STRIP -->
+                <ColumnDefinition Width="420"/>
+                <!-- MAIN CONTENT -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- ================= LEFT PANEL ================= -->
+            <StackPanel Grid.Column="0"
+                        VerticalAlignment="Top">
+
+                <!-- TIME (ANCHOR) -->
+                <StackPanel Margin="0,0,0,28">
+                    <TextBlock Text="{Binding CurrentTime, StringFormat='{}{0:dddd, MMMM d}'}"
+                               FontSize="22"
+                               Foreground="White"
+                               Opacity="0.9"/>
+
+                    <TextBlock Text="{Binding CurrentTime, StringFormat='{}{0:hh:mm tt}'}"
+                               FontSize="44"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
+                </StackPanel>
+
+                <!-- WEATHER BLOCK -->
+                <StackPanel Margin="0,0,0,24">
+                    <TextBlock Text="Weather"
+                               FontSize="18"
+                               Foreground="White"
+                               Opacity="0.8"
+                               Margin="0,0,0,8"/>
+
+                    <ItemsControl ItemsSource="{Binding Weather}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="0,6">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Image Source="{Binding Icon}"
+                                               Width="32"
+                                               Height="32"
+                                               Margin="0,0,10,0"/>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding TempDisplay}"
+                                                       FontSize="18"
+                                                       Foreground="White"/>
+                                            <TextBlock Text="{Binding FeelsLikeDisplay}"
+                                                       FontSize="14"
+                                                       Foreground="LightGray"
+                                                       Opacity="0.8"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <!-- TIDES -->
+                <StackPanel Margin="0,0,0,20"
+                            Visibility="{Binding Settings.ShowTides, Converter={StaticResource BoolToVisibility}}">
+                    <TextBlock Text="Tides"
+                               FontSize="18"
+                               Foreground="White"
+                               Opacity="0.8"
+                               Margin="0,0,0,6"/>
+
+                    <TextBlock Text="{Binding HighTideDisplay}"
+                               Foreground="White"/>
+                    <TextBlock Text="{Binding LowTideDisplay}"
+                               Foreground="White"
+                               Opacity="0.9"/>
+                </StackPanel>
+
+                <!-- SUN + UV + RADIO (GROUPED INFO BLOCK) -->
+                <StackPanel Margin="0,0,0,10">
+
+                    <!-- SUN -->
+                    <StackPanel Margin="0,0,0,14"
+                                Visibility="{Binding Settings.ShowSun, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="Sun"
+                                   FontSize="18"
+                                   Foreground="White"
+                                   Opacity="0.8"
+                                   Margin="0,0,0,6"/>
+
+                        <TextBlock Text="{Binding Sun.SunriseDisplay}"
+                                   Foreground="White"/>
+                        <TextBlock Text="{Binding Sun.SunsetDisplay}"
+                                   Foreground="White"
+                                   Opacity="0.9"/>
+                    </StackPanel>
+
+                    <!-- UV -->
+                    <StackPanel Margin="0,0,0,14"
+                                Visibility="{Binding Settings.ShowUV, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="UV Index"
+                                   FontSize="18"
+                                   Foreground="White"
+                                   Opacity="0.8"
+                                   Margin="0,0,0,6"/>
+
+                        <TextBlock Text="{Binding UVDisplay}"
+                                   FontSize="16"
+                                   Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- RADIO -->
+                    <StackPanel Visibility="{Binding Radio.Enabled, Converter={StaticResource BoolToVisibility}}">
+                        <TextBlock Text="FM Broadcast"
+                                   FontSize="18"
+                                   Foreground="White"
+                                   Opacity="0.8"
+                                   Margin="0,0,0,6"/>
+
+                        <TextBlock Text="{Binding Radio.EnglishFrequency, StringFormat='EN {0} MHz'}"
+                                   Foreground="White"
+                                   Visibility="{Binding Radio.EnglishFrequency, Converter={StaticResource NullToVisibility}}"/>
+
+                        <TextBlock Text="{Binding Radio.FrenchFrequency, StringFormat='FR {0} MHz'}"
+                                   Foreground="White"
+                                   Visibility="{Binding Radio.FrenchFrequency, Converter={StaticResource NullToVisibility}}"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <!-- ================= MAIN CONTENT AREA ================= -->
+            <Grid Grid.Column="1"
+                  Margin="40,0,0,0">
+
+                <!-- ================= SCHEDULE ================= -->
+                <Grid Visibility="{Binding IsScheduleVisible, Converter={StaticResource BoolToVisibility}}">
+
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <ItemsControl ItemsSource="{Binding FilteredSchedule}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Border Margin="0,10"
+                                            Padding="16"
+                                            Background="#22000000"
+                                            CornerRadius="10">
+
+                                        <StackPanel>
+
+                                            <TextBlock Text="{Binding TimeRange}"
+                                                       FontSize="18"
+                                                       Foreground="#9AD0FF"/>
+
+                                            <TextBlock Text="{Binding Title}"
+                                                       FontSize="48"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="White"
+                                                       Margin="0,4,0,0"/>
+
+                                            <TextBlock Text="{Binding Location}"
+                                                       FontSize="16"
+                                                       Foreground="LightGray"
+                                                       Opacity="0.9"/>
+
+                                            <TextBlock Text="{Binding Speaker}"
+                                                       FontSize="16"
+                                                       Foreground="LightGray"
+                                                       Opacity="0.9"/>
+
+                                            <TextBlock Text="{Binding Description}"
+                                                       FontSize="16"
+                                                       Foreground="White"
+                                                       TextWrapping="Wrap"
+                                                       Opacity="0.95"
+                                                       Margin="0,6,0,0"/>
+
+                                        </StackPanel>
+                                    </Border>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                </Grid>
+
+                <!-- ================= ANNOUNCEMENTS ================= -->
+                <Grid Visibility="{Binding IsAnnouncementVisible, Converter={StaticResource BoolToVisibility}}">
+
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Width="900">
+
+                        <TextBlock Text="{Binding CurrentAnnouncement.Title}"
+                                   FontSize="40"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   TextAlignment="Center"
+                                   Margin="0,0,0,20"/>
+
+                        <Image Source="{Binding CurrentAnnouncement.ImagePath}"
+                               Height="260"
+                               Stretch="Uniform"
+                               Margin="0,0,0,20"/>
+
+                        <TextBlock Text="{Binding CurrentAnnouncement.BodyText}"
+                                   FontSize="26"
+                                   Foreground="White"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Opacity="0.95"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- ================= PHOTO ================= -->
+                <Grid Visibility="{Binding IsPhotoVisible, Converter={StaticResource BoolToVisibility}}">
+
+                    <Image Source="{Binding CurrentPhoto.ImagePath}"
+                           Stretch="UniformToFill"/>
+
+                    <!-- bottom caption overlay -->
+                    <Border VerticalAlignment="Bottom"
+                            Height="180">
+
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#CC000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+
+                        <StackPanel VerticalAlignment="Bottom"
+                                    Margin="24">
+
+                            <TextBlock Text="{Binding CurrentPhoto.Caption}"
+                                       FontSize="24"
+                                       Foreground="White"/>
+
+                            <TextBlock Text="{Binding CurrentPhoto.Credit}"
+                                       FontSize="16"
+                                       Foreground="LightGray"
+                                       Opacity="0.9"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Window>
