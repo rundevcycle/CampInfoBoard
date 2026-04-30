@@ -626,5 +626,128 @@ namespace CampInfoBoard
             }
         }
 
+
+
+
+        private void AddAnnouncement_Click(object sender, RoutedEventArgs e)
+        {
+            var item = new Announcement
+            {
+                Start = DateTime.Today,
+                End = DateTime.Today.AddDays(1),
+                Priority = 0
+            };
+
+            var editor = new AnnouncementEditorWindow(item)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Announcements.Add(item);
+                AnnouncementGrid.Items.Refresh();
+                AnnouncementGrid.SelectedItem = item;
+            }
+        }
+
+        private void CopyAnnouncement_Click(object sender, RoutedEventArgs e)
+        {
+            if (AnnouncementGrid.SelectedItem is not Announcement selectedItem)
+            {
+                MessageBox.Show("Please select an announcement to copy.", "Camp Info Board");
+                return;
+            }
+
+            var copiedItem = CloneAnnouncement(selectedItem);
+
+            var editor = new AnnouncementEditorWindow(copiedItem)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Announcements.Add(copiedItem);
+                AnnouncementGrid.Items.Refresh();
+                AnnouncementGrid.SelectedItem = copiedItem;
+            }
+        }
+
+        private void EditAnnouncement_Click(object sender, RoutedEventArgs e)
+        {
+            EditSelectedAnnouncement();
+        }
+
+        private void AnnouncementGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            EditSelectedAnnouncement();
+        }
+
+        private void DeleteAnnouncement_Click(object sender, RoutedEventArgs e)
+        {
+            if (AnnouncementGrid.SelectedItem is not Announcement selectedItem)
+            {
+                MessageBox.Show("Please select an announcement first.", "Camp Info Board");
+                return;
+            }
+
+            if (MessageBox.Show(
+                    "Delete the selected announcement?",
+                    "Camp Info Board",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            Data.Announcements.Remove(selectedItem);
+            AnnouncementGrid.Items.Refresh();
+        }
+
+        private void EditSelectedAnnouncement()
+        {
+            if (AnnouncementGrid.SelectedItem is not Announcement selectedItem)
+            {
+                MessageBox.Show("Please select an announcement first.", "Camp Info Board");
+                return;
+            }
+
+            var editableCopy = CloneAnnouncement(selectedItem);
+
+            var editor = new AnnouncementEditorWindow(editableCopy)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                CopyAnnouncement(editableCopy, selectedItem);
+                AnnouncementGrid.Items.Refresh();
+            }
+        }
+
+        private Announcement CloneAnnouncement(Announcement source)
+        {
+            return new Announcement
+            {
+                Title = source.Title,
+                BodyText = source.BodyText,
+                ImagePath = source.ImagePath,
+                Start = source.Start,
+                End = source.End,
+                Priority = source.Priority
+            };
+        }
+
+        private void CopyAnnouncement(Announcement source, Announcement target)
+        {
+            target.Title = source.Title;
+            target.BodyText = source.BodyText;
+            target.ImagePath = source.ImagePath;
+            target.Start = source.Start;
+            target.End = source.End;
+            target.Priority = source.Priority;
+        }
     }
 }

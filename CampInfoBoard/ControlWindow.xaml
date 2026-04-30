@@ -208,22 +208,65 @@
 
 
             <TabItem Header="Announcements">
-                <DataGrid ItemsSource="{Binding Data.Announcements}"
-                          AutoGenerateColumns="False"
-                          CanUserAddRows="True"
-                          CanUserDeleteRows="True"
-                          Margin="12">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" Width="80"/>
-                        <DataGridTextColumn Header="Start" Binding="{Binding Start, StringFormat=g}" Width="150"/>
-                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat=g}" Width="150"/>
-                        <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="200"/>
-                        <DataGridTextColumn Header="Body" Binding="{Binding BodyText}" Width="*"/>
-                        <DataGridTextColumn Header="Image Path" Binding="{Binding ImagePath}" Width="220"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
+                <DockPanel Margin="12">
 
+                    <StackPanel DockPanel.Dock="Top"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,8">
+
+                        <Button Content="Add Announcement"
+                    Width="140"
+                    Margin="0,0,8,0"
+                    Click="AddAnnouncement_Click"/>
+
+                        <Button Content="Copy Announcement"
+                    Width="150"
+                    Margin="0,0,8,0"
+                    Click="CopyAnnouncement_Click"/>
+
+                        <Button Content="Edit Announcement"
+                    Width="150"
+                    Margin="0,0,8,0"
+                    Click="EditAnnouncement_Click"/>
+
+                        <Button Content="Delete Announcement"
+                    Width="150"
+                    Click="DeleteAnnouncement_Click"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="AnnouncementGrid"
+                  ItemsSource="{Binding Data.Announcements}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  MouseDoubleClick="AnnouncementGrid_MouseDoubleClick">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Priority"
+                                    Binding="{Binding Priority}"
+                                    Width="80"/>
+
+                            <DataGridTextColumn Header="Start"
+                                    Binding="{Binding Start, StringFormat=g}"
+                                    Width="150"/>
+
+                            <DataGridTextColumn Header="End"
+                                    Binding="{Binding End, StringFormat=g}"
+                                    Width="150"/>
+
+                            <DataGridTextColumn Header="Title"
+                                    Binding="{Binding Title}"
+                                    Width="*"/>
+
+                            <DataGridTextColumn Header="Image"
+                                    Binding="{Binding ImagePath}"
+                                    Width="220"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
             <TabItem Header="Photos">
                 <DataGrid ItemsSource="{Binding Data.Photos}"
                           AutoGenerateColumns="False"
