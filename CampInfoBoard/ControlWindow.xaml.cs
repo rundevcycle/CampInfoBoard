@@ -474,5 +474,70 @@ namespace CampInfoBoard
                 textBox.SelectAll();
             }));
         }
+
+
+        private void AddScheduleItem_Click(object sender, RoutedEventArgs e)
+        {
+            AddNextScheduleItem();
+        }
+
+        private void AddNextScheduleItem()
+        {
+            var lastItem = Data.Schedule
+                .OrderByDescending(s => s.Start)
+                .FirstOrDefault();
+
+            var newItem = new ScheduleItem();
+
+            if (lastItem == null)
+            {
+                newItem.Start = DateTime.Today.AddHours(9);
+                newItem.End = newItem.Start.AddHours(1);
+            }
+            else
+            {
+                newItem.Start = lastItem.End;
+                newItem.End = newItem.Start.AddHours(1);
+                newItem.Location = lastItem.Location;
+            }
+
+            Data.Schedule.Add(newItem);
+            ScheduleGrid.Items.Refresh();
+
+            ScheduleGrid.SelectedItem = newItem;
+            ScheduleGrid.CurrentCell = new DataGridCellInfo(newItem, ScheduleGrid.Columns[0]);
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ScheduleGrid.ScrollIntoView(newItem);
+                ScheduleGrid.Focus();
+                ScheduleGrid.BeginEdit();
+            }));
+        }
+
+
+        private void ScheduleGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+            {
+                return;
+            }
+
+            ScheduleGrid.CommitEdit(DataGridEditingUnit.Cell, true);
+            ScheduleGrid.CommitEdit(DataGridEditingUnit.Row, true);
+
+            if (ScheduleGrid.SelectedItem is ScheduleItem selectedItem)
+            {
+                var ordered = Data.Schedule
+                    .OrderBy(s => s.Start)
+                    .ToList();
+
+                if (ordered.LastOrDefault() == selectedItem)
+                {
+                    AddNextScheduleItem();
+                    e.Handled = true;
+                }
+            }
+        }
     }
 }
