@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace CampInfoBoard
@@ -17,6 +18,8 @@ namespace CampInfoBoard
         private AppData _data = new();
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public ICollectionView ScheduleView { get; private set; }
 
         public AppData Data
         {
@@ -42,6 +45,7 @@ namespace CampInfoBoard
         private void LoadData()
         {
             Data = DataService.LoadData();
+            SetupScheduleView();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
@@ -113,6 +117,18 @@ namespace CampInfoBoard
             }
 
             Application.Current.Shutdown();
+        }
+
+
+        private void SetupScheduleView()
+        {
+            ScheduleView = CollectionViewSource.GetDefaultView(Data.Schedule);
+
+            ScheduleView.SortDescriptions.Clear();
+            ScheduleView.SortDescriptions.Add(
+                new SortDescription(nameof(ScheduleItem.Start), ListSortDirection.Ascending));
+
+            OnPropertyChanged(nameof(ScheduleView));
         }
 
 
@@ -476,68 +492,139 @@ namespace CampInfoBoard
         }
 
 
+
+
+        private ScheduleItem CloneScheduleItem(ScheduleItem source)
+        {
+            return new ScheduleItem
+            {
+                Start = source.Start,
+                End = source.End,
+                Title = source.Title,
+                Location = source.Location,
+                Speaker = source.Speaker,
+                Description = source.Description
+            };
+        }
+
+        private void CopyScheduleItem(ScheduleItem source, ScheduleItem target)
+        {
+            target.Start = source.Start;
+            target.End = source.End;
+            target.Title = source.Title;
+            target.Location = source.Location;
+            target.Speaker = source.Speaker;
+            target.Description = source.Description;
+        }
+
         private void AddScheduleItem_Click(object sender, RoutedEventArgs e)
         {
-            AddNextScheduleItem();
+            var item = CreateNextScheduleItem();
+
+            var editor = new ScheduleItemEditorWindow(item)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Schedule.Add(item);
+                ScheduleView.Refresh();
+                ScheduleGrid.SelectedItem = item;
+            }
         }
 
-        private void AddNextScheduleItem()
+        private void EditScheduleItem_Click(object sender, RoutedEventArgs e)
         {
-            var lastItem = Data.Schedule
-                .OrderByDescending(s => s.Start)
-                .FirstOrDefault();
-
-            var newItem = new ScheduleItem();
-
-            if (lastItem == null)
-            {
-                newItem.Start = DateTime.Today.AddHours(9);
-                newItem.End = newItem.Start.AddHours(1);
-            }
-            else
-            {
-                newItem.Start = lastItem.End;
-                newItem.End = newItem.Start.AddHours(1);
-                newItem.Location = lastItem.Location;
-            }
-
-            Data.Schedule.Add(newItem);
-            ScheduleGrid.Items.Refresh();
-
-            ScheduleGrid.SelectedItem = newItem;
-            ScheduleGrid.CurrentCell = new DataGridCellInfo(newItem, ScheduleGrid.Columns[0]);
-
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                ScheduleGrid.ScrollIntoView(newItem);
-                ScheduleGrid.Focus();
-                ScheduleGrid.BeginEdit();
-            }));
+            EditSelectedScheduleItem();
         }
 
-
-        private void ScheduleGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void ScheduleGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (e.Key != Key.Enter)
+            EditSelectedScheduleItem();
+        }
+
+        private void DeleteScheduleItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (ScheduleGrid.SelectedItem is not ScheduleItem selectedItem)
+            {
+                MessageBox.Show("Please select an event first.", "Camp Info Board");
+                return;
+            }
+
+            if (MessageBox.Show(
+                    "Delete the selected event?",
+                    "Camp Info Board",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) != MessageBoxResult.Yes)
             {
                 return;
             }
 
-            ScheduleGrid.CommitEdit(DataGridEditingUnit.Cell, true);
-            ScheduleGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            Data.Schedule.Remove(selectedItem);
+            ScheduleView.Refresh();
+        }
 
-            if (ScheduleGrid.SelectedItem is ScheduleItem selectedItem)
+        private void EditSelectedScheduleItem()
+        {
+            if (ScheduleGrid.SelectedItem is not ScheduleItem selectedItem)
             {
-                var ordered = Data.Schedule
-                    .OrderBy(s => s.Start)
-                    .ToList();
+                MessageBox.Show("Please select an event first.", "Camp Info Board");
+                return;
+            }
 
-                if (ordered.LastOrDefault() == selectedItem)
-                {
-                    AddNextScheduleItem();
-                    e.Handled = true;
-                }
+            var editableCopy = CloneScheduleItem(selectedItem);
+
+            var editor = new ScheduleItemEditorWindow(editableCopy)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                CopyScheduleItem(editableCopy, selectedItem);
+                ScheduleView.Refresh();
             }
         }
+
+        private ScheduleItem CreateNextScheduleItem()
+        {
+            return new ScheduleItem
+            {
+                Start = DateTime.Today,
+                End = DateTime.Today.AddHours(1),
+                Title = "",
+                Location = "",
+                Speaker = "",
+                Description = ""
+            };
+        }
+
+        private void CopyScheduleItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (ScheduleGrid.SelectedItem is not ScheduleItem selectedItem)
+            {
+                MessageBox.Show("Please select an event to copy.", "Camp Info Board");
+                return;
+            }
+
+            ScheduleItem copiedItem = CloneScheduleItem(selectedItem);
+
+            copiedItem.Start = copiedItem.Start.AddDays(1);
+            copiedItem.End = copiedItem.End.AddDays(1);
+
+            var editor = new ScheduleItemEditorWindow(copiedItem)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Schedule.Add(copiedItem);
+                ScheduleView.Refresh();
+                ScheduleGrid.SelectedItem = copiedItem;
+            }
+        }
+
     }
 }

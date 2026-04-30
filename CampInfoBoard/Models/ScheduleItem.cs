@@ -1,8 +1,10 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace CampInfoBoard.Models
 {
-    public class ScheduleItem
+    public class ScheduleItem : INotifyPropertyChanged
     {
         public DateTime Start { get; set; } = DateTime.Today;
         public DateTime End { get; set; } = DateTime.Today.AddHours(1);
@@ -19,9 +21,25 @@ namespace CampInfoBoard.Models
             get => Start.Date;
             set
             {
+                DateTime previousStartDate = Start.Date;
+
                 Start = value.Date + Start.TimeOfDay;
+
+                // Only auto-shift End Date if it matched the old Start Date
+                if (End.Date == previousStartDate)
+                {
+                    End = value.Date + End.TimeOfDay;
+                }
+
+                OnPropertyChanged(nameof(Start));
+                OnPropertyChanged(nameof(End));
+                OnPropertyChanged(nameof(StartTimeText));
+                OnPropertyChanged(nameof(EndDateText));
+                OnPropertyChanged(nameof(EndTimeText));
+                OnPropertyChanged(nameof(TimeRange));
             }
         }
+
 
         public string StartDateText
         {
@@ -42,15 +60,26 @@ namespace CampInfoBoard.Models
             {
                 if (TryParseFlexibleTime(value, out TimeSpan time))
                 {
-                    Start = Start.Date + time;
+                    TimeSpan previousDuration = End - Start;
 
-                    if (End <= Start)
+                    if (previousDuration <= TimeSpan.Zero)
                     {
-                        End = Start.AddHours(1);
+                        previousDuration = TimeSpan.FromHours(1);
                     }
+
+                    Start = Start.Date + time;
+                    End = Start + previousDuration;
+
+                    OnPropertyChanged(nameof(Start));
+                    OnPropertyChanged(nameof(End));
+                    OnPropertyChanged(nameof(StartTimeText));
+                    OnPropertyChanged(nameof(EndDateText));
+                    OnPropertyChanged(nameof(EndTimeText));
+                    OnPropertyChanged(nameof(TimeRange));
                 }
             }
         }
+
 
         public DateTime EndDate
         {
@@ -168,6 +197,13 @@ namespace CampInfoBoard.Models
 
             time = new TimeSpan(hours, minutes, 0);
             return true;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

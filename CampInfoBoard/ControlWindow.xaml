@@ -146,86 +146,67 @@
 
             <TabItem Header="Schedule">
                 <DockPanel Margin="12">
+
                     <StackPanel DockPanel.Dock="Top"
-                            Orientation="Horizontal"
-                            Margin="0,0,0,8">
-                        <Button Content="Add Schedule Item"
-                            Width="150"
+                        Orientation="Horizontal"
+                        Margin="0,0,0,8">
+
+                        <Button Content="Add Event"
+                            Width="100"
+                            Margin="0,0,8,0"
                             Click="AddScheduleItem_Click"/>
+
+                        <Button Content="Copy Event"
+                            Width="100"
+                            Margin="0,0,8,0"
+                            Click="CopyScheduleItem_Click"/>
+
+                        <Button Content="Edit Event"
+                            Width="100"
+                            Margin="0,0,8,0"
+                            Click="EditScheduleItem_Click"/>
+
+                        <Button Content="Delete Event"
+                            Width="100"
+                            Click="DeleteScheduleItem_Click"/>
                     </StackPanel>
 
                     <DataGrid x:Name="ScheduleGrid"
-                        ItemsSource="{Binding Data.Schedule}"
+                        ItemsSource="{Binding ScheduleView}"
                         AutoGenerateColumns="False"
                         CanUserAddRows="False"
-                        CanUserDeleteRows="True"
-                        Margin="12"
-                        PreviewKeyDown="ScheduleGrid_PreviewKeyDown">
+                        CanUserDeleteRows="False"
+                        IsReadOnly="True"
+                        SelectionMode="Single"
+                        MouseDoubleClick="ScheduleGrid_MouseDoubleClick">
 
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="Start"
+                                    Binding="{Binding Start, StringFormat=g}"
+                                    Width="150"/>
 
-                            <DataGridTemplateColumn Header="Start Date" Width="130">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding StartDate, StringFormat={}{0:d}}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding StartDateText, UpdateSourceTrigger=LostFocus}"
-                                     VerticalContentAlignment="Center"
-                                     Loaded="EditingTextBox_Loaded"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
-                            </DataGridTemplateColumn>
-
-                            <DataGridTextColumn Header="Start Time"
-                                    Binding="{Binding StartTimeText, UpdateSourceTrigger=LostFocus}"
-                                    Width="110"/>
-
-                            <DataGridTemplateColumn Header="End Date" Width="130">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding EndDate, StringFormat={}{0:d}}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
-                                        <TextBox Text="{Binding EndDateText, UpdateSourceTrigger=LostFocus}"
-                                     VerticalContentAlignment="Center"
-                                     Loaded="EditingTextBox_Loaded"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellEditingTemplate>
-                            </DataGridTemplateColumn>
-
-                            <DataGridTextColumn Header="End Time"
-                                    Binding="{Binding EndTimeText, UpdateSourceTrigger=LostFocus}"
-                                    Width="110"/>
+                            <DataGridTextColumn Header="End"
+                                    Binding="{Binding End, StringFormat=g}"
+                                    Width="150"/>
 
                             <DataGridTextColumn Header="Title"
                                     Binding="{Binding Title}"
-                                    Width="180"/>
+                                    Width="*"/>
 
                             <DataGridTextColumn Header="Location"
                                     Binding="{Binding Location}"
-                                    Width="140"/>
+                                    Width="160"/>
 
                             <DataGridTextColumn Header="Speaker"
                                     Binding="{Binding Speaker}"
-                                    Width="140"/>
-
-                            <DataGridTextColumn Header="Description"
-                                    Binding="{Binding Description}"
-                                    Width="*"/>
-
+                                    Width="160"/>
                         </DataGrid.Columns>
+
                     </DataGrid>
                 </DockPanel>
             </TabItem>
-            
-            
+
+
             <TabItem Header="Announcements">
                 <DataGrid ItemsSource="{Binding Data.Announcements}"
                           AutoGenerateColumns="False"
