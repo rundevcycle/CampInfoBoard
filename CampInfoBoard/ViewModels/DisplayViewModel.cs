@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 using CampInfoBoard.Services;
+using System.IO;
 
 namespace CampInfoBoard.ViewModels;
 
@@ -63,9 +64,26 @@ public class DisplayViewModel : INotifyPropertyChanged
             .OrderByDescending(x => x.Priority)
             .ThenBy(x => x.Start ?? DateTime.MinValue);
 
-    public IEnumerable<PhotoItem> ActivePhotos =>
-        Photos
-            .Where(x => x.Added + x.Duration >= DateTime.Now);
+
+    // Cache photos to minimize File checks.
+    private List<PhotoItem> _activePhotos = new();
+
+    public IEnumerable<PhotoItem> ActivePhotos => _activePhotos;
+
+    public void RefreshActivePhotos()
+    {
+        _activePhotos = Photos
+            .Where(p =>
+                p.IsActive &&
+                !p.IsExpired &&
+                !string.IsNullOrWhiteSpace(p.ImagePath) &&
+                File.Exists(p.ImagePath))
+            .OrderBy(p => p.DisplayOrder)
+            .ToList();
+
+        OnPropertyChanged(nameof(ActivePhotos));
+    }
+
 
     public Announcement? CurrentAnnouncement => ActiveAnnouncements.ElementAtOrDefault(_announcementIndex);
     public PhotoItem? CurrentPhoto => ActivePhotos.ElementAtOrDefault(_photoIndex);
@@ -233,6 +251,7 @@ public class DisplayViewModel : INotifyPropertyChanged
         {
             Photos.Add(item);
         }
+        RefreshActivePhotos();
     }
 
 
@@ -248,6 +267,8 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(FilteredSchedule));
         OnPropertyChanged(nameof(HighTideDisplay));
         OnPropertyChanged(nameof(LowTideDisplay));
+        OnPropertyChanged(nameof(ActivePhotos));
+        OnPropertyChanged(nameof(CurrentPhoto));
     }
 
 

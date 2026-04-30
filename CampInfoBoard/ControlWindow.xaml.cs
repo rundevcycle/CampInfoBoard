@@ -749,5 +749,129 @@ namespace CampInfoBoard
             target.End = source.End;
             target.Priority = source.Priority;
         }
+
+
+
+
+
+        private void AddPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            var item = new PhotoItem
+            {
+                IsActive = true,
+                DisplayOrder = Data.Photos.Count
+            };
+
+            var editor = new PhotoEditorWindow(item)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Photos.Add(item);
+                PhotosGrid.Items.Refresh();
+            }
+        }
+
+        private void CopyPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
+            {
+                MessageBox.Show("Please select a photo to copy.", "Camp Info Board");
+                return;
+            }
+
+            var copiedItem = ClonePhoto(selectedItem);
+
+            var editor = new PhotoEditorWindow(copiedItem)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Photos.Add(copiedItem);
+                PhotosGrid.Items.Refresh();
+                PhotosGrid.SelectedItem = copiedItem;
+            }
+        }
+
+        private void EditPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            EditSelectedPhoto();
+        }
+
+        private void PhotosGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditSelectedPhoto();
+        }
+
+        private void DeletePhoto_Click(object sender, RoutedEventArgs e)
+        {
+            if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
+            {
+                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                return;
+            }
+
+            if (MessageBox.Show(
+                    "Delete the selected photo?",
+                    "Camp Info Board",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            Data.Photos.Remove(selectedItem);
+            PhotosGrid.Items.Refresh();
+        }
+
+        private void EditSelectedPhoto()
+        {
+            if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
+            {
+                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                return;
+            }
+
+            var editableCopy = ClonePhoto(selectedItem);
+
+            var editor = new PhotoEditorWindow(editableCopy)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                CopyPhoto(editableCopy, selectedItem);
+                PhotosGrid.Items.Refresh();
+            }
+        }
+
+        private PhotoItem ClonePhoto(PhotoItem source)
+        {
+            return new PhotoItem
+            {
+                ImagePath = source.ImagePath,
+                Caption = source.Caption,
+                Credit = source.Credit,
+                ExpiryDate = source.ExpiryDate,
+                IsActive = source.IsActive,
+                DisplayOrder = source.DisplayOrder
+            };
+        }
+
+        private void CopyPhoto(PhotoItem source, PhotoItem target)
+        {
+            target.ImagePath = source.ImagePath;
+            target.Caption = source.Caption;
+            target.Credit = source.Credit;
+            target.ExpiryDate = source.ExpiryDate;
+            target.IsActive = source.IsActive;
+            target.DisplayOrder = source.DisplayOrder;
+        }
+
     }
 }
