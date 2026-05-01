@@ -3,6 +3,8 @@ using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.IO;
+using CampInfoBoard.Services;
+
 
 namespace CampInfoBoard;
 
@@ -42,7 +44,7 @@ public partial class PhotoEditorWindow : Window
 
     private void Save_Click(object sender, RoutedEventArgs e)
     {
-        Photo.ImagePath = ImagePathBox.Text.Trim();
+        Photo.ImagePath = PhotoFileService.ImportPhoto(ImagePathBox.Text.Trim());
         Photo.Caption = CaptionBox.Text.Trim();
         Photo.Credit = CreditBox.Text.Trim();
         Photo.ExpiryDate = ExpiryPicker.SelectedDate;

@@ -6,16 +6,19 @@ namespace CampInfoBoard.Services
 {
     public static class DataService
     {
-        private static readonly string DataFilePath =
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "campdata.json");
+        private static string DataFilePath => AppPaths.JsonFilePath;
 
         public static AppData LoadData()
         {
             try
             {
+                AppPaths.EnsureFolders();
+
                 if (!File.Exists(DataFilePath))
                 {
-                    return CreateDefaultData();
+                    var defaultData = CreateDefaultData();
+                    SaveData(defaultData);
+                    return defaultData;
                 }
 
                 string json = File.ReadAllText(DataFilePath);
@@ -32,6 +35,17 @@ namespace CampInfoBoard.Services
 
         public static void SaveData(AppData data)
         {
+            AppPaths.EnsureFolders();
+
+            if (File.Exists(DataFilePath))
+            {
+                string backupPath = Path.Combine(
+                    AppPaths.BackupsDirectory,
+                    $"camp-info-board-{DateTime.Now:yyyyMMdd-HHmmss}.json");
+
+                File.Copy(DataFilePath, backupPath, true);
+            }
+
             var options = new JsonSerializerOptions
             {
                 WriteIndented = true
@@ -127,20 +141,6 @@ namespace CampInfoBoard.Services
             // TODO Remove hardcoded path
             data.BackgroundImagePath = @"c:\Users\Andy\Documents\OpenSong\Backgrounds\Water\bottom-of-the-sea-16913.jpg";
 
-            // TODO Remove hardcoded path
-            data.Photos.Add(new PhotoItem
-            {
-                ImagePath = @"c:\users\Andy\Documents\OpenSong\Backgrounds\Sunsets\Sunset.jpg",
-                Caption = "Sunset over the water",
-                Credit = "Jane Doe"
-            });
-
-            // TODO Remove hardcoded path
-            data.Photos.Add(new PhotoItem
-            {
-                ImagePath = @"c:\users\Andy\Documents\OpenSong\Backgrounds\Space\F1030017.jpg",
-                Caption = "The stars come out...",
-            });
             return data;
         }
     }

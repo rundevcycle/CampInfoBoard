@@ -40,6 +40,7 @@ namespace CampInfoBoard
             InitializeComponent();
             DataContext = this;
             LoadData();
+            Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
         }
 
         private void LoadData()
@@ -53,6 +54,69 @@ namespace CampInfoBoard
             DataService.SaveData(Data);
             MessageBox.Show("Saved.", "Camp Info Board");
         }
+
+
+        private void SaveBoardAs_Click(object sender, RoutedEventArgs e)
+        {
+            var prompt = new BoardNamePromptWindow($"{AppPaths.CurrentBoardName} Copy")
+            {
+                Owner = this
+            };
+
+            if (prompt.ShowDialog() != true)
+                return;
+
+            try
+            {
+                DataService.SaveData(Data);
+
+                AppPaths.SaveBoardAs(prompt.BoardName);
+
+                LoadData();
+
+                Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
+
+                MessageBox.Show(
+                    $"Board saved as '{AppPaths.CurrentBoardName}'.",
+                    "Camp Info Board");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Save Board As Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+
+        private void OpenBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenBoardWindow
+            {
+                Owner = this
+            };
+
+            if (dialog.ShowDialog() != true || dialog.SelectedBoardName == null)
+            {
+                return;
+            }
+
+            DataService.SaveData(Data);
+
+            AppPaths.CurrentBoardName = dialog.SelectedBoardName;
+
+            LoadData();
+
+            Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
+
+            if (_displayWindow?.DataContext is DisplayViewModel viewModel)
+            {
+                viewModel.ReloadData();
+            }
+        }
+
 
         private void Reload_Click(object sender, RoutedEventArgs e)
         {

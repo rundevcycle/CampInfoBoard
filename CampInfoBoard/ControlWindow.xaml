@@ -24,11 +24,21 @@
                     Width="120"
                     Margin="0,0,8,0"
                     Click="RefreshDisplay_Click"/>
-
+            
+            <Button Content="Open Board..."
+                    Margin="0,0,8,0"
+                    Width="100"
+                    Click="OpenBoard_Click"/>
+            
             <Button Content="Save"
                     Width="100"
                     Margin="0,0,8,0"
                     Click="Save_Click"/>
+
+            <Button Content="Save Board As..."
+                   Margin="0,0,8,0"
+                    Width="120"
+                    Click="SaveBoardAs_Click"/>
 
             <Button Content="Reload"
                     Width="100"
