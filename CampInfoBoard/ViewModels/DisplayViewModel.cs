@@ -120,10 +120,10 @@ public class DisplayViewModel : INotifyPropertyChanged
     public bool IsPhotoVisible => _mode == DisplayMode.Photo;
     public bool IsPhotoFallbackVisible => IsPhotoVisible && CurrentPhoto == null;
 
-    public int ScheduleSeconds { get; set; } = 5; // TODO make configurable = 30;
-    public int AnnouncementSeconds { get; set; } = 5;  // TODO make configurable = 12;
-    public int PhotoSeconds { get; set; } = 5;  // TODO make configurable = 15;
+    public int ScheduleSeconds => Math.Max(1, Settings.ScheduleRotationSeconds);
+    public int AnnouncementSeconds => Math.Max(1, Settings.AnnouncementRotationSeconds);
 
+    public int PhotoSeconds => Math.Max(1, Settings.PhotoRotationSeconds);
     public DisplayViewModel()
     {
         LoadAppData();
@@ -291,4 +291,13 @@ public class DisplayViewModel : INotifyPropertyChanged
 
     private void OnPropertyChanged([CallerMemberName] string? name = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+
+    public void RestartRotation()
+    {
+        _announcementIndex = 0;
+        _photoIndex = 0;
+
+        SetMode(DisplayMode.Schedule, ScheduleSeconds);
+    }
 }

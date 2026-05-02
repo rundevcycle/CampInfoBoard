@@ -60,6 +60,10 @@ namespace CampInfoBoard
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
+            // Sanity check before saving.
+            NormalizeDisplaySettings();
+            RefreshDisplaySettingsBindings();
+
             DataService.SaveData(Data);
             WpfMessageBox.Show("Saved.", "Camp Info Board");
         }
@@ -137,6 +141,7 @@ namespace CampInfoBoard
             if (_displayWindow == null)
             {
                 _displayWindow = new DisplayWindow();
+                _displayWindow.Topmost = Data.Settings.DisplayAlwaysOnTop;
                 PositionDisplayWindowOnSelectedMonitor();
 
                 _displayWindow.Closed += (_, _) =>
@@ -161,6 +166,7 @@ namespace CampInfoBoard
             {
                 PositionDisplayWindowOnSelectedMonitor();
 
+                _displayWindow.Topmost = Data.Settings.DisplayAlwaysOnTop;
                 _displayWindow.Show();
                 _displayWindow.WindowState = WindowState.Maximized;
                 _displayWindow.Activate();
@@ -172,11 +178,19 @@ namespace CampInfoBoard
 
         private void RefreshDisplay_Click(object sender, RoutedEventArgs e)
         {
+            NormalizeDisplaySettings();
+            RefreshDisplaySettingsBindings();
             DataService.SaveData(Data);
+
+            if (_displayWindow != null)
+            {
+                _displayWindow.Topmost = Data.Settings.DisplayAlwaysOnTop;
+            }
 
             if (_displayWindow?.DataContext is DisplayViewModel viewModel)
             {
                 viewModel.ReloadData();
+                viewModel.RestartRotation();
             }
         }
 
@@ -1070,6 +1084,24 @@ namespace CampInfoBoard
             window.Top = screen.Bounds.Top;
             window.Width = screen.Bounds.Width;
             window.Height = screen.Bounds.Height;
+        }
+
+
+        private void NormalizeDisplaySettings()
+        {
+            Data.Settings.ScheduleRotationSeconds =
+                Math.Max(1, Data.Settings.ScheduleRotationSeconds);
+
+            Data.Settings.AnnouncementRotationSeconds =
+                Math.Max(1, Data.Settings.AnnouncementRotationSeconds);
+
+            Data.Settings.PhotoRotationSeconds =
+                Math.Max(1, Data.Settings.PhotoRotationSeconds);
+        }
+
+        private void RefreshDisplaySettingsBindings()
+        {
+            OnPropertyChanged(nameof(Data));
         }
     }
 }

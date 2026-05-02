@@ -93,6 +93,55 @@
                               IsChecked="{Binding Data.Settings.ShowUV}"
                               Margin="0,0,0,16"/>
 
+                    <GroupBox Header="Display Settings"
+                            Margin="0,0,0,16">
+                        <Grid Margin="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="120"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                Text="Schedule rotation seconds"
+                                VerticalAlignment="Center"
+                                Margin="0,0,8,8"/>
+                            <TextBox Grid.Row="0"
+                                Grid.Column="1"
+                                Text="{Binding Data.Settings.ScheduleRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="0,0,0,8"/>
+
+                            <TextBlock Grid.Row="1"
+                                Text="Announcement rotation seconds"
+                                VerticalAlignment="Center"
+                                Margin="0,0,8,8"/>
+                            <TextBox Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="0,0,0,8"/>
+
+                            <TextBlock Grid.Row="2"
+                                Text="Photo rotation seconds"
+                                VerticalAlignment="Center"
+                                Margin="0,0,8,8"/>
+                            <TextBox Grid.Row="2"
+                                Grid.Column="1"
+                                Text="{Binding Data.Settings.PhotoRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="0,0,0,8"/>
+
+                            <CheckBox Grid.Row="3"
+                                Grid.ColumnSpan="2"
+                                Content="Keep display window always on top"
+                                IsChecked="{Binding Data.Settings.DisplayAlwaysOnTop}"/>
+                        </Grid>
+                    </GroupBox>
+
                     <CheckBox Content="FM Broadcast Enabled"
                               IsChecked="{Binding Data.Radio.Enabled}"
                               Margin="0,0,0,8"/>
