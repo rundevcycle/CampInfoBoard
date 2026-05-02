@@ -27,6 +27,7 @@ public class DisplayViewModel : INotifyPropertyChanged
     public ObservableCollection<Announcement> Announcements { get; } = new();
     public ObservableCollection<PhotoItem> Photos { get; } = new();
     public ObservableCollection<TideEntry> TideEntries { get; } = new();
+    public ObservableCollection<SunEntry> SunEntries { get; } = new();
 
     public string BackgroundImagePath { get; set; } = "";
 
@@ -38,11 +39,19 @@ public class DisplayViewModel : INotifyPropertyChanged
         LowDisplay = "Low 8:50 PM"
     };
 
-    public SunInfo Sun { get; set; } = new()
-    {
-        SunriseDisplay = "Sunrise 5:42 AM",
-        SunsetDisplay = "Sunset 8:57 PM"
-    };
+
+    public SunEntry? TodaySun =>
+        SunEntries
+            .Where(s => s.Date.Date == DateTime.Today)
+            .OrderBy(s => s.Date)
+            .FirstOrDefault();
+
+    public string SunriseDisplay =>
+        TodaySun == null ? "" : $"Sunrise {TodaySun.Sunrise:h:mm tt}";
+
+    public string SunsetDisplay =>
+        TodaySun == null ? "" : $"Sunset {TodaySun.Sunset:h:mm tt}";
+
 
     private DateTime _currentTime = DateTime.Now;
     public DateTime CurrentTime
@@ -139,6 +148,9 @@ public class DisplayViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(NextLowTide));
             OnPropertyChanged(nameof(HighTideDisplay));
             OnPropertyChanged(nameof(LowTideDisplay));
+            OnPropertyChanged(nameof(TodaySun));
+            OnPropertyChanged(nameof(SunriseDisplay));
+            OnPropertyChanged(nameof(SunsetDisplay));
         };
         _clockTimer.Start();
 
@@ -233,7 +245,6 @@ public class DisplayViewModel : INotifyPropertyChanged
 
         Settings = data.Settings;
         Radio = data.Radio;
-        Sun = data.Sun;
         UVDisplay = data.UVDisplay;
         BackgroundImagePath = data.BackgroundImagePath;
 
@@ -241,6 +252,12 @@ public class DisplayViewModel : INotifyPropertyChanged
         foreach (var item in data.Weather)
         {
             Weather.Add(item);
+        }
+
+        SunEntries.Clear();
+        foreach (var sun in data.SunEntries)
+        {
+            SunEntries.Add(sun);
         }
 
         TideEntries.Clear();
@@ -276,7 +293,9 @@ public class DisplayViewModel : INotifyPropertyChanged
 
         OnPropertyChanged(nameof(Settings));
         OnPropertyChanged(nameof(Radio));
-        OnPropertyChanged(nameof(Sun));
+        OnPropertyChanged(nameof(TodaySun));
+        OnPropertyChanged(nameof(SunriseDisplay));
+        OnPropertyChanged(nameof(SunsetDisplay));
         OnPropertyChanged(nameof(UVDisplay));
         OnPropertyChanged(nameof(BackgroundImagePath));
         OnPropertyChanged(nameof(FilteredSchedule));

@@ -8,7 +8,7 @@
 
         public List<TideEntry> TideEntries { get; set; } = new();
 
-        public SunInfo Sun { get; set; } = new();
+        public List<SunEntry> SunEntries { get; set; } = new();
 
         public string UVDisplay { get; set; } = "";
 

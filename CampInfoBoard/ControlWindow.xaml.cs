@@ -1176,5 +1176,370 @@ namespace CampInfoBoard
         {
             OnPropertyChanged(nameof(Data));
         }
+
+
+
+
+        private void AddSunEntry_Click(object sender, RoutedEventArgs e)
+        {
+            SunEntry newEntry = CreateNextSunEntry();
+
+            Data.SunEntries.Add(newEntry);
+            SortSunEntriesByDate();
+
+            SunGrid.SelectedItem = newEntry;
+            SunGrid.CurrentCell = new DataGridCellInfo(newEntry, SunGrid.Columns[0]);
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                SunGrid.ScrollIntoView(newEntry);
+                SunGrid.Focus();
+                SunGrid.BeginEdit();
+            }));
+        }
+
+        private SunEntry CreateNextSunEntry()
+        {
+            SunEntry? lastEntry = Data.SunEntries
+                .OrderByDescending(s => s.Date)
+                .FirstOrDefault();
+
+            if (lastEntry == null)
+            {
+                return new SunEntry();
+            }
+
+            DateTime nextDate = lastEntry.Date.AddDays(1);
+
+            return new SunEntry
+            {
+                Date = nextDate,
+                Sunrise = nextDate.Date.Add(lastEntry.Sunrise.TimeOfDay),
+                Sunset = nextDate.Date.Add(lastEntry.Sunset.TimeOfDay)
+            };
+        }
+
+
+        private void ImportSunCsv_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new WpfOpenFileDialog
+            {
+                Title = "Import Sunrise / Sunset CSV",
+                Filter = "CSV Files|*.csv|All Files|*.*"
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            try
+            {
+                SunImportResult result = SunImportService.ImportFromCsv(dialog.FileName);
+
+                if (result.ImportedSunEntries.Count == 0)
+                {
+                    WpfMessageBox.Show(
+                        $"No sun entries were imported.\nSkipped {result.SkippedRows} row(s).",
+                        "Camp Info Board");
+
+                    return;
+                }
+
+                if (Data.SunEntries.Any())
+                {
+                    MessageBoxResult choice = WpfMessageBox.Show(
+                        "Replace existing sun entries?\n\nYes = Replace\nNo = Append\nCancel = Abort",
+                        "Camp Info Board",
+                        MessageBoxButton.YesNoCancel,
+                        MessageBoxImage.Question);
+
+                    if (choice == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+
+                    if (choice == MessageBoxResult.Yes)
+                    {
+                        Data.SunEntries.Clear();
+                    }
+                }
+
+                foreach (SunEntry entry in result.ImportedSunEntries)
+                {
+                    if (!Data.SunEntries.Any(s => s.Date.Date == entry.Date.Date))
+                    {
+                        Data.SunEntries.Add(entry);
+                    }
+                }
+
+                SortSunEntriesByDate();
+
+                int importedCount = result.ImportedSunEntries.Count;
+
+                string entryLabel = importedCount == 1
+                    ? "entry"
+                    : "entries";
+
+                WpfMessageBox.Show(
+                    $"Imported {importedCount} sun {entryLabel}.\nSkipped {result.SkippedRows} row(s).",
+                    "Camp Info Board");
+            }
+            catch (Exception ex)
+            {
+                WpfMessageBox.Show(
+                    ex.Message,
+                    "Sun Import Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void DeletePastSun_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime cutoff = DateTime.Today;
+
+            var oldEntries = Data.SunEntries
+                .Where(s => s.Date.Date < cutoff)
+                .ToList();
+
+            foreach (SunEntry entry in oldEntries)
+            {
+                Data.SunEntries.Remove(entry);
+            }
+
+            SunGrid.Items.Refresh();
+        }
+
+        private void PickSunDate_Click(object sender, RoutedEventArgs e)
+        {
+            if (SunGrid.SelectedItem is not SunEntry sun)
+            {
+                return;
+            }
+
+            var picker = new Calendar
+            {
+                SelectedDate = sun.Date,
+                DisplayDate = sun.Date
+            };
+
+            var popup = new Window
+            {
+                Title = "Select Date",
+                Content = picker,
+                Width = 300,
+                Height = 300,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = this
+            };
+
+            picker.SelectedDatesChanged += (_, _) =>
+            {
+                if (picker.SelectedDate.HasValue)
+                {
+                    DateTime selectedDate = picker.SelectedDate.Value.Date;
+
+                    sun.Date = selectedDate;
+                    sun.Sunrise = selectedDate.Add(sun.Sunrise.TimeOfDay);
+                    sun.Sunset = selectedDate.Add(sun.Sunset.TimeOfDay);
+
+                    popup.Close();
+                    SunGrid.Items.Refresh();
+                }
+            };
+
+            popup.ShowDialog();
+        }
+
+        private void SortSunEntriesByDate()
+        {
+            var orderedEntries = Data.SunEntries
+                .OrderBy(s => s.Date)
+                .ToList();
+
+            Data.SunEntries.Clear();
+
+            foreach (SunEntry entry in orderedEntries)
+            {
+                Data.SunEntries.Add(entry);
+            }
+
+            SunGrid.Items.Refresh();
+        }
+
+        private void SunGrid_PreviewKeyDown(object sender, WpfKeyEventArgs e)
+        {
+            if (e.Key == Key.Tab)
+            {
+                if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+                {
+                    MoveToPreviousSunCell();
+                }
+                else
+                {
+                    MoveToNextSunCell();
+                }
+
+                e.Handled = true;
+                return;
+            }
+
+            if (e.Key != Key.Enter)
+            {
+                return;
+            }
+
+            SunGrid.CommitEdit(DataGridEditingUnit.Cell, true);
+            SunGrid.CommitEdit(DataGridEditingUnit.Row, true);
+
+            if (SunGrid.SelectedItem is SunEntry selectedSun)
+            {
+                var ordered = Data.SunEntries
+                    .OrderBy(s => s.Date)
+                    .ToList();
+
+                if (ordered.LastOrDefault() == selectedSun)
+                {
+                    AddSunEntry_Click(sender, e);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void MoveToNextSunCell()
+        {
+            SunGrid.CommitEdit(DataGridEditingUnit.Cell, true);
+            SunGrid.CommitEdit(DataGridEditingUnit.Row, true);
+
+            if (SunGrid.SelectedItem is not SunEntry currentSun)
+            {
+                return;
+            }
+
+            int currentColumnIndex = SunGrid.CurrentColumn?.DisplayIndex ?? 0;
+            int nextColumnIndex = currentColumnIndex + 1;
+
+            if (nextColumnIndex >= SunGrid.Columns.Count)
+            {
+                MoveToNextSunRow();
+                return;
+            }
+
+            SunGrid.CurrentCell = new DataGridCellInfo(
+                currentSun,
+                SunGrid.Columns[nextColumnIndex]);
+
+            SunGrid.SelectedItem = currentSun;
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                SunGrid.Focus();
+                SunGrid.BeginEdit();
+            }));
+        }
+
+        private void MoveToPreviousSunCell()
+        {
+            SunGrid.CommitEdit(DataGridEditingUnit.Cell, true);
+            SunGrid.CommitEdit(DataGridEditingUnit.Row, true);
+
+            if (SunGrid.SelectedItem is not SunEntry currentSun)
+            {
+                return;
+            }
+
+            int currentColumnIndex = SunGrid.CurrentColumn?.DisplayIndex ?? 0;
+            int previousColumnIndex = currentColumnIndex - 1;
+
+            if (previousColumnIndex >= 0)
+            {
+                SunGrid.CurrentCell = new DataGridCellInfo(
+                    currentSun,
+                    SunGrid.Columns[previousColumnIndex]);
+
+                SunGrid.SelectedItem = currentSun;
+
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    SunGrid.Focus();
+                    SunGrid.BeginEdit();
+                }));
+
+                return;
+            }
+
+            MoveToPreviousSunRow();
+        }
+
+        private void MoveToNextSunRow()
+        {
+            var ordered = Data.SunEntries
+                .OrderBy(s => s.Date)
+                .ToList();
+
+            if (SunGrid.SelectedItem is not SunEntry currentSun)
+            {
+                return;
+            }
+
+            int currentIndex = ordered.IndexOf(currentSun);
+
+            if (currentIndex < 0)
+            {
+                return;
+            }
+
+            if (currentIndex == ordered.Count - 1)
+            {
+                AddSunEntry_Click(this, new RoutedEventArgs());
+                return;
+            }
+
+            SunEntry nextSun = ordered[currentIndex + 1];
+
+            SunGrid.SelectedItem = nextSun;
+            SunGrid.CurrentCell = new DataGridCellInfo(nextSun, SunGrid.Columns[0]);
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                SunGrid.ScrollIntoView(nextSun);
+                SunGrid.Focus();
+                SunGrid.BeginEdit();
+            }));
+        }
+
+        private void MoveToPreviousSunRow()
+        {
+            var ordered = Data.SunEntries
+                .OrderBy(s => s.Date)
+                .ToList();
+
+            if (SunGrid.SelectedItem is not SunEntry currentSun)
+            {
+                return;
+            }
+
+            int currentIndex = ordered.IndexOf(currentSun);
+
+            if (currentIndex <= 0)
+            {
+                return;
+            }
+
+            SunEntry previousSun = ordered[currentIndex - 1];
+
+            SunGrid.SelectedItem = previousSun;
+            SunGrid.CurrentCell = new DataGridCellInfo(
+                previousSun,
+                SunGrid.Columns[SunGrid.Columns.Count - 1]);
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                SunGrid.ScrollIntoView(previousSun);
+                SunGrid.Focus();
+                SunGrid.BeginEdit();
+            }));
+        }
     }
 }

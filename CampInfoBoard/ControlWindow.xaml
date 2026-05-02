@@ -73,14 +73,6 @@
                     <TextBox Text="{Binding Data.UVDisplay, UpdateSourceTrigger=PropertyChanged}"
                              Margin="0,0,0,12"/>
 
-                    <TextBlock Text="Sunrise"/>
-                    <TextBox Text="{Binding Data.Sun.SunriseDisplay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,0,0,12"/>
-
-                    <TextBlock Text="Sunset"/>
-                    <TextBox Text="{Binding Data.Sun.SunsetDisplay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,0,0,12"/>
-
                     <CheckBox Content="Show tides"
                               IsChecked="{Binding Data.Settings.ShowTides}"
                               Margin="0,0,0,8"/>
@@ -156,6 +148,7 @@
                 </StackPanel>
             </TabItem>
 
+
             <TabItem Header="Tides">
                 <DockPanel Margin="12">
 
@@ -227,6 +220,75 @@
 
                 </DockPanel>
             </TabItem>
+
+
+            <TabItem Header="Sun">
+                <DockPanel Margin="12">
+
+                    <StackPanel DockPanel.Dock="Top"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,8">
+
+                        <Button Content="Add Sun Entry"
+                    Width="120"
+                    Margin="0,0,8,0"
+                    Click="AddSunEntry_Click"/>
+
+                        <Button Content="Import CSV..."
+                    Width="110"
+                    Margin="0,0,8,0"
+                    Click="ImportSunCsv_Click"/>
+
+                        <Button Content="Delete Past Sun"
+                    Width="140"
+                    Click="DeletePastSun_Click"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="SunGrid"
+                        ItemsSource="{Binding Data.SunEntries}"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="True"
+                        PreviewKeyDown="SunGrid_PreviewKeyDown">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Date" Width="190">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Date, StringFormat={}{0:d}}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <Button Content="📅"
+                                        DockPanel.Dock="Right"
+                                        Width="32"
+                                        Margin="4,0,0,0"
+                                        Click="PickSunDate_Click"/>
+
+                                            <TextBox Text="{Binding DateText, UpdateSourceTrigger=LostFocus}"
+                                         VerticalContentAlignment="Center"
+                                         Loaded="EditingTextBox_Loaded"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Sunrise"
+                                    Binding="{Binding SunriseText, UpdateSourceTrigger=LostFocus}"
+                                    Width="120"/>
+
+                            <DataGridTextColumn Header="Sunset"
+                                    Binding="{Binding SunsetText, UpdateSourceTrigger=LostFocus}"
+                                    Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </DockPanel>
+            </TabItem>
+            
 
             <TabItem Header="Schedule">
                 <DockPanel Margin="12">

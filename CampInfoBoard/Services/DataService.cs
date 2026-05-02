@@ -138,11 +138,12 @@ namespace CampInfoBoard.Services
             data.UVDisplay = "UV 6";
 
             // SUN
-            data.Sun = new SunInfo
+            data.SunEntries.Add(new SunEntry
             {
-                SunriseDisplay = "Sunrise 5:42 AM",
-                SunsetDisplay = "Sunset 8:57 PM"
-            };
+                Date = DateTime.Today,
+                Sunrise = DateTime.Today.AddHours(7),
+                Sunset = DateTime.Today.AddHours(19).AddMinutes(2)
+            });
 
             // TIDES
             data.TideEntries.Add(new TideEntry
