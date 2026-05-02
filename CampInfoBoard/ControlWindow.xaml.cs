@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using Forms = System.Windows.Forms;
 
 namespace CampInfoBoard
 {
@@ -34,6 +35,13 @@ namespace CampInfoBoard
 
         public Array TideLevels => Enum.GetValues(typeof(TideType));
 
+        public List<string> DisplayMonitors =>
+            Forms.Screen.AllScreens
+                .Select((screen, index) =>
+                    $"Monitor {index + 1}: {screen.Bounds.Width}x{screen.Bounds.Height}" +
+                    (screen.Primary ? " (Primary)" : ""))
+                .ToList();
+
 
         public ControlWindow()
         {
@@ -53,7 +61,7 @@ namespace CampInfoBoard
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             DataService.SaveData(Data);
-            MessageBox.Show("Saved.", "Camp Info Board");
+            WpfMessageBox.Show("Saved.", "Camp Info Board");
         }
 
 
@@ -77,13 +85,13 @@ namespace CampInfoBoard
 
                 Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
 
-                MessageBox.Show(
+                WpfMessageBox.Show(
                     $"Board saved as '{AppPaths.CurrentBoardName}'.",
                     "Camp Info Board");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                WpfMessageBox.Show(
                     ex.Message,
                     "Save Board As Failed",
                     MessageBoxButton.OK,
@@ -129,6 +137,7 @@ namespace CampInfoBoard
             if (_displayWindow == null)
             {
                 _displayWindow = new DisplayWindow();
+                PositionDisplayWindowOnSelectedMonitor();
 
                 _displayWindow.Closed += (_, _) =>
                 {
@@ -137,6 +146,7 @@ namespace CampInfoBoard
                 };
 
                 _displayWindow.Show();
+                _displayWindow.WindowState = WindowState.Maximized;
                 DisplayToggleButton.Content = "Hide Display";
 
                 return;
@@ -149,6 +159,8 @@ namespace CampInfoBoard
             }
             else
             {
+                PositionDisplayWindowOnSelectedMonitor();
+
                 _displayWindow.Show();
                 _displayWindow.WindowState = WindowState.Maximized;
                 _displayWindow.Activate();
@@ -181,7 +193,7 @@ namespace CampInfoBoard
                 _displayWindow = null;
             }
 
-            Application.Current.Shutdown();
+            WpfApplication.Current.Shutdown();
         }
 
 
@@ -199,7 +211,7 @@ namespace CampInfoBoard
 
         private string? PickImageFile()
         {
-            var dialog = new OpenFileDialog
+            var dialog = new WpfOpenFileDialog
             {
                 Title = "Select Image",
                 Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif|All Files|*.*"
@@ -218,7 +230,7 @@ namespace CampInfoBoard
         {
             if (TideGrid.SelectedItem is not TideEntry selectedTide)
             {
-                MessageBox.Show("Please select a tide row first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select a tide row first.", "Camp Info Board");
                 return;
             }
 
@@ -286,7 +298,7 @@ namespace CampInfoBoard
             AddNextTideEntry();
         }
 
-        private void TideGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void TideGrid_PreviewKeyDown(object sender, WpfKeyEventArgs e)
         {
             if (e.Key == Key.Tab)
             {
@@ -544,7 +556,7 @@ namespace CampInfoBoard
 
         private void EditingTextBox_Loaded(object sender, RoutedEventArgs e)
         {
-            if (sender is not TextBox textBox)
+            if (sender is not WpfTextBox textBox)
             {
                 return;
             }
@@ -613,11 +625,11 @@ namespace CampInfoBoard
         {
             if (ScheduleGrid.SelectedItem is not ScheduleItem selectedItem)
             {
-                MessageBox.Show("Please select an event first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select an event first.", "Camp Info Board");
                 return;
             }
 
-            if (MessageBox.Show(
+            if (WpfMessageBox.Show(
                     "Delete the selected event?",
                     "Camp Info Board",
                     MessageBoxButton.YesNo,
@@ -634,7 +646,7 @@ namespace CampInfoBoard
         {
             if (ScheduleGrid.SelectedItem is not ScheduleItem selectedItem)
             {
-                MessageBox.Show("Please select an event first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select an event first.", "Camp Info Board");
                 return;
             }
 
@@ -669,7 +681,7 @@ namespace CampInfoBoard
         {
             if (ScheduleGrid.SelectedItem is not ScheduleItem selectedItem)
             {
-                MessageBox.Show("Please select an event to copy.", "Camp Info Board");
+                WpfMessageBox.Show("Please select an event to copy.", "Camp Info Board");
                 return;
             }
 
@@ -720,7 +732,7 @@ namespace CampInfoBoard
         {
             if (AnnouncementGrid.SelectedItem is not Announcement selectedItem)
             {
-                MessageBox.Show("Please select an announcement to copy.", "Camp Info Board");
+                WpfMessageBox.Show("Please select an announcement to copy.", "Camp Info Board");
                 return;
             }
 
@@ -753,11 +765,11 @@ namespace CampInfoBoard
         {
             if (AnnouncementGrid.SelectedItem is not Announcement selectedItem)
             {
-                MessageBox.Show("Please select an announcement first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select an announcement first.", "Camp Info Board");
                 return;
             }
 
-            if (MessageBox.Show(
+            if (WpfMessageBox.Show(
                     "Delete the selected announcement?",
                     "Camp Info Board",
                     MessageBoxButton.YesNo,
@@ -774,7 +786,7 @@ namespace CampInfoBoard
         {
             if (AnnouncementGrid.SelectedItem is not Announcement selectedItem)
             {
-                MessageBox.Show("Please select an announcement first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select an announcement first.", "Camp Info Board");
                 return;
             }
 
@@ -843,7 +855,7 @@ namespace CampInfoBoard
         {
             if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
             {
-                MessageBox.Show("Please select a photo to copy.", "Camp Info Board");
+                WpfMessageBox.Show("Please select a photo to copy.", "Camp Info Board");
                 return;
             }
 
@@ -877,11 +889,11 @@ namespace CampInfoBoard
         {
             if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
             {
-                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select a photo first.", "Camp Info Board");
                 return;
             }
 
-            if (MessageBox.Show(
+            if (WpfMessageBox.Show(
                     "Delete the selected photo?",
                     "Camp Info Board",
                     MessageBoxButton.YesNo,
@@ -899,7 +911,7 @@ namespace CampInfoBoard
         {
             if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
             {
-                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select a photo first.", "Camp Info Board");
                 return;
             }
 
@@ -970,7 +982,7 @@ namespace CampInfoBoard
         {
             if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
             {
-                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select a photo first.", "Camp Info Board");
                 return;
             }
 
@@ -993,7 +1005,7 @@ namespace CampInfoBoard
         {
             if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
             {
-                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select a photo first.", "Camp Info Board");
                 return;
             }
 
@@ -1020,5 +1032,44 @@ namespace CampInfoBoard
             }
         }
 
+
+
+
+        public int SelectedMonitorIndex
+        {
+            get => Data.Settings.DisplayMonitorIndex;
+            set
+            {
+                if (Data.Settings.DisplayMonitorIndex != value)
+                {
+                    Data.Settings.DisplayMonitorIndex = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private void PositionDisplayWindowOnSelectedMonitor()
+        {
+            var screens = Forms.Screen.AllScreens;
+
+            int index = SelectedMonitorIndex;
+
+            if (index < 0 || index >= screens.Length)
+            {
+                index = 0;
+            }
+
+            var screen = screens[index];
+            var window = _displayWindow!;
+
+            window.WindowStartupLocation = WindowStartupLocation.Manual;
+
+            window.WindowState = WindowState.Normal;
+
+            window.Left = screen.Bounds.Left;
+            window.Top = screen.Bounds.Top;
+            window.Width = screen.Bounds.Width;
+            window.Height = screen.Bounds.Height;
+        }
     }
 }

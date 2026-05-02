@@ -22,7 +22,7 @@ public partial class OpenBoardWindow : Window
     {
         if (SelectedBoardName == null)
         {
-            MessageBox.Show("Please select a board.", "Camp Info Board");
+            WpfMessageBox.Show("Please select a board.", "Camp Info Board");
             return;
         }
 

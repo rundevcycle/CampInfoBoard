@@ -23,7 +23,7 @@ public partial class BoardNamePromptWindow : Window
     {
         if (string.IsNullOrWhiteSpace(BoardName))
         {
-            MessageBox.Show("Please enter a board name.", "Camp Info Board");
+            WpfMessageBox.Show("Please enter a board name.", "Camp Info Board");
             return;
         }
 

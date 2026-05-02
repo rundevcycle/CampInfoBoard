@@ -24,7 +24,7 @@ namespace CampInfoBoard
 
         private void BrowseImage_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new OpenFileDialog
+            var dialog = new WpfOpenFileDialog
             {
                 Title = "Select Announcement Image",
                 Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif|All Files|*.*"

@@ -4,6 +4,8 @@
         xmlns:converters="clr-namespace:CampInfoBoard.Converters"
         WindowStyle="None"
         WindowState="Maximized"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
         Background="Black">
 
     <Window.Resources>
