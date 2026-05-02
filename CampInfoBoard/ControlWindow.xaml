@@ -167,6 +167,12 @@
                             Width="100"
                             Margin="0,0,8,0"
                             Click="AddTide_Click"/>
+
+                        <Button Content="Import CSV..."
+                            Width="110"
+                            Margin="0,0,8,0"
+                            Click="ImportTidesCsv_Click"/>
+                        
                         <Button Content="Alternate From Selected"
                             Width="190"
                             Margin="0,0,8,0"

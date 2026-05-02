@@ -240,6 +240,79 @@ namespace CampInfoBoard
         }
 
 
+        private void ImportTidesCsv_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new WpfOpenFileDialog
+            {
+                Title = "Import Tides CSV",
+                Filter = "CSV Files|*.csv|All Files|*.*"
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            if (Data.TideEntries.Any())
+            {
+                MessageBoxResult choice = WpfMessageBox.Show(
+                    "Replace existing tide entries?\n\nYes = Replace\nNo = Append\nCancel = Abort",
+                    "Camp Info Board",
+                    MessageBoxButton.YesNoCancel,
+                    MessageBoxImage.Question);
+
+                if (choice == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+
+                if (choice == MessageBoxResult.Yes)
+                {
+                    Data.TideEntries.Clear();
+                }
+            }
+
+            try
+            {
+                TideImportResult result = TideImportService.ImportFromCsv(dialog.FileName);
+
+                foreach (TideEntry tide in result.ImportedTides)
+                {
+                    Data.TideEntries.Add(tide);
+                }
+
+                SortTidesByTime();
+
+                WpfMessageBox.Show(
+                    $"Imported {result.ImportedTides.Count} tide(s).\nSkipped {result.SkippedRows} row(s).",
+                    "Camp Info Board");
+            }
+            catch (Exception ex)
+            {
+                WpfMessageBox.Show(
+                    ex.Message,
+                    "Tide Import Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void SortTidesByTime()
+        {
+            var orderedTides = Data.TideEntries
+                .OrderBy(t => t.Time)
+                .ToList();
+
+            Data.TideEntries.Clear();
+
+            foreach (TideEntry tide in orderedTides)
+            {
+                Data.TideEntries.Add(tide);
+            }
+
+            TideGrid.Items.Refresh();
+        }
+
         private void RecalculateTidesFromSelected_Click(object sender, RoutedEventArgs e)
         {
             if (TideGrid.SelectedItem is not TideEntry selectedTide)
