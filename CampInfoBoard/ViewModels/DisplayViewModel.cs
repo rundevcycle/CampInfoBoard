@@ -63,6 +63,9 @@ public class DisplayViewModel : INotifyPropertyChanged
                 (x.End == null || x.End >= DateTime.Now))
             .OrderByDescending(x => x.Priority)
             .ThenBy(x => x.Start ?? DateTime.MinValue);
+    public Announcement? CurrentAnnouncement => ActiveAnnouncements.ElementAtOrDefault(_announcementIndex);
+
+
 
 
     // Cache photos to minimize File checks.
@@ -84,9 +87,18 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(ActivePhotos));
     }
 
+    public PhotoItem? CurrentPhoto
+    {
+        get
+        {
+            return ActivePhotos.ElementAtOrDefault(_photoIndex);
+        }
+    }
+    public bool HasCurrentPhotoText =>
+        CurrentPhoto != null &&
+        (!string.IsNullOrWhiteSpace(CurrentPhoto.Caption) ||
+         !string.IsNullOrWhiteSpace(CurrentPhoto.Credit));
 
-    public Announcement? CurrentAnnouncement => ActiveAnnouncements.ElementAtOrDefault(_announcementIndex);
-    public PhotoItem? CurrentPhoto => ActivePhotos.ElementAtOrDefault(_photoIndex);
 
     public TideEntry? NextHighTide => 
         TideEntries
@@ -106,6 +118,7 @@ public class DisplayViewModel : INotifyPropertyChanged
     public bool IsScheduleVisible => _mode == DisplayMode.Schedule;
     public bool IsAnnouncementVisible => _mode == DisplayMode.Announcement;
     public bool IsPhotoVisible => _mode == DisplayMode.Photo;
+    public bool IsPhotoFallbackVisible => IsPhotoVisible && CurrentPhoto == null;
 
     public int ScheduleSeconds { get; set; } = 5; // TODO make configurable = 30;
     public int AnnouncementSeconds { get; set; } = 5;  // TODO make configurable = 12;
@@ -202,6 +215,8 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(IsScheduleVisible));
         OnPropertyChanged(nameof(IsAnnouncementVisible));
         OnPropertyChanged(nameof(IsPhotoVisible));
+        OnPropertyChanged(nameof(IsPhotoFallbackVisible));
+        OnPropertyChanged(nameof(HasCurrentPhotoText));
         OnPropertyChanged(nameof(CurrentAnnouncement));
         OnPropertyChanged(nameof(CurrentPhoto));
         OnPropertyChanged(nameof(FilteredSchedule));
@@ -269,6 +284,8 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(LowTideDisplay));
         OnPropertyChanged(nameof(ActivePhotos));
         OnPropertyChanged(nameof(CurrentPhoto));
+        OnPropertyChanged(nameof(IsPhotoFallbackVisible));
+        OnPropertyChanged(nameof(HasCurrentPhotoText));
     }
 
 

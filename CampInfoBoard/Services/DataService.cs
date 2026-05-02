@@ -54,6 +54,50 @@ namespace CampInfoBoard.Services
             string json = JsonSerializer.Serialize(data, options);
 
             File.WriteAllText(DataFilePath, json);
+
+            CleanupUnusedPhotoFiles(data);
+        }
+
+
+        private static void CleanupUnusedPhotoFiles(AppData data)
+        {
+            var usedPhotoPaths = data.Photos
+                .Select(p => p.ImagePath)
+                .Where(path => !string.IsNullOrWhiteSpace(path))
+                .Select(path =>
+                {
+                    try
+                    {
+                        return Path.GetFullPath(path);
+                    }
+                    catch
+                    {
+                        return "";
+                    }
+                 })
+                .Where(path => !string.IsNullOrWhiteSpace(path))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            if (!Directory.Exists(AppPaths.PhotosDirectory))
+                return;
+
+            foreach (string filePath in Directory.GetFiles(AppPaths.PhotosDirectory))
+            {
+                string fullPath = Path.GetFullPath(filePath);
+
+                if (!usedPhotoPaths.Contains(fullPath))
+                {
+                    try
+                    {
+                        File.Delete(fullPath);
+                    }
+                    catch
+                    {
+                        // Ignore cleanup failures so saving the board never crashes.
+                        // The unused file can be cleaned up on a later save.
+                    }
+                }
+            }
         }
 
         private static AppData CreateDefaultData()

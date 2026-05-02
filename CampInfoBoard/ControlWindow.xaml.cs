@@ -46,6 +46,7 @@ namespace CampInfoBoard
         private void LoadData()
         {
             Data = DataService.LoadData();
+            SortPhotosByDisplayOrder();
             SetupScheduleView();
         }
 
@@ -847,6 +848,7 @@ namespace CampInfoBoard
             }
 
             var copiedItem = ClonePhoto(selectedItem);
+            copiedItem.DisplayOrder = Data.Photos.Count;
 
             var editor = new PhotoEditorWindow(copiedItem)
             {
@@ -889,6 +891,7 @@ namespace CampInfoBoard
             }
 
             Data.Photos.Remove(selectedItem);
+            NormalizePhotoDisplayOrder();
             PhotosGrid.Items.Refresh();
         }
 
@@ -935,6 +938,86 @@ namespace CampInfoBoard
             target.ExpiryDate = source.ExpiryDate;
             target.IsActive = source.IsActive;
             target.DisplayOrder = source.DisplayOrder;
+        }
+
+        private void SortPhotosByDisplayOrder()
+        {
+            var selectedPhoto = PhotosGrid.SelectedItem as PhotoItem;
+
+            var orderedPhotos = Data.Photos
+                .OrderBy(p => p.DisplayOrder)
+                .ToList();
+
+            Data.Photos.Clear();
+
+            foreach (var photo in orderedPhotos)
+            {
+                Data.Photos.Add(photo);
+            }
+
+            NormalizePhotoDisplayOrder();
+
+            PhotosGrid.Items.Refresh();
+
+            if (selectedPhoto != null)
+            {
+                PhotosGrid.SelectedItem = selectedPhoto;
+                PhotosGrid.ScrollIntoView(selectedPhoto);
+            }
+        }
+
+        private void MovePhotoUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
+            {
+                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                return;
+            }
+
+            int index = Data.Photos.IndexOf(selectedItem);
+
+            if (index <= 0)
+                return;
+
+            (Data.Photos[index - 1], Data.Photos[index]) =
+                (Data.Photos[index], Data.Photos[index - 1]);
+
+            NormalizePhotoDisplayOrder();
+
+            PhotosGrid.Items.Refresh();
+            PhotosGrid.SelectedItem = selectedItem;
+            PhotosGrid.ScrollIntoView(selectedItem);
+        }
+
+        private void MovePhotoDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
+            {
+                MessageBox.Show("Please select a photo first.", "Camp Info Board");
+                return;
+            }
+
+            int index = Data.Photos.IndexOf(selectedItem);
+
+            if (index < 0 || index >= Data.Photos.Count - 1)
+                return;
+
+            (Data.Photos[index], Data.Photos[index + 1]) =
+                (Data.Photos[index + 1], Data.Photos[index]);
+
+            NormalizePhotoDisplayOrder();
+
+            PhotosGrid.Items.Refresh();
+            PhotosGrid.SelectedItem = selectedItem;
+            PhotosGrid.ScrollIntoView(selectedItem);
+        }
+
+        private void NormalizePhotoDisplayOrder()
+        {
+            for (int i = 0; i < Data.Photos.Count; i++)
+            {
+                Data.Photos[i].DisplayOrder = i;
+            }
         }
 
     }
