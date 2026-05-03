@@ -114,3 +114,5 @@ Please start by reviewing the uploaded files and then help plan and implement th
 * DONE - Allow freeform descriptions of weather
 * Larger dashboard items
 * Allow selection of which dashboard widgets to enable
+* Version number
+* Menu for user settings, file operations, help > about

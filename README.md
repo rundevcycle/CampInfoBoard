@@ -13,6 +13,8 @@ Display weather, tides, sun times, announcements, event schedules, and featured 
 * :ok: Allow freeform descriptions of weather
 * :o: Larger dashboard items
 * :o: Allow selection of dashboard widgets
+* :o: Version number
+* :o: Menu for user settings, file operations, help > about
 
 
 
