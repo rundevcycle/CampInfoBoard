@@ -104,7 +104,7 @@
             {
                 MeasurementDisplayMode.Metric => $"{WindSpeedKph} km/h",
                 MeasurementDisplayMode.Imperial => $"{windMph} mph",
-                MeasurementDisplayMode.Both => $"{WindSpeedKph} km/h / {windMph} mph",
+                MeasurementDisplayMode.Both => $"{WindSpeedKph} km/h ({windMph} mph)",
                 _ => $"{WindSpeedKph} km/h"
             };
 
@@ -116,16 +116,16 @@
 
                 gust = mode switch
                 {
-                    MeasurementDisplayMode.Metric => $" gust {WindGustKph} km/h",
-                    MeasurementDisplayMode.Imperial => $" gust {gustMph} mph",
-                    MeasurementDisplayMode.Both => $" gust {WindGustKph} km/h / {gustMph} mph",
-                    _ => $" gust {WindGustKph} km/h"
+                    MeasurementDisplayMode.Metric => $" gusting to {WindGustKph} km/h",
+                    MeasurementDisplayMode.Imperial => $" gusting to {gustMph} mph",
+                    MeasurementDisplayMode.Both => $" gusting to {WindGustKph} km/h ({gustMph} mph)",
+                    _ => $" gusting to {WindGustKph} km/h"
                 };
             }
 
             return WindDirectionValue == WindDirection.Calm
-                ? $"{speed}{gust}"
-                : $"{WindDirectionDisplay} {speed}{gust}";
+                ? $"Winds {speed}{gust}"
+                : $"Winds {WindDirectionDisplay} {speed}{gust}";
         }
 
 

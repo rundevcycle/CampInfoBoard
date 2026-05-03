@@ -100,7 +100,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             var tides = TideEntries
                 .Where(t => t.Time >= DateTime.Now.AddHours(-1))
                 .OrderBy(t => t.Time)
-                .Take(4)
+                .Take(3)
                 .ToList();
 
             List<TideDisplayItem> result = new();
