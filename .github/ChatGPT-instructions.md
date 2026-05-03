@@ -48,71 +48,74 @@ The project is organized as follows:
 * `Services/TideImportService.cs`
 * `ViewModels/DisplayViewModel.cs`
 * `ViewModels/PhotoManagerViewModel.cs`
+* `ViewModels/TideDisplayItem.cs`
 * `ViewModels/WeatherDisplayItem.cs`
 * `WeatherEditorWindow.xaml`
 * `WeatherEditorWindow.xaml.cs`
 
 
 
+
 ## Where We Left Off
-Continuing the Camp Info Board app, part 5.
+Continuing CampInfoBoard (WPF / C#) public display app for campground info boards.
 
-Please review `ChatGPT-instructions.md` and `copilot-instructions.md` first.
+Please review `ChatGPT-instructions.md` and `copilot-instructions.md` first, then inspect the uploaded solution before suggesting changes.
 
-Current status:
-- Multi-board save/open architecture works.
-- Tides support manual editing and CSV import.
-- Sunrise/sunset was converted from SunInfo to SunEntry list/table.
-- Sun entries support manual editing, keyboard navigation, and CSV import.
-- Display uses today’s SunEntry correctly.
-- DisplaySettings now includes rotation timers, AlwaysOnTop, and MeasurementMode.
-- WeatherBlock was modernized:
-  - Date
-  - WeatherPeriod enum: DayTime / NightTime
-  - MeasurementDisplayMode enum: Metric / Imperial / Both
-  - TemperatureC
-  - FeelsLikeC
-  - WindSpeedKph
-  - WindGustKph
-  - WindDirectionValue using WindDirection enum
-  - UVIndex as int?
-  - Description
-  - PrecipitationDisplay
-  - Icon
-  - formatting helpers for temp / feels-like / wind
-- Weather has a WeatherEditorWindow, not table editing.
-- Weather display logic should show the next 3 entries:
-  - Before 5 PM: Today, Tonight, Tomorrow
-  - After 5 PM: Tonight, Tomorrow, Tomorrow Night
-  - Overnight shift happens at 4 AM.
-- Weather labels should stay generic:
-  - Today
-  - Tonight
-  - Tomorrow
-  - Tomorrow Night
+Current architecture:
+- Multi-board system with AppPaths + board folders
+- JSON persistence via DataService with backups
+- DisplayWindow + ControlWindow
+- WeatherBlock modernized:
+  Date, WeatherPeriod (DayTime/NightTime), MeasurementDisplayMode, TemperatureC, FeelsLikeC, WindSpeedKph, WindGustKph, WindDirectionValue, UVIndex, Description, PrecipitationDisplay, Icon
+- WeatherEditorWindow with icon dropdown + preview
+- Weather icons embedded as WPF Resources in Assets/WeatherIcons
+- Compact dashboard weather widget + separate Detailed Weather display mode
+- Weather rotation integrated into DisplayMode
+- SunEntry list with sunrise/sunset display
+- Sun display uses large sunrise/sunset icons
+- TideEntries support chronological display:
+  - Current tide if within 1 hour
+  - Current + next 3 tides
+  - Chronological order
+  - Tide-high / tide-low icons
+  - "Tomorrow"" separator only when needed
+- FM frequencies integrated
+- Schedule / Announcements / Photos functional
 
-Next direction:
-I’m leaning toward keeping the dashboard weather widget simple and icon-based, but adding a new display mode, similar to Announcements/Photos, for detailed weather info.
+Current priority:
+- Full presentation / polish review
+- Focus on:
+  * font hierarchy
+  * spacing
+  * widget alignment
+  * icon consistency
+  * section separation (borders / separators / cards)
+  * large-screen readability
+- Avoid major new functionality unless clearly beneficial
+- Prefer small focused code snippets with exact placement
+- No diff blocks with + signs
+- Use braces on single-line if/for/foreach
 
-Please start by reviewing the uploaded files and then help plan and implement the next step with small focused diffs.
-
-*The next session should probably begin with `DisplayMode`, `DisplayViewModel`, and `DisplayWindow.xaml`.  Include weather classes and control window for good measure.*
+First task in new session:
+Review current `DisplayWindow.xaml` layout and help perform a full visual / presentation consistency pass.
 
 
 
 
 ## Other TODO Items
-* DONE - Import tides from CSV
-* DONE - Import sunrise/sunset from CSV
 * Bilingual display 
     * English and French support to start
     * Primary language
     * Secondary language (optional)
-* DONE - Table of weather forecasts - Day/Night resolution
-* Weather icons
-* Predefined weather descriptions with icons
-* DONE - Allow freeform descriptions of weather
-* Larger dashboard items
-* Allow selection of which dashboard widgets to enable
 * Version number
-* Menu for user settings, file operations, help > about
+* Menu 
+    * Move file operations from buttons to menu
+    * User preferences (preferred units)
+    * Help > About
+* Import and export an info board to copy to another computer
+* Some basic formatting in announcements
+* Predefined announcement templates with or without a picture
+* Background image selection and save with board folder
+
+
+

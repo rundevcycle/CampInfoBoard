@@ -58,3 +58,17 @@ find . \( -path "*/bin" -o -path "*/obj" \) -prune -o \( -iname "*.cs" -o -iname
 * [ ] Font scale pass
 * [ ] Spacing / padding pass
 * [ ] Large-display distance test
+* [ ] Section grouping / visual separation
+* [ ] Borders vs separators
+* [ ] Background panels / cards
+* [ ] Widget spacing hierarchy
+* [ ] Heading necessity review
+* [ ] Contrast / opacity pass
+* [ ] Widget alignment
+* [ ] Font hierarchy
+* [ ] Icon scale consistency
+* [ ] Spacing rhythm
+* [ ] Heading necessity
+* [ ] Background image readability
+* [ ] Border / section separation
+

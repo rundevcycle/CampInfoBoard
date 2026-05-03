@@ -39,7 +39,7 @@
                         VerticalAlignment="Top">
 
                 <!-- TIME (ANCHOR) -->
-                <StackPanel Margin="0,0,0,28">
+                <StackPanel Margin="0,0,0,24">
                     <TextBlock Text="{Binding CurrentTime, StringFormat='{}{0:dddd, MMMM d}'}"
                                FontSize="22"
                                Foreground="White"
@@ -53,12 +53,6 @@
 
                 <!-- WEATHER BLOCK -->
                 <StackPanel Margin="0,0,0,24">
-                    <TextBlock Text="Weather"
-                               FontSize="18"
-                               Foreground="White"
-                               Opacity="0.8"
-                               Margin="0,0,0,8"/>
-
                     <ItemsControl ItemsSource="{Binding DisplayWeather}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -97,41 +91,93 @@
                     </ItemsControl>
                 </StackPanel>
 
-                <!-- TIDES -->
-                <StackPanel Margin="0,0,0,20"
-                            Visibility="{Binding Settings.ShowTides, Converter={StaticResource BoolToVisibility}}">
-                    <TextBlock Text="Tides"
-                               FontSize="18"
-                               Foreground="White"
-                               Opacity="0.8"
-                               Margin="0,0,0,6"/>
+                <!-- SUN Times -->
+                <StackPanel Margin="0,0,0,24">
+                    <StackPanel Visibility="{Binding Settings.ShowSun, Converter={StaticResource BoolToVisibility}}">
+                        <StackPanel Orientation="Horizontal"
+                            Margin="0,0,0,4">
+                            <Image Source="pack://application:,,,/Assets/WeatherIcons/sunrise.png"
+                                Width="64"
+                                Height="48"
+                                Margin="0,0,14,0"/>
+                            <TextBlock Text="{Binding TodaySun.Sunrise, StringFormat={}{0:h:mm tt}}"
+                                FontSize="30"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                VerticalAlignment="Center"/>
+                        </StackPanel>
 
-                    <TextBlock Text="{Binding HighTideDisplay}"
-                               Foreground="White"/>
-                    <TextBlock Text="{Binding LowTideDisplay}"
-                               Foreground="White"
-                               Opacity="0.9"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/Assets/WeatherIcons/sunset.png"
+                                Width="64"
+                                Height="48"
+                                Margin="0,0,14,0"/>
+                            <TextBlock Text="{Binding TodaySun.Sunset, StringFormat={}{0:h:mm tt}}"
+                                FontSize="30"
+                                FontWeight="SemiBold"
+                                Foreground="White"
+                                Opacity="0.95"
+                                VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </StackPanel>
                 </StackPanel>
 
-                <!-- SUN + RADIO (GROUPED INFO BLOCK) -->
-                <StackPanel Margin="0,0,0,10">
+                <!-- TIDES -->
+                <ItemsControl ItemsSource="{Binding DisplayTides}"
+                    Visibility="{Binding Settings.ShowTides, Converter={StaticResource BoolToVisibility}}"
+                    Margin="0,0,0,24">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding SeparatorLabel}"
+                                    FontSize="20"
+                                    FontWeight="SemiBold"
+                                    Foreground="#9AD0FF"
+                                    Margin="0,0,0,0">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSeparator}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
-                    <!-- SUN -->
-                    <StackPanel Margin="0,0,0,14"
-                                Visibility="{Binding Settings.ShowSun, Converter={StaticResource BoolToVisibility}}">
-                        <TextBlock Text="Sun"
-                                   FontSize="18"
-                                   Foreground="White"
-                                   Opacity="0.8"
-                                   Margin="0,0,0,6"/>
+                                <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,4">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSeparator}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
 
-                        <TextBlock Text="{Binding SunriseDisplay}"
-                                   Foreground="White"/>
-                        <TextBlock Text="{Binding SunsetDisplay}"
-                                   Foreground="White"
-                                   Opacity="0.9"/>
-                    </StackPanel>
+                                    <Image Source="{Binding IconPath}"
+                                        Width="64"
+                                        Height="48"
+                                        Margin="0,0,14,0"/>
+                                    <TextBlock Text="{Binding TimeDisplay}"
+                                        FontSize="30"
+                                        FontWeight="SemiBold"
+                                        Foreground="White"
+                                        VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
+                
+                <!-- RADIO FREQUENCIES -->
+                <StackPanel Margin="0,0,0,18"
+                    Visibility="{Binding Radio.Enabled, Converter={StaticResource BoolToVisibility}}">
                     <!-- RADIO -->
                     <StackPanel Visibility="{Binding Radio.Enabled, Converter={StaticResource BoolToVisibility}}">
                         <TextBlock Text="FM Broadcast"
@@ -142,10 +188,14 @@
 
                         <TextBlock Text="{Binding Radio.EnglishFrequency, StringFormat='EN {0} MHz'}"
                                    Foreground="White"
+                                   FontSize="30"
+                                   FontWeight="SemiBold"
                                    Visibility="{Binding Radio.EnglishFrequency, Converter={StaticResource NullToVisibility}}"/>
 
                         <TextBlock Text="{Binding Radio.FrenchFrequency, StringFormat='FR {0} MHz'}"
                                    Foreground="White"
+                                   FontSize="30"
+                                   FontWeight="SemiBold"
                                    Visibility="{Binding Radio.FrenchFrequency, Converter={StaticResource NullToVisibility}}"/>
                     </StackPanel>
 

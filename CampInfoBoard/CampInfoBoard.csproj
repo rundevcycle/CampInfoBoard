@@ -26,6 +26,10 @@
     <None Remove="Assets\WeatherIcons\sunrise.png" />
     <None Remove="Assets\WeatherIcons\sunset.png" />
     <None Remove="Assets\WeatherIcons\thunderstorm.png" />
+    <None Remove="Assets\WeatherIcons\tide-high-2.png" />
+    <None Remove="Assets\WeatherIcons\tide-high.png" />
+    <None Remove="Assets\WeatherIcons\tide-low-2.png" />
+    <None Remove="Assets\WeatherIcons\tide-low.png" />
     <None Remove="Assets\WeatherIcons\windy.png" />
   </ItemGroup>
 
@@ -74,6 +78,18 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\WeatherIcons\thunderstorm.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\tide-high-2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\tide-high.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\tide-low-2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\tide-low.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\WeatherIcons\windy.png">

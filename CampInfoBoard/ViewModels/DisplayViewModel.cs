@@ -93,6 +93,43 @@ public class DisplayViewModel : INotifyPropertyChanged
         LowDisplay = "Low 8:50 PM"
     };
 
+    public IEnumerable<TideDisplayItem> DisplayTides
+    {
+        get
+        {
+            var tides = TideEntries
+                .Where(t => t.Time >= DateTime.Now.AddHours(-1))
+                .OrderBy(t => t.Time)
+                .Take(4)
+                .ToList();
+
+            List<TideDisplayItem> result = new();
+
+            DateTime? currentDate = null;
+
+            foreach (var tide in tides)
+            {
+                if (currentDate != tide.Time.Date)
+                {
+                    string label = tide.Time.Date == DateTime.Today.AddDays(1)
+                        ? "Tomorrow"
+                        : tide.Time.Date > DateTime.Today.AddDays(1)
+                            ? tide.Time.ToString("MMM d")
+                            : "";
+
+                    if (!string.IsNullOrWhiteSpace(label))
+                    {
+                        result.Add(new TideDisplayItem(tide, true, label));
+                    }
+                    currentDate = tide.Time.Date;
+                }
+
+                result.Add(new TideDisplayItem(tide));
+            }
+
+            return result;
+        }
+    }
 
     public SunEntry? TodaySun =>
         SunEntries
@@ -208,6 +245,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(SunriseDisplay));
             OnPropertyChanged(nameof(SunsetDisplay));
             OnPropertyChanged(nameof(DisplayWeather));
+            OnPropertyChanged(nameof(DisplayTides));
         };
         _clockTimer.Start();
 
