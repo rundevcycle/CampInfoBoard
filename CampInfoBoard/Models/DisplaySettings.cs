@@ -2,8 +2,9 @@
 {
     public class DisplaySettings
     {
-        public bool ShowTides { get; set; } = true;
+        public bool ShowWeather { get; set; } = true;
         public bool ShowSun { get; set; } = true;
+        public bool ShowTides { get; set; } = true;
         public int DisplayMonitorIndex { get; set; } = 0;
         public MeasurementDisplayMode MeasurementMode { get; set; } =
             MeasurementDisplayMode.Both;

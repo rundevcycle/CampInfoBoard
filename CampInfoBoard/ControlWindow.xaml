@@ -151,41 +151,6 @@
 
             <TabControl Grid.Row="1">
 
-                <TabItem Header="Dashboard">
-                    <StackPanel Margin="12" Width="500" HorizontalAlignment="Left">
-                        <CheckBox Content="Enable Detailed Weather Mode"
-                            IsChecked="{Binding Data.Settings.ShowDetailedWeatherMode}"
-                            Margin="0,0,0,8"/>
-
-                        <CheckBox Content="Show tides"
-                              IsChecked="{Binding Data.Settings.ShowTides}"
-                              Margin="0,0,0,8"/>
-
-                        <CheckBox Content="Show sun times"
-                              IsChecked="{Binding Data.Settings.ShowSun}"
-                              Margin="0,0,0,8"/>
-
-                        <GroupBox Header="FM Radio"
-                            Margin="0,0,0,16"
-                            Padding="8">
-                            <StackPanel>
-                                <CheckBox Content="FM Broadcast Enabled"
-                                    IsChecked="{Binding Data.Radio.Enabled}"
-                                    Margin="0,0,0,8"/>
-
-                                <TextBlock Text="English FM Frequency"/>
-                                <TextBox Text="{Binding Data.Radio.EnglishFrequency, UpdateSourceTrigger=PropertyChanged}"
-                                    Margin="0,0,0,12"/>
-
-                                <TextBlock Text="French FM Frequency"/>
-                                <TextBox Text="{Binding Data.Radio.FrenchFrequency, UpdateSourceTrigger=PropertyChanged}"/>
-                            </StackPanel>
-                        </GroupBox>
-
-                    </StackPanel>
-                </TabItem>
-
-
                 <TabItem Header="Weather">
                     <DockPanel Margin="12">
                         <StackPanel DockPanel.Dock="Top"
@@ -596,6 +561,49 @@
                         </DataGrid>
 
                     </DockPanel>
+                </TabItem>
+
+
+                <TabItem Header="Dashboard">
+                    <StackPanel Margin="12" Width="500" HorizontalAlignment="Left">
+                        <CheckBox Content="Show weather"
+                            IsChecked="{Binding Data.Settings.ShowWeather}"
+                            Margin="0,0,0,8"/>
+
+                        <CheckBox Content="Enable Detailed Weather Mode"
+                            IsChecked="{Binding Data.Settings.ShowDetailedWeatherMode}"
+                            Margin="0,0,0,8"/>
+
+                        <CheckBox Content="Show sun times"
+                              IsChecked="{Binding Data.Settings.ShowSun}"
+                              Margin="0,0,0,8"/>
+
+                        <CheckBox Content="Show tides"
+                              IsChecked="{Binding Data.Settings.ShowTides}"
+                              Margin="0,0,0,8"/>
+
+                        <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="0,0,0,8">
+                            <CheckBox Content="Show FM Frequencies"
+                                IsChecked="{Binding Data.Radio.Enabled}"
+                                VerticalAlignment="Center"
+                                Margin="0,0,16,0"/>
+
+                            <TextBlock Text="English:"
+                                VerticalAlignment="Center"
+                                Margin="0,0,4,0"/>
+                            <TextBox Text="{Binding Data.Radio.EnglishFrequency, UpdateSourceTrigger=PropertyChanged}"
+                                Width="80"
+                                Margin="0,0,12,0"/>
+
+                            <TextBlock Text="French:"
+                                VerticalAlignment="Center"
+                                Margin="0,0,4,0"/>
+                            <TextBox Text="{Binding Data.Radio.FrenchFrequency, UpdateSourceTrigger=PropertyChanged}"
+                                Width="80"/>
+                        </StackPanel>
+                    </StackPanel>
                 </TabItem>
 
 

@@ -124,7 +124,8 @@
 
                 
                 <!-- WEATHER BLOCK -->
-                <Border Style="{StaticResource PanelCardStyle}">
+                <Border Style="{StaticResource PanelCardStyle}"
+                        Visibility="{Binding Settings.ShowWeather, Converter={StaticResource BoolToVisibility}}">
                     <StackPanel>
                         <ItemsControl ItemsSource="{Binding DisplayWeather}">
                             <ItemsControl.ItemTemplate>
@@ -192,9 +193,10 @@
 
                 
                 <!-- SUN TIMES -->
-                <Border Style="{StaticResource PanelCardStyle}">
+                <Border Style="{StaticResource PanelCardStyle}"
+                        Visibility="{Binding Settings.ShowSun, Converter={StaticResource BoolToVisibility}}">
                     <StackPanel>
-                        <StackPanel Visibility="{Binding Settings.ShowSun, Converter={StaticResource BoolToVisibility}}">
+                        <StackPanel>
                             <StackPanel Orientation="Horizontal"
                             Margin="0,0,0,4">
                                 <Image Source="pack://application:,,,/Assets/WeatherIcons/sunrise.png"
@@ -225,9 +227,9 @@
 
 
                 <!-- TIDES -->
-                <Border Style="{StaticResource PanelCardStyle}">
-                    <ItemsControl ItemsSource="{Binding DisplayTides}"
+                <Border Style="{StaticResource PanelCardStyle}"
                         Visibility="{Binding Settings.ShowTides, Converter={StaticResource BoolToVisibility}}">
+                    <ItemsControl ItemsSource="{Binding DisplayTides}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
@@ -278,11 +280,11 @@
 
 
                 <!-- RADIO FREQUENCIES -->
-                <Border Style="{StaticResource PanelCardStyle}">
-                    <StackPanel
+                <Border Style="{StaticResource PanelCardStyle}"
                         Visibility="{Binding Radio.Enabled, Converter={StaticResource BoolToVisibility}}">
+                    <StackPanel>
                         <!-- RADIO -->
-                        <StackPanel Visibility="{Binding Radio.Enabled, Converter={StaticResource BoolToVisibility}}">
+                        <StackPanel>
                             <TextBlock Text="FM Radio"
                                    FontSize="18"
                                    Foreground="White"
