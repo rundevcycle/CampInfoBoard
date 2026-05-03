@@ -157,23 +157,23 @@
                         Orientation="Horizontal"
                         Margin="0,0,0,8">
 
-                            <Button Content="Add Weather"
-                            Width="120"
+                            <Button Content="Add"
+                            Width="100"
                             Margin="0,0,8,0"
                             Click="AddWeather_Click"/>
 
-                            <Button Content="Edit Weather"
-                            Width="120"
-                            Margin="0,0,8,0"
-                            Click="EditWeather_Click"/>
-
-                            <Button Content="Copy Weather"
-                            Width="120"
+                            <Button Content="Copy"
+                            Width="100"
                             Margin="0,0,8,0"
                             Click="CopyWeather_Click"/>
 
-                            <Button Content="Delete Weather"
-                            Width="120"
+                            <Button Content="Edit"
+                            Width="100"
+                            Margin="0,0,8,0"
+                            Click="EditWeather_Click"/>
+
+                            <Button Content="Delete"
+                            Width="100"
                             Click="DeleteWeather_Click"/>
                         </StackPanel>
 
@@ -241,22 +241,22 @@
                         Orientation="Horizontal"
                         Margin="0,0,0,8">
 
-                            <Button Content="Add Event"
+                            <Button Content="Add"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="AddScheduleItem_Click"/>
 
-                            <Button Content="Copy Event"
+                            <Button Content="Copy"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="CopyScheduleItem_Click"/>
 
-                            <Button Content="Edit Event"
+                            <Button Content="Edit"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="EditScheduleItem_Click"/>
 
-                            <Button Content="Delete Event"
+                            <Button Content="Delete"
                             Width="100"
                             Click="DeleteScheduleItem_Click"/>
                         </StackPanel>
@@ -301,27 +301,27 @@
                     <DockPanel Margin="12">
 
                         <StackPanel DockPanel.Dock="Top"
-                    Orientation="Horizontal"
-                    Margin="0,0,0,8">
+                                Orientation="Horizontal"
+                                Margin="0,0,0,8">
 
-                            <Button Content="Add Announcement"
-                    Width="140"
-                    Margin="0,0,8,0"
-                    Click="AddAnnouncement_Click"/>
+                            <Button Content="Add"
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="AddAnnouncement_Click"/>
 
-                            <Button Content="Copy Announcement"
-                    Width="150"
-                    Margin="0,0,8,0"
-                    Click="CopyAnnouncement_Click"/>
+                            <Button Content="Copy"
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="CopyAnnouncement_Click"/>
 
-                            <Button Content="Edit Announcement"
-                    Width="150"
-                    Margin="0,0,8,0"
-                    Click="EditAnnouncement_Click"/>
+                            <Button Content="Edit"
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="EditAnnouncement_Click"/>
 
-                            <Button Content="Delete Announcement"
-                    Width="150"
-                    Click="DeleteAnnouncement_Click"/>
+                            <Button Content="Delete"
+                                Width="100"
+                                Click="DeleteAnnouncement_Click"/>
                         </StackPanel>
 
                         <DataGrid x:Name="AnnouncementGrid"
@@ -361,38 +361,37 @@
 
                 <TabItem Header="Photos">
                     <DockPanel Margin="12">
-
                         <StackPanel DockPanel.Dock="Top"
-                        Orientation="Horizontal"
-                        Margin="0,0,0,8">
+                            Orientation="Horizontal"
+                            Margin="0,0,0,8">
                             <Button Content="Add"
-                            Width="80"
-                            Margin="0,0,6,0"
-                            Click="AddPhoto_Click"/>
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="AddPhoto_Click"/>
 
                             <Button Content="Copy"
-                            Width="80"
-                            Margin="0,0,6,0"
-                            Click="CopyPhoto_Click"/>
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="CopyPhoto_Click"/>
 
                             <Button Content="Edit"
-                            Width="80"
-                            Margin="0,0,6,0"
-                            Click="EditPhoto_Click"/>
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="EditPhoto_Click"/>
 
                             <Button Content="Delete"
-                            Width="80"
-                            Margin="0,0,18,0"
-                            Click="DeletePhoto_Click"/>
+                                Width="100"
+                                Margin="0,0,24,0"
+                                Click="DeletePhoto_Click"/>
 
                             <Button Content="Move Up"
-                            Width="90"
-                            Margin="0,0,6,0"
-                            Click="MovePhotoUp_Click"/>
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="MovePhotoUp_Click"/>
 
                             <Button Content="Move Down"
-                            Width="100"
-                            Click="MovePhotoDown_Click"/>
+                                Width="100"
+                                Click="MovePhotoDown_Click"/>
                         </StackPanel>
 
                         <DataGrid x:Name="PhotosGrid"
@@ -427,27 +426,27 @@
                     <DockPanel Margin="12">
 
                         <StackPanel DockPanel.Dock="Top"
-                    Orientation="Horizontal"
-                    Margin="0,0,0,8">
+                            Orientation="Horizontal"
+                            Margin="0,0,0,8">
 
-                            <Button Content="Add Tide"
-                            Width="100"
-                            Margin="0,0,8,0"
-                            Click="AddTide_Click"/>
+                            <Button Content="Add"
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="AddTide_Click"/>
 
                             <Button Content="Import CSV..."
-                            Width="110"
-                            Margin="0,0,8,0"
-                            Click="ImportTidesCsv_Click"/>
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="ImportTidesCsv_Click"/>
 
                             <Button Content="Alternate From Selected"
-                            Width="190"
-                            Margin="0,0,8,0"
-                            Click="RecalculateTidesFromSelected_Click"/>
+                                Width="190"
+                                Margin="0,0,8,0"
+                                Click="RecalculateTidesFromSelected_Click"/>
 
                             <Button Content="Delete Past Tides"
-                            Width="140"
-                            Click="DeletePastTides_Click"/>
+                                Width="140"
+                                Click="DeletePastTides_Click"/>
 
                         </StackPanel>
 
@@ -500,22 +499,22 @@
                     <DockPanel Margin="12">
 
                         <StackPanel DockPanel.Dock="Top"
-                    Orientation="Horizontal"
-                    Margin="0,0,0,8">
+                            Orientation="Horizontal"
+                            Margin="0,0,0,8">
 
-                            <Button Content="Add Sun Entry"
-                    Width="120"
-                    Margin="0,0,8,0"
-                    Click="AddSunEntry_Click"/>
+                            <Button Content="Add"
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="AddSunEntry_Click"/>
 
                             <Button Content="Import CSV..."
-                    Width="110"
-                    Margin="0,0,8,0"
-                    Click="ImportSunCsv_Click"/>
+                                Width="100"
+                                Margin="0,0,8,0"
+                                Click="ImportSunCsv_Click"/>
 
-                            <Button Content="Delete Past Sun"
-                    Width="140"
-                    Click="DeletePastSun_Click"/>
+                            <Button Content="Delete Past Days"
+                                Width="140"
+                                Click="DeletePastSun_Click"/>
                         </StackPanel>
 
                         <DataGrid x:Name="SunGrid"
