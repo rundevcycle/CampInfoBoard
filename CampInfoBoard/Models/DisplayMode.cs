@@ -3,6 +3,7 @@
     public enum DisplayMode
     {
         Schedule,
+        Weather,
         Announcement,
         Photo
     }

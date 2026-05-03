@@ -64,9 +64,9 @@
                             <DataTemplate>
                                 <StackPanel Margin="0,6">
                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                        <Image Source="{Binding Icon}"
-                                            Width="36"
-                                            Height="36"
+                                        <Image Source="{Binding IconPath}"
+                                            Width="72"
+                                            Height="72"
                                             Margin="0,0,10,0"/>
 
                                         <StackPanel>
@@ -78,20 +78,11 @@
                                                 FontSize="20"
                                                 Foreground="White"/>
 
-                                            <TextBlock Text="{Binding Description}"
-                                                FontSize="14"
-                                                Foreground="LightGray"
-                                                Opacity="0.9"/>
-
                                             <TextBlock Text="{Binding FeelsLikeDisplay}"
                                                 FontSize="13"
                                                 Foreground="LightGray"
-                                                Opacity="0.8"/>
-
-                                            <TextBlock Text="{Binding WindDisplay}"
-                                                FontSize="13"
-                                                Foreground="LightGray"
-                                                Opacity="0.8"/>
+                                                Opacity="0.8"
+                                                Visibility="{Binding HasFeelsLike, Converter={StaticResource BoolToVisibility}}"/>
 
                                             <TextBlock Text="{Binding UVIndex, StringFormat='UV {0}'}"
                                                 FontSize="13"
@@ -122,7 +113,7 @@
                                Opacity="0.9"/>
                 </StackPanel>
 
-                <!-- SUN + UV + RADIO (GROUPED INFO BLOCK) -->
+                <!-- SUN + RADIO (GROUPED INFO BLOCK) -->
                 <StackPanel Margin="0,0,0,10">
 
                     <!-- SUN -->
@@ -139,20 +130,6 @@
                         <TextBlock Text="{Binding SunsetDisplay}"
                                    Foreground="White"
                                    Opacity="0.9"/>
-                    </StackPanel>
-
-                    <!-- UV -->
-                    <StackPanel Margin="0,0,0,14"
-                                Visibility="{Binding Settings.ShowUV, Converter={StaticResource BoolToVisibility}}">
-                        <TextBlock Text="UV Index"
-                                   FontSize="18"
-                                   Foreground="White"
-                                   Opacity="0.8"
-                                   Margin="0,0,0,6"/>
-
-                        <TextBlock Text="{Binding UVDisplay}"
-                                   FontSize="16"
-                                   Foreground="White"/>
                     </StackPanel>
 
                     <!-- RADIO -->
@@ -232,10 +209,93 @@
 
                 </Grid>
 
+
+                <!-- ================= WEATHER ================= -->
+                <Grid Visibility="{Binding IsWeatherVisible, Converter={StaticResource BoolToVisibility}}">
+                    <StackPanel VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Width="1100">
+
+                        <TextBlock Text="Weather"
+                            FontSize="44"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,30"/>
+
+                        <ItemsControl ItemsSource="{Binding DisplayWeather}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,10"
+                                        Padding="22"
+                                        Background="#33000000"
+                                        CornerRadius="14">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="170"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image Grid.Column="0"
+                                                Source="{Binding IconPath}"
+                                                Width="140"
+                                                Height="140"
+                                                VerticalAlignment="Top"/>
+
+                                            <StackPanel Grid.Column="1"
+                                                Margin="20,0,0,0">
+
+                                                <TextBlock Text="{Binding DateLabel}"
+                                                    FontSize="24"
+                                                    FontWeight="SemiBold"
+                                                    Foreground="#9AD0FF"/>
+
+                                                <TextBlock Text="{Binding TemperatureDisplay}"
+                                                    FontSize="38"
+                                                    FontWeight="Bold"
+                                                    Foreground="White"/>
+
+                                                <TextBlock Text="{Binding FeelsLikeDisplay}"
+                                                    FontSize="20"
+                                                    Foreground="LightGray"
+                                                    Visibility="{Binding HasFeelsLike, Converter={StaticResource BoolToVisibility}}"/>
+
+                                                <TextBlock Text="{Binding Description}"
+                                                    FontSize="22"
+                                                    Foreground="White"
+                                                    TextWrapping="Wrap"/>
+
+                                                <TextBlock Text="{Binding WindDisplay}"
+                                                    FontSize="18"
+                                                    Foreground="LightGray"
+                                                    Visibility="{Binding HasWind, Converter={StaticResource BoolToVisibility}}"/>
+
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding UVIndex, StringFormat='UV {0}'}"
+                                                        FontSize="18"
+                                                        Foreground="LightGray"
+                                                        Margin="0,0,18,0"
+                                                        Visibility="{Binding HasUV, Converter={StaticResource BoolToVisibility}}"/>
+
+                                                    <TextBlock Text="{Binding PrecipitationDisplay}"
+                                                        FontSize="18"
+                                                        Foreground="LightGray"
+                                                        Visibility="{Binding PrecipitationDisplay, Converter={StaticResource NullToVisibility}}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Grid>
+                
+                
                 <!-- ================= ANNOUNCEMENTS ================= -->
                 <Grid Visibility="{Binding IsAnnouncementVisible, Converter={StaticResource BoolToVisibility}}">
 
-                    <StackPanel VerticalAlignment="Center"
+                    <StackPanel VerticalAlignment="Top"
                                 HorizontalAlignment="Center"
                                 Width="900">
 
@@ -262,6 +322,7 @@
 
                 </Grid>
 
+                
                 <!-- ================= PHOTO ================= -->
                 <Grid Visibility="{Binding IsPhotoVisible, Converter={StaticResource BoolToVisibility}}">
 

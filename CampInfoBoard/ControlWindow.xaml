@@ -68,22 +68,17 @@
 
             <TabItem Header="Dashboard">
                 <StackPanel Margin="12" Width="500" HorizontalAlignment="Left">
-
-                    <TextBlock Text="UV Display"/>
-                    <TextBox Text="{Binding Data.UVDisplay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="0,0,0,12"/>
+                    <CheckBox Content="Enable Detailed Weather Mode"
+                            IsChecked="{Binding Data.Settings.ShowDetailedWeatherMode}"
+                            Margin="0,0,0,8"/>
 
                     <CheckBox Content="Show tides"
                               IsChecked="{Binding Data.Settings.ShowTides}"
                               Margin="0,0,0,8"/>
 
-                    <CheckBox Content="Show sun"
+                    <CheckBox Content="Show sun times"
                               IsChecked="{Binding Data.Settings.ShowSun}"
                               Margin="0,0,0,8"/>
-
-                    <CheckBox Content="Show UV"
-                              IsChecked="{Binding Data.Settings.ShowUV}"
-                              Margin="0,0,0,16"/>
 
                     <GroupBox Header="Display Settings"
                             Margin="0,0,0,16">
@@ -94,6 +89,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -110,24 +106,34 @@
                                 Margin="0,0,0,8"/>
 
                             <TextBlock Grid.Row="1"
-                                Text="Announcement rotation seconds"
+                                Grid.Column="0"
+                                Text="Weather Rotation seconds"
                                 VerticalAlignment="Center"
                                 Margin="0,0,8,8"/>
                             <TextBox Grid.Row="1"
                                 Grid.Column="1"
-                                Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Data.Settings.WeatherRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                 Margin="0,0,0,8"/>
 
                             <TextBlock Grid.Row="2"
-                                Text="Photo rotation seconds"
+                                Text="Announcement rotation seconds"
                                 VerticalAlignment="Center"
                                 Margin="0,0,8,8"/>
                             <TextBox Grid.Row="2"
                                 Grid.Column="1"
+                                Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="0,0,0,8"/>
+
+                            <TextBlock Grid.Row="3"
+                                Text="Photo rotation seconds"
+                                VerticalAlignment="Center"
+                                Margin="0,0,8,8"/>
+                            <TextBox Grid.Row="3"
+                                Grid.Column="1"
                                 Text="{Binding Data.Settings.PhotoRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                 Margin="0,0,0,8"/>
 
-                            <CheckBox Grid.Row="3"
+                            <CheckBox Grid.Row="4"
                                 Grid.ColumnSpan="2"
                                 Content="Keep display window always on top"
                                 IsChecked="{Binding Data.Settings.DisplayAlwaysOnTop}"/>
@@ -189,19 +195,39 @@
 
                             <DataGridTextColumn Header="Period"
                                     Binding="{Binding PeriodDisplay}"
-                                    Width="90"/>
+                                    Width="60"/>
+
+                            <DataGridTemplateColumn Header="Icon" Width="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding IconPath}"
+                                            Width="28"
+                                            Height="28"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
                             <DataGridTextColumn Header="Temp °C"
                                     Binding="{Binding TemperatureC}"
-                                    Width="90"/>
+                                    Width="60"/>
 
                             <DataGridTextColumn Header="Feels °C"
                                     Binding="{Binding FeelsLikeC}"
-                                    Width="90"/>
+                                    Width="60"/>
 
                             <DataGridTextColumn Header="UV"
                                     Binding="{Binding UVIndex}"
-                                    Width="60"/>
+                                    Width="30"/>
+
+                            <DataGridTextColumn Header="Wind"
+                                    Binding="{Binding WindDisplay}"
+                                    Width="150"/>
+                            
+                            <DataGridTextColumn Header="Precip"
+                                    Binding="{Binding PrecipitationDisplay}"
+                                    Width="110"/>
 
                             <DataGridTextColumn Header="Description"
                                     Binding="{Binding Description}"

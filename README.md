@@ -47,3 +47,14 @@ https://www.theweathernetwork.com/en/city/ca/nova-scotia/pugwash/uv
 
 ## Source Code Listing
 find . \( -path "*/bin" -o -path "*/obj" \) -prune -o \( -iname "*.cs" -o -iname "*.xaml" \) -print | sort | sed 's/\.\//\* /'
+
+
+## Presentation Polish Checklist
+* [ ] Dashboard weather layout
+* [ ] Detailed weather layout
+* [ ] Schedule readability
+* [ ] Announcement readability
+* [ ] Sun/Tide visual refresh
+* [ ] Font scale pass
+* [ ] Spacing / padding pass
+* [ ] Large-display distance test

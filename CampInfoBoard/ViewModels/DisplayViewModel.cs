@@ -179,13 +179,14 @@ public class DisplayViewModel : INotifyPropertyChanged
     public string LowTideDisplay => NextLowTide == null ? "" : $"Low {NextLowTide.Time:h:mm tt}";
 
     public bool IsScheduleVisible => _mode == DisplayMode.Schedule;
+    public bool IsWeatherVisible => _mode == DisplayMode.Weather;
     public bool IsAnnouncementVisible => _mode == DisplayMode.Announcement;
     public bool IsPhotoVisible => _mode == DisplayMode.Photo;
     public bool IsPhotoFallbackVisible => IsPhotoVisible && CurrentPhoto == null;
 
     public int ScheduleSeconds => Math.Max(1, Settings.ScheduleRotationSeconds);
+    public int WeatherSeconds => Math.Max(1, Settings.WeatherRotationSeconds);
     public int AnnouncementSeconds => Math.Max(1, Settings.AnnouncementRotationSeconds);
-
     public int PhotoSeconds => Math.Max(1, Settings.PhotoRotationSeconds);
 
     public DisplayViewModel()
@@ -219,6 +220,30 @@ public class DisplayViewModel : INotifyPropertyChanged
     private void AdvanceMode()
     {
         if (_mode == DisplayMode.Schedule)
+        {
+            if (Settings.ShowDetailedWeatherMode && DisplayWeather.Any())
+            {
+                SetMode(DisplayMode.Weather, WeatherSeconds);
+            }
+            else if (ActiveAnnouncements.Any())
+            {
+                _announcementIndex = 0;
+                SetMode(DisplayMode.Announcement, AnnouncementSeconds);
+            }
+            else if (ActivePhotos.Any())
+            {
+                _photoIndex = 0;
+                SetMode(DisplayMode.Photo, PhotoSeconds);
+            }
+            else
+            {
+                SetMode(DisplayMode.Schedule, ScheduleSeconds);
+            }
+
+            return;
+        }
+
+        if (_mode == DisplayMode.Weather)
         {
             if (ActiveAnnouncements.Any())
             {
@@ -281,6 +306,7 @@ public class DisplayViewModel : INotifyPropertyChanged
         _mode = mode;
 
         OnPropertyChanged(nameof(IsScheduleVisible));
+        OnPropertyChanged(nameof(IsWeatherVisible));
         OnPropertyChanged(nameof(IsAnnouncementVisible));
         OnPropertyChanged(nameof(IsPhotoVisible));
         OnPropertyChanged(nameof(IsPhotoFallbackVisible));
@@ -360,6 +386,7 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(IsPhotoFallbackVisible));
         OnPropertyChanged(nameof(HasCurrentPhotoText));
         OnPropertyChanged(nameof(DisplayWeather));
+        OnPropertyChanged(nameof(IsWeatherVisible));
     }
 
 

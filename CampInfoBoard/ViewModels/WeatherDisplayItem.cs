@@ -48,7 +48,7 @@ namespace CampInfoBoard.ViewModels
         public string TemperatureDisplay => _weather.FormatTemperature(_measurementMode);
 
         public string FeelsLikeDisplay => _weather.FormatFeelsLike(_measurementMode);
-
+        public bool HasFeelsLike => !string.IsNullOrWhiteSpace(FeelsLikeDisplay);
         public string WindDisplay => _weather.FormatWind(_measurementMode);
 
         public bool HasWind => !string.IsNullOrWhiteSpace(WindDisplay);
@@ -60,5 +60,11 @@ namespace CampInfoBoard.ViewModels
         public string Description => _weather.Description;
 
         public string PrecipitationDisplay => _weather.PrecipitationDisplay;
+
+
+        public string? IconPath =>
+            string.IsNullOrWhiteSpace(_weather.Icon)
+                ? null
+                : $"pack://application:,,,/Assets/WeatherIcons/{_weather.Icon}.png";
     }
 }

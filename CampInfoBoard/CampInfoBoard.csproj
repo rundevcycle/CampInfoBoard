@@ -10,6 +10,78 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\WeatherIcons\clear-night.png" />
+    <None Remove="Assets\WeatherIcons\cloudy.png" />
+    <None Remove="Assets\WeatherIcons\hazy-day.png" />
+    <None Remove="Assets\WeatherIcons\light-cloud.png" />
+    <None Remove="Assets\WeatherIcons\mostly-cloudy-day.png" />
+    <None Remove="Assets\WeatherIcons\mostly-cloudy-night.png" />
+    <None Remove="Assets\WeatherIcons\mostly-sunny-day.png" />
+    <None Remove="Assets\WeatherIcons\rain.png" />
+    <None Remove="Assets\WeatherIcons\showers-clear-night.png" />
+    <None Remove="Assets\WeatherIcons\showers.png" />
+    <None Remove="Assets\WeatherIcons\sun-and-cloud-day.png" />
+    <None Remove="Assets\WeatherIcons\sun-and-showers-day.png" />
+    <None Remove="Assets\WeatherIcons\sunny-day.png" />
+    <None Remove="Assets\WeatherIcons\sunrise.png" />
+    <None Remove="Assets\WeatherIcons\sunset.png" />
+    <None Remove="Assets\WeatherIcons\thunderstorm.png" />
+    <None Remove="Assets\WeatherIcons\windy.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\WeatherIcons\clear-night.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\cloudy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\hazy-day.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\light-cloud.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\mostly-cloudy-day.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\mostly-cloudy-night.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\mostly-sunny-day.png" />
+    <Resource Include="Assets\WeatherIcons\rain.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\showers-clear-night.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\showers.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\sun-and-cloud-day.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\sun-and-showers-day.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\sunny-day.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\sunrise.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\sunset.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\thunderstorm.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\WeatherIcons\windy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="images\backgrounds\" />
   </ItemGroup>
 

@@ -24,6 +24,26 @@ namespace CampInfoBoard
             }
         }
 
+        public List<string> WeatherIcons { get; } =
+        [
+            "clear-night",
+            "cloudy",
+            "hazy-day",
+            "light-cloud",
+            "mostly-cloudy-day",
+            "mostly-cloudy-night",
+            "mostly-sunny-day",
+            "rain",
+            "showers-clear-night",
+            "showers",
+            "sun-and-cloud-day",
+            "sun-and-showers-day",
+            "sunny-day",
+            "thunderstorm",
+            "windy"
+        ];
+
+
         public WeatherEditorWindow(WeatherBlock weather)
         {
             InitializeComponent();
@@ -41,5 +61,44 @@ namespace CampInfoBoard
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public string? SelectedIconPath =>
+            string.IsNullOrWhiteSpace(Weather.Icon)
+                ? null
+                : $"pack://application:,,,/Assets/WeatherIcons/{Weather.Icon}.png";
+
+        private void IconComboBox_SelectionChanged(
+            object sender,
+            System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(SelectedIconPath));
+
+            if (string.IsNullOrWhiteSpace(Weather.Description))
+            {
+                Weather.Description = GetDefaultDescription(Weather.Icon);
+                OnPropertyChanged(nameof(Weather));
+            }
+        }
+
+        private static string GetDefaultDescription(string? icon) =>
+            icon switch
+            {
+                "clear-night" => "Clear",
+                "cloudy" => "Cloudy",
+                "hazy-day" => "Hazy",
+                "light-cloud" => "Light cloud",
+                "mostly-cloudy-day" => "Mostly cloudy",
+                "mostly-cloudy-night" => "Mostly cloudy",
+                "mostly-sunny-day" => "Mainly sunny",
+                "rain" => "Rain",
+                "showers-clear-night" => "Showers, then clearing",
+                "showers" => "Showers",
+                "sun-and-cloud-day" => "Mix of sun and cloud",
+                "sun-and-showers-day" => "Sunny with periods of showers",
+                "sunny-day" => "Sunny",
+                "thunderstorm" => "Thunderstorm",
+                "windy" => "Windy",
+                _ => ""
+            };
     }
 }

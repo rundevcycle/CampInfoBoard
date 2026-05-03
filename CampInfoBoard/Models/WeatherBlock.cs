@@ -127,5 +127,13 @@
                 ? $"{speed}{gust}"
                 : $"{WindDirectionDisplay} {speed}{gust}";
         }
+
+
+        public string? IconPath =>
+            string.IsNullOrWhiteSpace(Icon)
+                ? null
+                : $"pack://application:,,,/Assets/WeatherIcons/{Icon}.png";
+
+        public string WindDisplay => FormatWind(MeasurementDisplayMode.Metric);
     }
 }
