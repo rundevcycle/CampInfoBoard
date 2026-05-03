@@ -8,11 +8,11 @@ Display weather, tides, sun times, announcements, event schedules, and featured 
 * :ok: Import sunrise/sunset from CSV
 * :o: Bilingual display
 * :ok: Table of weather forecasts - Day/Night resolution
-* :o: Weather icons
-* :o: Predefined weather descriptions with icons
+* :ok: Weather icons
+* :ok: Predefined weather descriptions with icons
 * :ok: Allow freeform descriptions of weather
 * :o: Larger dashboard items
-* :o: Allow selection of dashboard widgets
+* :ok: Allow selection of dashboard widgets
 * :o: Version number
 * :o: Menu for user settings, file operations, help > about
 
@@ -46,29 +46,7 @@ https://www.theweathernetwork.com/en/city/ca/nova-scotia/pugwash/uv
 
 
 ## Source Code Listing
+```bash
 find . \( -path "*/bin" -o -path "*/obj" \) -prune -o \( -iname "*.cs" -o -iname "*.xaml" \) -print | sort | sed 's/\.\//\* /'
-
-
-## Presentation Polish Checklist
-* [ ] Dashboard weather layout
-* [ ] Detailed weather layout
-* [ ] Schedule readability
-* [ ] Announcement readability
-* [ ] Sun/Tide visual refresh
-* [ ] Font scale pass
-* [ ] Spacing / padding pass
-* [ ] Large-display distance test
-* [ ] Section grouping / visual separation
-* [ ] Borders vs separators
-* [ ] Background panels / cards
-* [ ] Widget spacing hierarchy
-* [ ] Heading necessity review
-* [ ] Contrast / opacity pass
-* [ ] Widget alignment
-* [ ] Font hierarchy
-* [ ] Icon scale consistency
-* [ ] Spacing rhythm
-* [ ] Heading necessity
-* [ ] Background image readability
-* [ ] Border / section separation
+```
 

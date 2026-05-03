@@ -101,6 +101,31 @@ Review current `DisplayWindow.xaml` layout and help perform a full visual / pres
 
 
 
+## Presentation Polish Checklist
+* [ ] Dashboard weather layout
+* [ ] Detailed weather layout
+* [ ] Schedule readability
+* [ ] Announcement readability
+* [ ] Sun/Tide visual refresh
+* [ ] Font scale pass
+* [ ] Spacing / padding pass
+* [ ] Large-display distance test
+* [ ] Section grouping / visual separation
+* [ ] Borders vs separators
+* [ ] Background panels / cards
+* [ ] Widget spacing hierarchy
+* [ ] Heading necessity review
+* [ ] Contrast / opacity pass
+* [ ] Widget alignment
+* [ ] Font hierarchy
+* [ ] Icon scale consistency
+* [ ] Spacing rhythm
+* [ ] Heading necessity
+* [ ] Background image readability
+* [ ] Border / section separation
+
+
+
 
 ## Other TODO Items
 * Bilingual display 
