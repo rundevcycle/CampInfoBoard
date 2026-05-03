@@ -8,6 +8,8 @@
 
         public DateTime Sunset { get; set; } = DateTime.Today;
 
+        public bool IsPast => Date.Date < DateTime.Today;
+
         public string DateText
         {
             get => Date.ToShortDateString();

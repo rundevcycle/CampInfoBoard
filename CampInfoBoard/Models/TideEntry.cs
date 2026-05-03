@@ -7,6 +7,7 @@ namespace CampInfoBoard.Models
         public DateTime Time { get; set; } = DateTime.Today;
         public TideType TideLevel { get; set; }
 
+        public bool IsPast => Date < DateTime.Today;
 
         public DateTime Date
         {

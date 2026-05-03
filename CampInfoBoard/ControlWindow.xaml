@@ -10,6 +10,19 @@
 
     <Window.Resources>
         <converters:ImagePathToBitmapConverter x:Key="ImagePathToBitmapConverter"/>
+
+        <Style x:Key="PastItemRowStyle"
+            TargetType="DataGridRow">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsPast}"
+                     Value="True">
+                    <Setter Property="Foreground"
+                        Value="Gray"/>
+                    <Setter Property="Opacity"
+                        Value="0.65"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     
     <DockPanel>
@@ -178,11 +191,12 @@
                         </StackPanel>
 
                         <DataGrid x:Name="WeatherGrid"
-                        ItemsSource="{Binding Data.Weather}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        IsReadOnly="True"
-                        MouseDoubleClick="WeatherGrid_MouseDoubleClick">
+                            ItemsSource="{Binding Data.Weather}"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            IsReadOnly="True"
+                            RowStyle="{StaticResource PastItemRowStyle}"
+                            MouseDoubleClick="WeatherGrid_MouseDoubleClick">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Date"
@@ -262,13 +276,14 @@
                         </StackPanel>
 
                         <DataGrid x:Name="ScheduleGrid"
-                        ItemsSource="{Binding ScheduleView}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        CanUserDeleteRows="False"
-                        IsReadOnly="True"
-                        SelectionMode="Single"
-                        MouseDoubleClick="ScheduleGrid_MouseDoubleClick">
+                            ItemsSource="{Binding ScheduleView}"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            IsReadOnly="True"
+                            SelectionMode="Single"
+                            RowStyle="{StaticResource PastItemRowStyle}"
+                            MouseDoubleClick="ScheduleGrid_MouseDoubleClick">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Start"
@@ -451,11 +466,12 @@
                         </StackPanel>
 
                         <DataGrid x:Name="TideGrid"
-                        ItemsSource="{Binding Data.TideEntries}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        CanUserDeleteRows="True"
-                        PreviewKeyDown="TideGrid_PreviewKeyDown">
+                            ItemsSource="{Binding Data.TideEntries}"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="True"
+                            RowStyle="{StaticResource PastItemRowStyle}"
+                            PreviewKeyDown="TideGrid_PreviewKeyDown">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Date" Width="190">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -497,7 +513,6 @@
 
                 <TabItem Header="Sun">
                     <DockPanel Margin="12">
-
                         <StackPanel DockPanel.Dock="Top"
                             Orientation="Horizontal"
                             Margin="0,0,0,8">
@@ -518,11 +533,12 @@
                         </StackPanel>
 
                         <DataGrid x:Name="SunGrid"
-                        ItemsSource="{Binding Data.SunEntries}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        CanUserDeleteRows="True"
-                        PreviewKeyDown="SunGrid_PreviewKeyDown">
+                            ItemsSource="{Binding Data.SunEntries}"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="True"
+                            RowStyle="{StaticResource PastItemRowStyle}"
+                            PreviewKeyDown="SunGrid_PreviewKeyDown">
 
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Date" Width="190">

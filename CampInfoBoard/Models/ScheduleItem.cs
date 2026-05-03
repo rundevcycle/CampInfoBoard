@@ -15,6 +15,7 @@ namespace CampInfoBoard.Models
 
         public string TimeRange => $"{Start:h:mm tt} – {End:h:mm tt}";
 
+        public bool IsPast => End < DateTime.Now;
 
         public DateTime StartDate
         {

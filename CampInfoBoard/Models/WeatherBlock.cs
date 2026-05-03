@@ -31,6 +31,8 @@
 
         public string PrecipitationDisplay { get; set; } = "";
 
+        public bool IsPast => Date.Date < DateTime.Today;
+
         public string FormatTemperature(MeasurementDisplayMode mode)
         {
             if (TemperatureC == null)
