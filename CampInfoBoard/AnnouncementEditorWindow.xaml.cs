@@ -1,6 +1,9 @@
 ﻿using CampInfoBoard.Models;
 using Microsoft.Win32;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Controls;
+using Image = System.Windows.Controls.Image;
 
 namespace CampInfoBoard
 {
@@ -33,7 +36,17 @@ namespace CampInfoBoard
             if (dialog.ShowDialog() == true)
             {
                 Item.ImagePath = dialog.FileName;
+                BindingOperations.GetBindingExpression(ImagePathText, TextBlock.TextProperty)?.UpdateTarget();
+                BindingOperations.GetBindingExpression(ImagePreview, Image.SourceProperty)?.UpdateTarget();
             }
+        }
+
+        private void ClearImage_Click(object sender, RoutedEventArgs e)
+        {
+            Item.ImagePath = "";
+
+            BindingOperations.GetBindingExpression(ImagePathText, TextBlock.TextProperty)?.UpdateTarget();
+            BindingOperations.GetBindingExpression(ImagePreview, Image.SourceProperty)?.UpdateTarget();
         }
     }
 }

@@ -57,6 +57,7 @@ namespace CampInfoBoard.Services
 
             CleanupUnusedPhotoFiles(data);
             CleanupUnusedBackgroundImages(data);
+            CleanupUnusedAnnouncementImages(data);
         }
 
 
@@ -145,6 +146,47 @@ namespace CampInfoBoard.Services
                 catch
                 {
                     // Ignore cleanup failures so save still succeeds
+                }
+            }
+        }
+
+
+        private static void CleanupUnusedAnnouncementImages(AppData data)
+        {
+            if (!Directory.Exists(AppPaths.AnnouncementsDirectory))
+            {
+                return;
+            }
+
+            var usedImages = data.Announcements
+                .Select(a => a.ImagePath)
+                .Where(path => !string.IsNullOrWhiteSpace(path))
+                .Select(path => Path.GetFullPath(path!))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            foreach (string file in Directory.GetFiles(AppPaths.AnnouncementsDirectory))
+            {
+                try
+                {
+                    string fileName = Path.GetFileName(file);
+
+                    if (!fileName.StartsWith("announcement-", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    string fullPath = Path.GetFullPath(file);
+
+                    if (usedImages.Contains(fullPath))
+                    {
+                        continue;
+                    }
+
+                    File.Delete(fullPath);
+                }
+                catch
+                {
+                    // Ignore cleanup failures so save still succeeds.
                 }
             }
         }

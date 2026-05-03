@@ -340,13 +340,13 @@
                         </StackPanel>
 
                         <DataGrid x:Name="AnnouncementGrid"
-                  ItemsSource="{Binding Data.Announcements}"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
-                  CanUserDeleteRows="False"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  MouseDoubleClick="AnnouncementGrid_MouseDoubleClick">
+                            ItemsSource="{Binding Data.Announcements}"
+                            AutoGenerateColumns="False"
+                            CanUserAddRows="False"
+                            CanUserDeleteRows="False"
+                            IsReadOnly="True"
+                            SelectionMode="Single"
+                            MouseDoubleClick="AnnouncementGrid_MouseDoubleClick">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Priority"
@@ -365,9 +365,16 @@
                                     Binding="{Binding Title}"
                                     Width="*"/>
 
-                                <DataGridTextColumn Header="Image"
-                                    Binding="{Binding ImagePath}"
-                                    Width="220"/>
+                                <DataGridTemplateColumn Header="Image" Width="80">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
+                                                Width="64"
+                                                Height="40"
+                                                Stretch="UniformToFill"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </DockPanel>

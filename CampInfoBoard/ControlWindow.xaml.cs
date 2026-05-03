@@ -812,6 +812,10 @@ namespace CampInfoBoard
 
             if (editor.ShowDialog() == true)
             {
+                if (!string.IsNullOrWhiteSpace(item.ImagePath))
+                {
+                    item.ImagePath = CopyAnnouncementImageToBoardFolder(item.ImagePath);
+                }
                 Data.Announcements.Add(item);
                 AnnouncementGrid.Items.Refresh();
                 AnnouncementGrid.SelectedItem = item;
@@ -835,6 +839,10 @@ namespace CampInfoBoard
 
             if (editor.ShowDialog() == true)
             {
+                if (!string.IsNullOrWhiteSpace(copiedItem.ImagePath))
+                {
+                    copiedItem.ImagePath = CopyAnnouncementImageToBoardFolder(copiedItem.ImagePath);
+                }
                 Data.Announcements.Add(copiedItem);
                 AnnouncementGrid.Items.Refresh();
                 AnnouncementGrid.SelectedItem = copiedItem;
@@ -889,6 +897,11 @@ namespace CampInfoBoard
 
             if (editor.ShowDialog() == true)
             {
+                if (!string.IsNullOrWhiteSpace(editableCopy.ImagePath))
+                {
+                    editableCopy.ImagePath = CopyAnnouncementImageToBoardFolder(editableCopy.ImagePath);
+                }
+
                 CopyAnnouncement(editableCopy, selectedItem);
                 AnnouncementGrid.Items.Refresh();
             }
@@ -1862,5 +1875,26 @@ namespace CampInfoBoard
         }
 
 
+
+        private string CopyAnnouncementImageToBoardFolder(string sourcePath)
+        {
+            AppPaths.EnsureFolders();
+
+            string sourceFullPath = Path.GetFullPath(sourcePath);
+            string announcementsFolder = Path.GetFullPath(AppPaths.AnnouncementsDirectory);
+
+            if (sourceFullPath.StartsWith(announcementsFolder, StringComparison.OrdinalIgnoreCase))
+            {
+                return sourcePath;
+            }
+
+            string extension = Path.GetExtension(sourcePath);
+            string fileName = $"announcement-{DateTime.Now:yyyyMMdd-HHmmssfff}{extension}";
+            string targetPath = Path.Combine(AppPaths.AnnouncementsDirectory, fileName);
+
+            File.Copy(sourcePath, targetPath, overwrite: false);
+
+            return targetPath;
+        }
     }
 }
