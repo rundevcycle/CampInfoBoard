@@ -441,30 +441,49 @@
                 <!-- ================= ANNOUNCEMENTS ================= -->
                 <Grid Visibility="{Binding IsAnnouncementVisible, Converter={StaticResource BoolToVisibility}}">
 
-                    <StackPanel VerticalAlignment="Top"
-                                HorizontalAlignment="Center"
-                                Width="900">
-
-                        <TextBlock Text="{Binding CurrentAnnouncement.Title}"
-                                   FontSize="40"
+                    <Border Background="#44000000"
+                        CornerRadius="18"
+                        Padding="34"
+                        Width="1050"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top">
+                        <StackPanel>
+                            <TextBlock Text="{Binding CurrentAnnouncement.Title}"
+                                   FontSize="58"
                                    FontWeight="SemiBold"
                                    Foreground="White"
                                    TextAlignment="Center"
-                                   Margin="0,0,0,20"/>
+                                   Margin="0,0,0,26"/>
 
-                        <Image Source="{Binding CurrentAnnouncement.ImagePath}"
-                               Height="260"
-                               Stretch="Uniform"
-                               Margin="0,0,0,20"/>
+                            <Image Source="{Binding CurrentAnnouncement.ImagePath}"
+                                    MaxHeight="400"
+                                    Stretch="Uniform"
+                                    Margin="0,0,0,24">
+                                <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                            
+                            <TextBlock Text="{Binding CurrentAnnouncement.BodyText}"
+                                FontSize="40"
+                                LineHeight="50"
+                                Foreground="White"
+                                TextWrapping="Wrap"
+                                TextAlignment="Left"
+                                Opacity="0.95"/>
 
-                        <TextBlock Text="{Binding CurrentAnnouncement.BodyText}"
-                                   FontSize="26"
-                                   Foreground="White"
-                                   TextWrapping="Wrap"
-                                   TextAlignment="Center"
-                                   Opacity="0.95"/>
-
-                    </StackPanel>
+                        </StackPanel>
+                    </Border>
 
                 </Grid>
 
