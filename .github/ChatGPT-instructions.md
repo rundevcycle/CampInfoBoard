@@ -138,9 +138,45 @@ Review current `DisplayWindow.xaml` layout and help perform a full visual / pres
     * User preferences (preferred units)
     * Help > About
 * Import and export an info board to copy to another computer
-* Some basic formatting in announcements
-* Predefined announcement templates with or without a picture
 * Background image selection and save with board folder
-
-
-
+* Group FM frequencies in Dashboard admin tab
+* Move Display Settings to bottom of Dashboard admin tab
+* Move Tides & Sun tab to end, since they won't change very often if I do a bulk insert
+* Announcements admin tab:
+    * Display image preview instead of path
+    * Simplify buttons: Add, Copy, Edit, Delete
+* Announcement Edit window
+    * Add note or tooltip explaining that bigger number = higher priority
+    * Display image preview
+    * Copy images into the board folder
+    * Template codes, similar to OpenSong's square brackets
+    * Some basic formatting in announcements (Markdown?)
+    * Predefined announcement templates 
+        * without an image
+        * with an image
+        * 1 column, 2 column
+* Schedule Items
+    * Include an optional image (use default if not provided?)
+    * Larger and fewer in Details panel, with rotation
+    * Colour coding for location, series, or topic (tags?)
+* Weather admin tab:
+    * Simplify buttons: Add, Edit, Copy, Delete
+* Tides admin tab:
+    * Simplify buttons: Add, Delete Old Entries
+* Sun Times admin tab:
+    * Simplify buttons: Add, Delete Old Entries
+* Schedule admin tab:
+    * Display description
+    * Simplify labels: Add, Copy, Edit, Delete
+    * Buttons in the same order as Weather & Announcements admin tab
+* Windows icon
+* Presentation
+    * Don't need "Weather" label on weather details
+    * Larger fonts throughout
+        * Maybe allow for custom font sizes?
+    * Dashboard widgets with borders, shading, or dividers
+    * Larger text in weather widget
+    * Larger text for date & time
+    * Black outline for text?
+    * Cleaner presentation of wind km/h vs mph in Weather Details
+    * Featured Images go full screen, hiding the dashboard (help reduce screen burn-in)
