@@ -56,6 +56,7 @@ namespace CampInfoBoard.Services
             File.WriteAllText(DataFilePath, json);
 
             CleanupUnusedPhotoFiles(data);
+            CleanupUnusedBackgroundImages(data);
         }
 
 
@@ -106,102 +107,47 @@ namespace CampInfoBoard.Services
 
             data.Settings.ScheduleEventsPerPage = 4;
 
-
-            // WEATHER
-            // TODO Remove hardcoded path
-            data.Weather.Add(new WeatherBlock
-            {
-                Date = DateTime.Today,
-                Period = WeatherPeriod.DayTime,
-                TemperatureC = 22,
-                FeelsLikeC = 26,
-                WindSpeedKph = 15,
-                WindDirectionValue = WindDirection.W,
-                UVIndex = 6,
-                Description = "Sun and cloud",
-                Icon = @"C:\Users\Andy\OneDrive\Campmeeting 2025\Weather Icons\sun_and_cloud_TP.png"
-            });
-
-            data.Weather.Add(new WeatherBlock
-            {
-                Date = DateTime.Today,
-                Period = WeatherPeriod.NightTime,
-                TemperatureC = 18,
-                FeelsLikeC = 18,
-                Description = "Mostly cloudy",
-                Icon = @"C:\Users\Andy\OneDrive\Campmeeting 2025\Weather Icons\mostly_cloudy_overnight_TP.png"
-            });
-
-            data.Weather.Add(new WeatherBlock
-            {
-                Date = DateTime.Today.AddDays(1),
-                Period = WeatherPeriod.DayTime,
-                TemperatureC = 24,
-                FeelsLikeC = 24,
-                WindSpeedKph = 20,
-                WindDirectionValue = WindDirection.NW,
-                WindGustKph = 35,
-                UVIndex = 5,
-                Description = "Showers",
-                Icon = @"C:\Users\Andy\OneDrive\Campmeeting 2025\Weather Icons\showers_TP.png"
-            });
-
-
-            // RADIO
-            data.Radio.Enabled = true;
-            data.Radio.EnglishFrequency = "88.5";
-            data.Radio.FrenchFrequency = "89.1";
-
-            // SUN
-            data.SunEntries.Add(new SunEntry
-            {
-                Date = DateTime.Today,
-                Sunrise = DateTime.Today.AddHours(7),
-                Sunset = DateTime.Today.AddHours(19).AddMinutes(2)
-            });
-
-            // TIDES
-            data.TideEntries.Add(new TideEntry
-            {
-                Time = DateTime.Today.AddHours(8).AddMinutes(15),
-                TideLevel = TideType.High
-            });
-
-            data.TideEntries.Add(new TideEntry
-            {
-                Time = DateTime.Today.AddHours(14).AddMinutes(30),
-                TideLevel = TideType.Low
-            });
-
-            data.TideEntries.Add(new TideEntry
-            {
-                Time = DateTime.Today.AddHours(20).AddMinutes(45),
-                TideLevel = TideType.High
-            });
-
-            // SCHEDULE
-            data.Schedule.Add(new ScheduleItem
-            {
-                Start = DateTime.Now.AddMinutes(-20),
-                End = DateTime.Now.AddMinutes(40),
-                Title = "Morning Meeting",
-                Location = "Main Hall",
-                Speaker = "Guest Speaker",
-                Description = "A time of music, teaching, and encouragement."
-            });
-
-            // ANNOUNCEMENTS
-            data.Announcements.Add(new Announcement
-            {
-                Title = "Beach Bonfire Tonight",
-                BodyText = "Join us at the beach after the evening meeting.",
-                Priority = 10
-            });
-
-            // TODO Remove hardcoded path
-            data.BackgroundImagePath = @"c:\Users\Andy\Documents\OpenSong\Backgrounds\Water\bottom-of-the-sea-16913.jpg";
-
             return data;
         }
+
+
+
+        private static void CleanupUnusedBackgroundImages(AppData data)
+        {
+            if (!Directory.Exists(AppPaths.BackgroundDirectory))
+            {
+                return;
+            }
+
+            string? activeBackgroundPath = string.IsNullOrWhiteSpace(data.BackgroundImagePath)
+                ? null
+                : Path.GetFullPath(data.BackgroundImagePath);
+
+            foreach (string file in Directory.GetFiles(AppPaths.BackgroundDirectory))
+            {
+                try
+                {
+                    string fileName = Path.GetFileName(file);
+                    if (!fileName.StartsWith("background-", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    string fullPath = Path.GetFullPath(file);
+                    if (activeBackgroundPath != null &&
+                        string.Equals(fullPath, activeBackgroundPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    File.Delete(fullPath);
+                }
+                catch
+                {
+                    // Ignore cleanup failures so save still succeeds
+                }
+            }
+        }
+
     }
 }
