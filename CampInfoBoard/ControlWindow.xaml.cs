@@ -1541,5 +1541,199 @@ namespace CampInfoBoard
                 SunGrid.BeginEdit();
             }));
         }
+
+
+
+
+
+
+        private void AddWeather_Click(object sender, RoutedEventArgs e)
+        {
+            WeatherBlock item = CreateNextWeatherBlock();
+
+            var editor = new WeatherEditorWindow(item)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Weather.Add(item);
+                SortWeatherByDate();
+                WeatherGrid.SelectedItem = item;
+            }
+        }
+
+        private void EditWeather_Click(object sender, RoutedEventArgs e)
+        {
+            EditSelectedWeather();
+        }
+
+        private void WeatherGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            EditSelectedWeather();
+        }
+
+        private void CopyWeather_Click(object sender, RoutedEventArgs e)
+        {
+            if (WeatherGrid.SelectedItem is not WeatherBlock selectedItem)
+            {
+                WpfMessageBox.Show("Please select a weather row to copy.", "Camp Info Board");
+                return;
+            }
+
+            WeatherBlock copiedItem = CloneWeatherBlock(selectedItem);
+
+            copiedItem.Date = copiedItem.Period == WeatherPeriod.NightTime
+                ? copiedItem.Date.AddDays(1)
+                : copiedItem.Date;
+
+            copiedItem.Period = copiedItem.Period == WeatherPeriod.DayTime
+                ? WeatherPeriod.NightTime
+                : WeatherPeriod.DayTime;
+
+            var editor = new WeatherEditorWindow(copiedItem)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                Data.Weather.Add(copiedItem);
+                SortWeatherByDate();
+                WeatherGrid.SelectedItem = copiedItem;
+            }
+        }
+
+        private void DeleteWeather_Click(object sender, RoutedEventArgs e)
+        {
+            if (WeatherGrid.SelectedItem is not WeatherBlock selectedItem)
+            {
+                WpfMessageBox.Show("Please select a weather row first.", "Camp Info Board");
+                return;
+            }
+
+            if (WpfMessageBox.Show(
+                    "Delete the selected weather row?",
+                    "Camp Info Board",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            Data.Weather.Remove(selectedItem);
+            WeatherGrid.Items.Refresh();
+        }
+
+        private void EditSelectedWeather()
+        {
+            if (WeatherGrid.SelectedItem is not WeatherBlock selectedItem)
+            {
+                WpfMessageBox.Show("Please select a weather row first.", "Camp Info Board");
+                return;
+            }
+
+            WeatherBlock editableCopy = CloneWeatherBlock(selectedItem);
+
+            var editor = new WeatherEditorWindow(editableCopy)
+            {
+                Owner = this
+            };
+
+            if (editor.ShowDialog() == true)
+            {
+                CopyWeatherBlock(editableCopy, selectedItem);
+                SortWeatherByDate();
+                WeatherGrid.SelectedItem = selectedItem;
+            }
+        }
+
+        private WeatherBlock CreateNextWeatherBlock()
+        {
+            WeatherBlock? lastBlock = Data.Weather
+                .OrderByDescending(w => w.Date)
+                .ThenByDescending(w => w.Period)
+                .FirstOrDefault();
+
+            if (lastBlock == null)
+            {
+                return new WeatherBlock();
+            }
+
+            if (lastBlock.Period == WeatherPeriod.DayTime)
+            {
+                return new WeatherBlock
+                {
+                    Date = lastBlock.Date,
+                    Period = WeatherPeriod.NightTime
+                };
+            }
+
+            return new WeatherBlock
+            {
+                Date = lastBlock.Date.AddDays(1),
+                Period = WeatherPeriod.DayTime
+            };
+        }
+
+        private WeatherBlock CloneWeatherBlock(WeatherBlock source)
+        {
+            return new WeatherBlock
+            {
+                Date = source.Date,
+                Period = source.Period,
+                Icon = source.Icon,
+                TemperatureC = source.TemperatureC,
+                FeelsLikeC = source.FeelsLikeC,
+                WindSpeedKph = source.WindSpeedKph,
+                WindDirectionValue = source.WindDirectionValue,
+                WindGustKph = source.WindGustKph,
+                UVIndex = source.UVIndex,
+                Description = source.Description,
+                PrecipitationDisplay = source.PrecipitationDisplay
+            };
+        }
+
+        private void CopyWeatherBlock(WeatherBlock source, WeatherBlock target)
+        {
+            target.Date = source.Date;
+            target.Period = source.Period;
+            target.Icon = source.Icon;
+            target.TemperatureC = source.TemperatureC;
+            target.FeelsLikeC = source.FeelsLikeC;
+            target.WindSpeedKph = source.WindSpeedKph;
+            target.WindDirectionValue = source.WindDirectionValue;
+            target.WindGustKph = source.WindGustKph;
+            target.UVIndex = source.UVIndex;
+            target.Description = source.Description;
+            target.PrecipitationDisplay = source.PrecipitationDisplay;
+        }
+
+        private void SortWeatherByDate()
+        {
+            WeatherBlock? selectedWeather = WeatherGrid.SelectedItem as WeatherBlock;
+
+            var orderedWeather = Data.Weather
+                .OrderBy(w => w.Date)
+                .ThenBy(w => w.Period)
+                .ToList();
+
+            Data.Weather.Clear();
+
+            foreach (WeatherBlock weather in orderedWeather)
+            {
+                Data.Weather.Add(weather);
+            }
+
+            WeatherGrid.Items.Refresh();
+
+            if (selectedWeather != null)
+            {
+                WeatherGrid.SelectedItem = selectedWeather;
+                WeatherGrid.ScrollIntoView(selectedWeather);
+            }
+        }
+
     }
 }

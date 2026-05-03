@@ -10,8 +10,6 @@
 
         public List<SunEntry> SunEntries { get; set; } = new();
 
-        public string UVDisplay { get; set; } = "";
-
         public RadioInfo Radio { get; set; } = new();
 
         public List<ScheduleItem> Schedule { get; set; } = new();

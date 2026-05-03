@@ -108,34 +108,46 @@ namespace CampInfoBoard.Services
             // TODO Remove hardcoded path
             data.Weather.Add(new WeatherBlock
             {
-                TempDisplay = "22°C / 72°F",
-                FeelsLikeDisplay = "Feels 26°C",
+                Date = DateTime.Today,
+                Period = WeatherPeriod.DayTime,
+                TemperatureC = 22,
+                FeelsLikeC = 26,
+                WindSpeedKph = 15,
+                WindDirectionValue = WindDirection.W,
+                UVIndex = 6,
+                Description = "Sun and cloud",
                 Icon = @"C:\Users\Andy\OneDrive\Campmeeting 2025\Weather Icons\sun_and_cloud_TP.png"
             });
 
-            // TODO Remove hardcoded path
             data.Weather.Add(new WeatherBlock
             {
-                TempDisplay = "18°C / 64°F",
-                FeelsLikeDisplay = "Tonight",
+                Date = DateTime.Today,
+                Period = WeatherPeriod.NightTime,
+                TemperatureC = 18,
+                FeelsLikeC = 18,
+                Description = "Mostly cloudy",
                 Icon = @"C:\Users\Andy\OneDrive\Campmeeting 2025\Weather Icons\mostly_cloudy_overnight_TP.png"
             });
 
-            // TODO Remove hardcoded path
             data.Weather.Add(new WeatherBlock
             {
-                TempDisplay = "24°C / 75°F",
-                FeelsLikeDisplay = "Tomorrow",
+                Date = DateTime.Today.AddDays(1),
+                Period = WeatherPeriod.DayTime,
+                TemperatureC = 24,
+                FeelsLikeC = 24,
+                WindSpeedKph = 20,
+                WindDirectionValue = WindDirection.NW,
+                WindGustKph = 35,
+                UVIndex = 5,
+                Description = "Showers",
                 Icon = @"C:\Users\Andy\OneDrive\Campmeeting 2025\Weather Icons\showers_TP.png"
             });
+
 
             // RADIO
             data.Radio.Enabled = true;
             data.Radio.EnglishFrequency = "88.5";
             data.Radio.FrenchFrequency = "89.1";
-
-            // UV
-            data.UVDisplay = "UV 6";
 
             // SUN
             data.SunEntries.Add(new SunEntry

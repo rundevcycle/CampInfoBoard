@@ -31,7 +31,61 @@ public class DisplayViewModel : INotifyPropertyChanged
 
     public string BackgroundImagePath { get; set; } = "";
 
-    public string UVDisplay { get; set; } = "UV 6";
+
+
+    public IEnumerable<WeatherDisplayItem> DisplayWeather =>
+        GetWeatherDisplaySlots()
+            .Select(slot => Weather.FirstOrDefault(w =>
+                w.Date.Date == slot.Date.Date &&
+                w.Period == slot.Period))
+            .Where(w => w != null)
+            .Cast<WeatherBlock>()
+            .Select(w => new WeatherDisplayItem(w, Settings.MeasurementMode));
+
+
+    private IEnumerable<(DateTime Date, WeatherPeriod Period)> GetWeatherDisplaySlots()
+    {
+        DateTime now = DateTime.Now;
+        DateTime today = now.Date;
+
+        DateTime startDate;
+        WeatherPeriod startPeriod;
+
+        // Change first period at 4 am and 5 pm.
+        if (now.TimeOfDay < TimeSpan.FromHours(4))
+        {
+            startDate = today.AddDays(-1);
+            startPeriod = WeatherPeriod.NightTime;
+        }
+        else if (now.TimeOfDay < TimeSpan.FromHours(17))
+        {
+            startDate = today;
+            startPeriod = WeatherPeriod.DayTime;
+        }
+        else
+        {
+            startDate = today;
+            startPeriod = WeatherPeriod.NightTime;
+        }
+
+        DateTime date = startDate;
+        WeatherPeriod period = startPeriod;
+
+        for (int i = 0; i < 3; i++)
+        {
+            yield return (date, period);
+
+            if (period == WeatherPeriod.DayTime)
+            {
+                period = WeatherPeriod.NightTime;
+            }
+            else
+            {
+                date = date.AddDays(1);
+                period = WeatherPeriod.DayTime;
+            }
+        }
+    }
 
     public TideInfo Tide { get; set; } = new()
     {
@@ -133,6 +187,7 @@ public class DisplayViewModel : INotifyPropertyChanged
     public int AnnouncementSeconds => Math.Max(1, Settings.AnnouncementRotationSeconds);
 
     public int PhotoSeconds => Math.Max(1, Settings.PhotoRotationSeconds);
+
     public DisplayViewModel()
     {
         LoadAppData();
@@ -151,6 +206,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(TodaySun));
             OnPropertyChanged(nameof(SunriseDisplay));
             OnPropertyChanged(nameof(SunsetDisplay));
+            OnPropertyChanged(nameof(DisplayWeather));
         };
         _clockTimer.Start();
 
@@ -245,7 +301,6 @@ public class DisplayViewModel : INotifyPropertyChanged
 
         Settings = data.Settings;
         Radio = data.Radio;
-        UVDisplay = data.UVDisplay;
         BackgroundImagePath = data.BackgroundImagePath;
 
         Weather.Clear();
@@ -296,7 +351,6 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(TodaySun));
         OnPropertyChanged(nameof(SunriseDisplay));
         OnPropertyChanged(nameof(SunsetDisplay));
-        OnPropertyChanged(nameof(UVDisplay));
         OnPropertyChanged(nameof(BackgroundImagePath));
         OnPropertyChanged(nameof(FilteredSchedule));
         OnPropertyChanged(nameof(HighTideDisplay));
@@ -305,6 +359,7 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(CurrentPhoto));
         OnPropertyChanged(nameof(IsPhotoFallbackVisible));
         OnPropertyChanged(nameof(HasCurrentPhotoText));
+        OnPropertyChanged(nameof(DisplayWeather));
     }
 
 
