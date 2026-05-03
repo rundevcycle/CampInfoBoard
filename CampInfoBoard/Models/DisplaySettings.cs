@@ -14,5 +14,7 @@
         public int AnnouncementRotationSeconds { get; set; } = 10;
         public int PhotoRotationSeconds { get; set; } = 15;
         public bool DisplayAlwaysOnTop { get; set; } = false;
+
+        public string BackgroundColor { get; set; } = "#101820";
     }
 }

@@ -43,15 +43,45 @@
 
     </Window.Resources>
 
-    <Grid>
-
+    <Grid Background="{Binding Settings.BackgroundColor}">
+        
         <!-- ================= BACKGROUND ================= -->
-        <Image Source="{Binding BackgroundImagePath}"
-               Stretch="UniformToFill"
-               Opacity="0.5"/>
+        <Image Source="{Binding BackgroundImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
+                Stretch="UniformToFill"
+                Opacity="0.5">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPhotoVisible}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BackgroundImagePath}" Value="">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding BackgroundImagePath}"
+                             Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
 
         <!-- readability overlay -->
-        <Rectangle Fill="Black" Opacity="0.45"/>
+        <Rectangle Fill="Black"
+           Opacity="0.45">
+            <Rectangle.Style>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsPhotoVisible}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Rectangle.Style>
+        </Rectangle>
 
         <!-- ================= MAIN LAYOUT ================= -->
         <Grid Margin="32">
@@ -503,7 +533,8 @@
 
 
         <!-- ================= PHOTO ================= -->
-        <Grid Visibility="{Binding IsPhotoVisible, Converter={StaticResource BoolToVisibility}}">
+        <Grid Visibility="{Binding IsPhotoVisible, Converter={StaticResource BoolToVisibility}}"
+              Background="Black">
 
             <Image Source="{Binding CurrentPhoto.ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
                         Stretch="Uniform">

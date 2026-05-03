@@ -20,6 +20,8 @@ public static class AppPaths
 
     public static string PhotosDirectory =>
         Path.Combine(CurrentBoardDirectory, "Photos");
+    public static string BackgroundDirectory =>
+        Path.Combine(CurrentBoardDirectory, "Background");
 
     public static string JsonFilePath =>
         Path.Combine(DataDirectory, "camp-info-board.json");
@@ -31,6 +33,7 @@ public static class AppPaths
     {
         Directory.CreateDirectory(DataDirectory);
         Directory.CreateDirectory(PhotosDirectory);
+        Directory.CreateDirectory(BackgroundDirectory);
         Directory.CreateDirectory(BackupsDirectory);
     }
 

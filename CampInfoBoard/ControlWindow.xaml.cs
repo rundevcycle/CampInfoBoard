@@ -3,6 +3,7 @@ using CampInfoBoard.Services;
 using CampInfoBoard.ViewModels;
 using Microsoft.Win32;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -1799,5 +1800,67 @@ namespace CampInfoBoard
                     MessageBoxImage.Error);
             }
         }
+
+
+
+        private void ChooseBackgroundImage_Click(object sender, RoutedEventArgs e)
+        {
+            string? path = PickImageFile();
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            try
+            {
+                Data.BackgroundImagePath = CopyBackgroundImageToBoardFolder(path);
+                OnPropertyChanged(nameof(Data));
+            }
+            catch (Exception ex)
+            {
+                WpfMessageBox.Show(
+                    ex.Message,
+                    "Background Image Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        private void ClearBackgroundImage_Click(object sender, RoutedEventArgs e)
+        {
+            Data.BackgroundImagePath = "";
+            OnPropertyChanged(nameof(Data));
+        }
+
+        private string CopyBackgroundImageToBoardFolder(string sourcePath)
+        {
+            AppPaths.EnsureFolders();
+
+            string extension = Path.GetExtension(sourcePath);
+            string fileName = $"background-{DateTime.Now:yyyyMMdd-HHmmssfff}{extension}";
+            string targetPath = Path.Combine(AppPaths.BackgroundDirectory, fileName);
+
+            File.Copy(sourcePath, targetPath, overwrite: false);
+
+            return targetPath;
+        }
+
+        private void ChooseBackgroundColor_Click(object sender, RoutedEventArgs e)
+        {
+            using Forms.ColorDialog dialog = new();
+
+            if (dialog.ShowDialog() != Forms.DialogResult.OK)
+            {
+                return;
+            }
+
+            Data.Settings.BackgroundColor =
+                $"#{dialog.Color.R:X2}{dialog.Color.G:X2}{dialog.Color.B:X2}";
+
+            OnPropertyChanged(nameof(Data));
+        }
+
+
     }
 }
