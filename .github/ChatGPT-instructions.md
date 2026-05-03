@@ -24,14 +24,17 @@ The project is organized as follows:
 * `Models/AppData.cs`
 * `Models/DisplayMode.cs`
 * `Models/DisplaySettings.cs`
+* `Models/MeasurementDisplayMode.cs`
 * `Models/PhotoItem.cs`
 * `Models/RadioInfo.cs`
 * `Models/ScheduleItem.cs`
-* `Models/SunInfo.cs`
+* `Models/SunEntry.cs`
 * `Models/TideEntry.cs`
 * `Models/TideInfo.cs`
 * `Models/TideType.cs`
 * `Models/WeatherBlock.cs`
+* `Models/WeatherPeriod.cs`
+* `Models/WindDirection.cs`
 * `OpenBoardWindow.xaml`
 * `OpenBoardWindow.xaml.cs`
 * `PhotoEditorWindow.xaml`
@@ -41,66 +44,73 @@ The project is organized as follows:
 * `Services/AppPaths.cs`
 * `Services/DataService.cs`
 * `Services/PhotoFileService.cs`
+* `Services/SunImportService.cs`
+* `Services/TideImportService.cs`
 * `ViewModels/DisplayViewModel.cs`
 * `ViewModels/PhotoManagerViewModel.cs`
+* `ViewModels/WeatherDisplayItem.cs`
+* `WeatherEditorWindow.xaml`
+* `WeatherEditorWindow.xaml.cs`
+
 
 
 ## Where We Left Off
-CampInfoBoard WPF project continuation — Part 4
+Continuing the Camp Info Board app, part 5.
 
-### Current project status:
-* Multi-board architecture complete
-    * Default / Save Board As / Open Board
-    * Board folders:
-        * Data
-        * Photos
-        * Backups
-* JSON persistence + automatic backups
-* Photo system:
-    * Add / Copy / Edit / Delete
-    * DisplayOrder
-    * Move Up / Down
-    * Save-time orphan photo cleanup
-    * Non-locking image converter for thumbnails + display
-* DisplayWindow:
-    * Fullscreen borderless
-    * Selectable monitor via DisplayMonitorIndex
-    * Caption / Credit overlay
-    * No-photo fallback
-* DisplaySettings currently includes:
-    * ShowTides
-    * ShowSun
-    * ShowUV
-    * DisplayMonitorIndex
+Please review `ChatGPT-instructions.md` and `copilot-instructions.md` first.
 
-### Next priorities:
-1. Settings expansion:
-    * PhotoRotationSeconds
-    * AnnouncementRotationSeconds
-    * DisplayAlwaysOnTop
-2. Settings UI panel
-3. Later:
-    * User preferences (home folder, Celsius/Fahrenheit)
-    * Optional topmost toggle
-    * Transition polish
+Current status:
+- Multi-board save/open architecture works.
+- Tides support manual editing and CSV import.
+- Sunrise/sunset was converted from SunInfo to SunEntry list/table.
+- Sun entries support manual editing, keyboard navigation, and CSV import.
+- Display uses today’s SunEntry correctly.
+- DisplaySettings now includes rotation timers, AlwaysOnTop, and MeasurementMode.
+- WeatherBlock was modernized:
+  - Date
+  - WeatherPeriod enum: DayTime / NightTime
+  - MeasurementDisplayMode enum: Metric / Imperial / Both
+  - TemperatureC
+  - FeelsLikeC
+  - WindSpeedKph
+  - WindGustKph
+  - WindDirectionValue using WindDirection enum
+  - UVIndex as int?
+  - Description
+  - PrecipitationDisplay
+  - Icon
+  - formatting helpers for temp / feels-like / wind
+- Weather has a WeatherEditorWindow, not table editing.
+- Weather display logic should show the next 3 entries:
+  - Before 5 PM: Today, Tonight, Tomorrow
+  - After 5 PM: Tonight, Tomorrow, Tomorrow Night
+  - Overnight shift happens at 4 AM.
+- Weather labels should stay generic:
+  - Today
+  - Tonight
+  - Tomorrow
+  - Tomorrow Night
 
-### Important:
-* Match existing architecture
-* Review uploaded solution files first
-* Avoid unnecessary rewrites
-* Step-by-step code changes only
+Next direction:
+I’m leaning toward keeping the dashboard weather widget simple and icon-based, but adding a new display mode, similar to Announcements/Photos, for detailed weather info.
+
+Please start by reviewing the uploaded files and then help plan and implement the next step with small focused diffs.
+
+*The next session should probably begin with `DisplayMode`, `DisplayViewModel`, and `DisplayWindow.xaml`.  Include weather classes and control window for good measure.*
+
+
 
 
 ## Other TODO Items
-* Import tides from CSV
-* Import sunrise/sunset from CSV
+* DONE - Import tides from CSV
+* DONE - Import sunrise/sunset from CSV
 * Bilingual display 
     * English and French support to start
     * Primary language
     * Secondary language (optional)
-* Table of weather forecasts - Day/Night resolution
+* DONE - Table of weather forecasts - Day/Night resolution
 * Weather icons
 * Predefined weather descriptions with icons
-* Allow freeform descriptions of weather
+* DONE - Allow freeform descriptions of weather
 * Larger dashboard items
 * Allow selection of which dashboard widgets to enable
