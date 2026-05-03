@@ -104,6 +104,9 @@ namespace CampInfoBoard.Services
         {
             var data = new AppData();
 
+            data.Settings.ScheduleEventsPerPage = 4;
+
+
             // WEATHER
             // TODO Remove hardcoded path
             data.Weather.Add(new WeatherBlock

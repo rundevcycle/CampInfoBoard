@@ -205,5 +205,42 @@ namespace CampInfoBoard.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+
+        public string DisplayDayLabel
+        {
+            get
+            {
+                DateTime today = DateTime.Today;
+                int dayOffset = (Start.Date - today).Days;
+
+                if (dayOffset == 0)
+                {
+                    return "Today";
+                }
+
+                if (dayOffset == 1)
+                {
+                    return "Tomorrow";
+                }
+
+                if (dayOffset > 1 && dayOffset <= 6)
+                {
+                    return Start.ToString("dddd");
+                }
+
+                return Start.ToString("MMMM d");
+            }
+        }
+
+        public string DisplayStartTime => Start.ToString("h:mm tt");
+
+        public string DisplayEndTime =>
+            End == default || End <= Start
+                ? ""
+                : End.ToString("h:mm tt");
+
+        public bool IsHappeningNow =>
+            Start <= DateTime.Now && End >= DateTime.Now;
     }
 }

@@ -1165,6 +1165,9 @@ namespace CampInfoBoard
             Data.Settings.ScheduleRotationSeconds =
                 Math.Max(1, Data.Settings.ScheduleRotationSeconds);
 
+            Data.Settings.ScheduleEventsPerPage =
+                Math.Clamp(Data.Settings.ScheduleEventsPerPage, 1, 6);
+
             Data.Settings.WeatherRotationSeconds =
                 Math.Max(1, Data.Settings.WeatherRotationSeconds);
 

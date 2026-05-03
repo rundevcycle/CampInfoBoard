@@ -16,6 +16,9 @@ public class DisplayViewModel : INotifyPropertyChanged
     private DisplayMode _mode = DisplayMode.Schedule;
     private int _announcementIndex = 0;
     private int _photoIndex = 0;
+    private int _schedulePageIndex = 0;
+    private int ScheduleEventsPerPage =>
+        Math.Clamp(Settings.ScheduleEventsPerPage, 1, 6);
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -154,7 +157,9 @@ public class DisplayViewModel : INotifyPropertyChanged
     public IEnumerable<ScheduleItem> FilteredSchedule =>
         Schedule
             .Where(x => x.End >= DateTime.Now && x.Start <= DateTime.Now.AddHours(24))
-            .OrderBy(x => x.Start);
+            .OrderBy(x => x.Start)
+            .Skip(_schedulePageIndex * ScheduleEventsPerPage)
+            .Take(ScheduleEventsPerPage);
 
     public IEnumerable<Announcement> ActiveAnnouncements =>
         Announcements
@@ -259,6 +264,16 @@ public class DisplayViewModel : INotifyPropertyChanged
     {
         if (_mode == DisplayMode.Schedule)
         {
+            if (_schedulePageIndex < SchedulePageCount - 1)
+            {
+                _schedulePageIndex++;
+                OnPropertyChanged(nameof(FilteredSchedule));
+                SetMode(DisplayMode.Schedule, ScheduleSeconds);
+                return;
+            }
+
+            _schedulePageIndex = 0;
+
             if (Settings.ShowDetailedWeatherMode && DisplayWeather.Any())
             {
                 SetMode(DisplayMode.Weather, WeatherSeconds);
@@ -434,9 +449,22 @@ public class DisplayViewModel : INotifyPropertyChanged
 
     public void RestartRotation()
     {
+        _schedulePageIndex = 0;
         _announcementIndex = 0;
         _photoIndex = 0;
 
         SetMode(DisplayMode.Schedule, ScheduleSeconds);
+    }
+
+
+    private int SchedulePageCount
+    {
+        get
+        {
+            int count = Schedule
+                .Count(x => x.End >= DateTime.Now && x.Start <= DateTime.Now.AddHours(24));
+
+            return Math.Max(1, (int)Math.Ceiling(count / (double)ScheduleEventsPerPage));
+        }
     }
 }

@@ -94,6 +94,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
@@ -106,34 +107,43 @@
                                 Margin="0,0,0,8"/>
 
                             <TextBlock Grid.Row="1"
-                                Grid.Column="0"
-                                Text="Weather Rotation seconds"
+                                Text="Schedule events per page"
                                 VerticalAlignment="Center"
                                 Margin="0,0,8,8"/>
                             <TextBox Grid.Row="1"
                                 Grid.Column="1"
-                                Text="{Binding Data.Settings.WeatherRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Data.Settings.ScheduleEventsPerPage, UpdateSourceTrigger=PropertyChanged}"
                                 Margin="0,0,0,8"/>
-
+                            
                             <TextBlock Grid.Row="2"
-                                Text="Announcement rotation seconds"
+                                Grid.Column="0"
+                                Text="Weather Rotation seconds"
                                 VerticalAlignment="Center"
                                 Margin="0,0,8,8"/>
                             <TextBox Grid.Row="2"
                                 Grid.Column="1"
-                                Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding Data.Settings.WeatherRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                 Margin="0,0,0,8"/>
 
                             <TextBlock Grid.Row="3"
-                                Text="Photo rotation seconds"
+                                Text="Announcement rotation seconds"
                                 VerticalAlignment="Center"
                                 Margin="0,0,8,8"/>
                             <TextBox Grid.Row="3"
                                 Grid.Column="1"
+                                Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="0,0,0,8"/>
+
+                            <TextBlock Grid.Row="4"
+                                Text="Photo rotation seconds"
+                                VerticalAlignment="Center"
+                                Margin="0,0,8,8"/>
+                            <TextBox Grid.Row="4"
+                                Grid.Column="1"
                                 Text="{Binding Data.Settings.PhotoRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                 Margin="0,0,0,8"/>
 
-                            <CheckBox Grid.Row="4"
+                            <CheckBox Grid.Row="5"
                                 Grid.ColumnSpan="2"
                                 Content="Keep display window always on top"
                                 IsChecked="{Binding Data.Settings.DisplayAlwaysOnTop}"/>
