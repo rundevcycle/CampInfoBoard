@@ -11,10 +11,10 @@ Display weather, tides, sun times, announcements, event schedules, and featured 
 * :ok: Weather icons
 * :ok: Predefined weather descriptions with icons
 * :ok: Allow freeform descriptions of weather
-* :o: Larger dashboard items
+* :ok: Larger dashboard items
 * :ok: Allow selection of dashboard widgets
-* :o: Version number
-* :o: Menu for user settings, file operations, help > about
+* :ok: Version number
+* :ok: Menu for user settings, file operations, help > about
 
 
 
@@ -50,3 +50,44 @@ https://www.theweathernetwork.com/en/city/ca/nova-scotia/pugwash/uv
 find . \( -path "*/bin" -o -path "*/obj" \) -prune -o \( -iname "*.cs" -o -iname "*.xaml" \) -print | sort | sed 's/\.\//\* /'
 ```
 
+
+
+## Testing checklist (version 0.9.0)
+
+Focus on:
+
+1. Board/file workflow
+	* [ ] New Board, Open Board, Save, Save As, Reload, Exit
+	* [ ] Confirm auto-save works as expected
+2. Display modes
+	* [ ] Dashboard
+	* [ ] Detailed weather
+	* [ ] Schedule paging
+	* [ ] Announcements
+	* [ ] Full-screen photos
+3. Dashboard toggles
+	* [ ] Weather, sun, tides, FM radio
+	* [ ] Confirm hidden widgets leave no empty cards
+4. Images
+	* [ ] Background image select/clear/change
+	* [ ] Announcement image browse/clear/preview
+	* [ ] Photo add/edit/delete
+	* [ ] Confirm board folders clean up correctly after Save
+5. Weather editor
+	* [ ] Nullable fields can be cleared:
+		* [ ] Feels Like
+		* [ ] Wind Speed
+		* [ ] Wind Gust
+		* [ ] UV
+	* [ ] Confirm display still looks right when optional fields are blank
+6. Schedule
+	* [ ] Past rows gray in admin table
+	* [ ] Active event highlight on display
+	* [ ] Events per page setting works
+	* [ ] Future events show Today/Tomorrow/weekday/date correctly
+7. Real screen test
+	* [ ] Readability from distance
+	* [ ] Rotation timing
+	* [ ] Background color/image contrast
+	* [ ] Photo caption size
+	* [ ] Announcement paragraph readability

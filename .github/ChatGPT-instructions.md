@@ -5,6 +5,8 @@ General AI coding instructions are found in `copilot-instructions.md`.  Include 
 ## File Listing
 The project is organized as follows:
 
+* `AboutWindow.xaml`
+* `AboutWindow.xaml.cs`
 * `AnnouncementEditorWindow.xaml`
 * `AnnouncementEditorWindow.xaml.cs`
 * `App.xaml`
@@ -17,6 +19,9 @@ The project is organized as follows:
 * `Converters/BoolToVisibilityConverter.cs`
 * `Converters/ImagePathToBitmapConverter.cs`
 * `Converters/NullToVisibilityConverter.cs`
+* `Converters/ScheduleBackgroundConverter.cs`
+* `Converters/ScheduleBorderConverter.cs`
+* `Converters/UVIndexToBrushConverter.cs`
 * `DisplayWindow.xaml`
 * `DisplayWindow.xaml.cs`
 * `GlobalUsings.cs`
@@ -57,126 +62,114 @@ The project is organized as follows:
 
 
 ## Where We Left Off
-Continuing CampInfoBoard (WPF / C#) public display app for campground info boards.
+Continuing CampInfoBoard WPF/C# public display app.
 
 Please review `ChatGPT-instructions.md` and `copilot-instructions.md` first, then inspect the uploaded solution before suggesting changes.
 
-Current architecture:
-- Multi-board system with AppPaths + board folders
-- JSON persistence via DataService with backups
-- DisplayWindow + ControlWindow
-- WeatherBlock modernized:
-  Date, WeatherPeriod (DayTime/NightTime), MeasurementDisplayMode, TemperatureC, FeelsLikeC, WindSpeedKph, WindGustKph, WindDirectionValue, UVIndex, Description, PrecipitationDisplay, Icon
-- WeatherEditorWindow with icon dropdown + preview
-- Weather icons embedded as WPF Resources in Assets/WeatherIcons
-- Compact dashboard weather widget + separate Detailed Weather display mode
-- Weather rotation integrated into DisplayMode
-- SunEntry list with sunrise/sunset display
-- Sun display uses large sunrise/sunset icons
-- TideEntries support chronological display:
-  - Current tide if within 1 hour
-  - Current + next 3 tides
-  - Chronological order
-  - Tide-high / tide-low icons
-  - "Tomorrow"" separator only when needed
-- FM frequencies integrated
-- Schedule / Announcements / Photos functional
+Current status:
+- Multi-board system with AppPaths board folders.
+- JSON persistence with backups.
+- Menu bar added: New Board, Open Board, Reload, Save, Save As, Exit, Help > About.
+- Version number/About window added.
+- Auto-save on board switch/exit.
+- Display settings moved to Settings tab.
+- Dashboard toggles include weather, sun, tides, FM; date/time always visible.
+- Display supports background image copied into Background folder, solid background color picker, and cleanup of unused background-* files.
+- Featured photos are full-screen on black; background image/overlay hidden during photo mode.
+- Weather dashboard and detailed weather polished, with UV color badge.
+- Schedule mode polished: 3-line time block, active event highlight, paged schedule rotation, configurable ScheduleEventsPerPage.
+- Announcements polished: card layout, image thumbnails in table, image preview in editor, Browse/Clear image, images copied into Announcements folder, cleanup of unused announcement-* files.
+- Admin DataGrid rows for past weather/tides/sun/schedule show gray/dimmed.
+- Nullable weather numeric fields use NullableIntConverter so blank text sets int? values back to null.
 
-Current priority:
-- Full presentation / polish review
-- Focus on:
-  * font hierarchy
-  * spacing
-  * widget alignment
-  * icon consistency
-  * section separation (borders / separators / cards)
-  * large-screen readability
-- Avoid major new functionality unless clearly beneficial
-- Prefer small focused code snippets with exact placement
-- No diff blocks with + signs
-- Use braces on single-line if/for/foreach
+Recent thing fixed:
+- Clearing nullable numeric weather values now works using NullableIntConverter.
 
-First task in new session:
-Review current `DisplayWindow.xaml` layout and help perform a full visual / presentation consistency pass.
+Next likely priorities:
+1. Thorough testing and bug fixes from field testing.
+2. Import/export full board package.
+3. More admin cleanup/reordering if needed.
+4. Optional empty-state messages.
+5. Bilingual display support later.
 
 
 
 ## Presentation Polish Checklist
-* [ ] Dashboard weather layout
-* [ ] Detailed weather layout
-* [ ] Schedule readability
-* [ ] Announcement readability
-* [ ] Sun/Tide visual refresh
-* [ ] Font scale pass
-* [ ] Spacing / padding pass
+* [X] Dashboard weather layout
+* [X] Detailed weather layout
+* [X] Schedule readability
+* [X] Announcement readability
+* [X] Sun/Tide visual refresh
+* [X] Font scale pass
+* [X] Spacing / padding pass
 * [ ] Large-display distance test
-* [ ] Section grouping / visual separation
-* [ ] Borders vs separators
-* [ ] Background panels / cards
-* [ ] Widget spacing hierarchy
-* [ ] Heading necessity review
-* [ ] Contrast / opacity pass
-* [ ] Widget alignment
-* [ ] Font hierarchy
-* [ ] Icon scale consistency
-* [ ] Spacing rhythm
-* [ ] Heading necessity
-* [ ] Background image readability
-* [ ] Border / section separation
+* [X] Section grouping / visual separation
+* [X] Borders vs separators
+* [X] Background panels / cards
+* [X] Widget spacing hierarchy
+* [X] Heading necessity review
+* [X] Contrast / opacity pass
+* [X] Widget alignment
+* [X] Font hierarchy
+* [X] Icon scale consistency
+* [X] Spacing rhythm
+* [X] Heading necessity
+* [X] Background image readability
+* [X] Border / section separation
 
 
 
 
 ## Other TODO Items
-* Bilingual display 
-    * English and French support to start
-    * Primary language
-    * Secondary language (optional)
-* Version number
-* Menu 
-    * Move file operations from buttons to menu
-    * User preferences (preferred units)
-    * Help > About
-* Import and export an info board to copy to another computer
-* Background image selection and save with board folder
-* Group FM frequencies in Dashboard admin tab
-* Move Display Settings to bottom of Dashboard admin tab
-* Move Tides & Sun tab to end, since they won't change very often if I do a bulk insert
-* Announcements admin tab:
-    * Display image preview instead of path
-    * Simplify buttons: Add, Copy, Edit, Delete
-* Announcement Edit window
-    * Add note or tooltip explaining that bigger number = higher priority
-    * Display image preview
-    * Copy images into the board folder
-    * Template codes, similar to OpenSong's square brackets
-    * Some basic formatting in announcements (Markdown?)
-    * Predefined announcement templates 
-        * without an image
-        * with an image
-        * 1 column, 2 column
-* Schedule Items
-    * Include an optional image (use default if not provided?)
-    * Larger and fewer in Details panel, with rotation
-    * Colour coding for location, series, or topic (tags?)
-* Weather admin tab:
-    * Simplify buttons: Add, Edit, Copy, Delete
-* Tides admin tab:
-    * Simplify buttons: Add, Delete Old Entries
-* Sun Times admin tab:
-    * Simplify buttons: Add, Delete Old Entries
-* Schedule admin tab:
-    * Display description
-    * Simplify labels: Add, Copy, Edit, Delete
-    * Buttons in the same order as Weather & Announcements admin tab
-* Windows icon
-* Presentation
-    * Don't need "Weather" label on weather details
-    * Larger fonts throughout
-        * Maybe allow for custom font sizes?
-    * Dashboard widgets with borders, shading, or dividers
-    * Larger text in weather widget
-    * Larger text for date & time
-    * Black outline for text?
-    * Cleaner presentation of wind km/h vs mph in Weather Details
-    * Featured Images go full screen, hiding the dashboard (help reduce screen burn-in)
+* [ ] Bilingual display 
+    * [ ] English and French support to start
+    * [ ] Primary language
+    * [ ] Secondary language (optional)
+* [X] Version number
+* [ ] Menu 
+    * [X] Move file operations from buttons to menu
+    * [ ] User preferences (preferred units)
+    * [X] Help > About
+* [ ] Import and export an info board to copy to another computer
+* [X] Background image selection and save with board folder
+* [X] Group FM frequencies in Dashboard admin tab
+* [X] Move Display Settings to bottom of Dashboard admin tab
+* [X] Move Tides & Sun tab to end, since they won't change very often if I do a bulk insert
+* [X] Announcements admin tab:
+    * [X] Display image preview instead of path
+    * [X] Simplify buttons: Add, Copy, Edit, Delete
+* [ ] Announcement Edit window
+    * [X] Add note or tooltip explaining that bigger number = higher priority
+    * [X] Display image preview
+    * [X] Copy images into the board folder
+    * [ ] Template codes, similar to OpenSong's square brackets
+    * [ ] Some basic formatting in announcements (Markdown?)
+    * [ ] Predefined announcement templates 
+        * [ ] without an image
+        * [ ] with an image
+        * [ ] 1 column, 2 column
+* [ ] Schedule Items
+    * [ ] Include an optional image (use default if not provided?)
+    * [X] Larger and fewer in Details panel, with rotation
+    * [ ] Colour coding for location, series, or topic (tags?)
+* [X] Weather admin tab:
+    * [X] Simplify buttons: Add, Edit, Copy, Delete
+* [X] Tides admin tab:
+    * [X] Simplify buttons: Add, Delete Old Entries
+* [X] Sun Times admin tab:
+    * [X] Simplify buttons: Add, Delete Old Entries
+* [ ] Schedule admin tab:
+    * [ ] Display description
+    * [X] Simplify labels: Add, Copy, Edit, Delete
+    * [X] Buttons in the same order as Weather & Announcements admin tab
+* [X] Windows icon
+* [ ] Presentation
+    * [X] Don't need "Weather" label on weather details
+    * [X] Larger fonts throughout
+    * [ ] Allow for custom font sizes
+    * [X] Dashboard widgets with borders, shading, or dividers
+    * [X] Larger text in weather widget
+    * [X] Larger text for date & time
+    * [ ] Black outline for text?
+    * [X] Cleaner presentation of wind km/h vs mph in Weather Details
+    * [X] Featured Images go full screen, hiding the dashboard (help reduce screen burn-in)
