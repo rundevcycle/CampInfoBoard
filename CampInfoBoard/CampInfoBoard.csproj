@@ -7,6 +7,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
+    <Version>0.1.0</Version>
+    <Description>Information display for a campground event board.</Description>
+    <Copyright>2026, Andy Smith</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

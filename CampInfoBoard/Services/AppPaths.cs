@@ -35,6 +35,32 @@ public static class AppPaths
     }
 
 
+    public static void CreateNewBoard(string newBoardName)
+    {
+        string safeName = SanitizeBoardName(newBoardName);
+
+        if (string.IsNullOrWhiteSpace(safeName))
+        {
+            throw new ArgumentException("Board name cannot be empty.");
+        }
+
+        string oldBoardName = CurrentBoardName;
+
+        CurrentBoardName = safeName;
+        string targetDirectory = CurrentBoardDirectory;
+
+        CurrentBoardName = oldBoardName;
+
+        if (Directory.Exists(targetDirectory))
+        {
+            throw new IOException("A board with that name already exists.");
+        }
+
+        CurrentBoardName = safeName;
+        EnsureFolders();
+    }
+
+
     public static void SaveBoardAs(string newBoardName)
     {
         string safeName = SanitizeBoardName(newBoardName);

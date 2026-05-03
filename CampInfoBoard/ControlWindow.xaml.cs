@@ -201,6 +201,8 @@ namespace CampInfoBoard
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
+            DataService.SaveData(Data);
+
             if (_displayWindow != null)
             {
                 _displayWindow.Close();
@@ -1741,5 +1743,61 @@ namespace CampInfoBoard
             }
         }
 
+
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            var about = new AboutWindow
+            {
+                Owner = this
+            };
+
+            about.ShowDialog();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            DataService.SaveData(Data);
+            Close();
+        }
+
+
+        private void NewBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var prompt = new BoardNamePromptWindow("New Board")
+            {
+                Owner = this
+            };
+
+            if (prompt.ShowDialog() != true)
+            {
+                return;
+            }
+
+            try
+            {
+                DataService.SaveData(Data);
+
+                AppPaths.CreateNewBoard(prompt.BoardName);
+
+                LoadData();
+
+                Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
+
+                if (_displayWindow?.DataContext is DisplayViewModel viewModel)
+                {
+                    viewModel.ReloadData();
+                    viewModel.RestartRotation();
+                }
+            }
+            catch (Exception ex)
+            {
+                WpfMessageBox.Show(
+                    ex.Message,
+                    "New Board Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
     }
 }
