@@ -195,7 +195,10 @@
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
                             IsReadOnly="True"
+                            SelectionMode="Extended"
+                            SelectionUnit="FullRow"
                             RowStyle="{StaticResource PastItemRowStyle}"
+                                  PreviewKeyDown="WeatherGrid_PreviewKeyDown"
                             MouseDoubleClick="WeatherGrid_MouseDoubleClick">
 
                             <DataGrid.Columns>
@@ -281,8 +284,10 @@
                             CanUserAddRows="False"
                             CanUserDeleteRows="False"
                             IsReadOnly="True"
-                            SelectionMode="Single"
+                            SelectionMode="Extended"
+                            SelectionUnit="FullRow"
                             RowStyle="{StaticResource PastItemRowStyle}"
+                                  PreviewKeyDown="ScheduleGrid_PreviewKeyDown"
                             MouseDoubleClick="ScheduleGrid_MouseDoubleClick">
 
                             <DataGrid.Columns>
@@ -345,7 +350,9 @@
                             CanUserAddRows="False"
                             CanUserDeleteRows="False"
                             IsReadOnly="True"
-                            SelectionMode="Single"
+                            SelectionMode="Extended"
+                            SelectionUnit="FullRow"
+                                  PreviewKeyDown="AnnouncementGrid_PreviewKeyDown"
                             MouseDoubleClick="AnnouncementGrid_MouseDoubleClick">
 
                             <DataGrid.Columns>
@@ -417,10 +424,14 @@
                         </StackPanel>
 
                         <DataGrid x:Name="PhotosGrid"
-                        ItemsSource="{Binding Data.Photos}"
-                        AutoGenerateColumns="False"
-                        CanUserAddRows="False"
-                        CanUserDeleteRows="False">
+                                ItemsSource="{Binding Data.Photos}"
+                                AutoGenerateColumns="False"
+                                SelectionMode="Extended"
+                                SelectionUnit="FullRow"
+                                IsReadOnly="True"
+                                PreviewKeyDown="PhotosGrid_PreviewKeyDown"
+                                CanUserAddRows="False"
+                                CanUserDeleteRows="False">
                             <DataGrid.Columns>
                                 <DataGridTemplateColumn Header="Photo" Width="90">
                                     <DataGridTemplateColumn.CellTemplate>

@@ -124,10 +124,24 @@
 
                 
                 <!-- WEATHER BLOCK -->
-                <Border Style="{StaticResource PanelCardStyle}"
-                        Visibility="{Binding Settings.ShowWeather, Converter={StaticResource BoolToVisibility}}">
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="Border"
+            BasedOn="{StaticResource PanelCardStyle}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Settings.ShowWeather}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding HasItems, ElementName=DashboardWeatherItems}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
                     <StackPanel>
-                        <ItemsControl ItemsSource="{Binding DisplayWeather}">
+                        <ItemsControl x:Name="DashboardWeatherItems"
+                                      ItemsSource="{Binding DisplayWeather}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,8">

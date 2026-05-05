@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using Forms = System.Windows.Forms;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace CampInfoBoard
 {
@@ -713,14 +714,22 @@ namespace CampInfoBoard
 
         private void DeleteScheduleItem_Click(object sender, RoutedEventArgs e)
         {
-            if (ScheduleGrid.SelectedItem is not ScheduleItem selectedItem)
+            var selectedItems = ScheduleGrid.SelectedItems
+                .OfType<ScheduleItem>()
+                .ToList();
+
+            int count = selectedItems.Count;
+
+            if (count == 0)
             {
-                WpfMessageBox.Show("Please select an event first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select one or more events first.", "Camp Info Board");
                 return;
             }
 
+            string label = count == 1 ? "event" : "events";
+
             if (WpfMessageBox.Show(
-                    "Delete the selected event?",
+                    $"Delete {count} selected {label}?",
                     "Camp Info Board",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) != MessageBoxResult.Yes)
@@ -728,7 +737,11 @@ namespace CampInfoBoard
                 return;
             }
 
-            Data.Schedule.Remove(selectedItem);
+            foreach (ScheduleItem item in selectedItems)
+            {
+                Data.Schedule.Remove(item);
+            }
+
             ScheduleView.Refresh();
         }
 
@@ -861,14 +874,22 @@ namespace CampInfoBoard
 
         private void DeleteAnnouncement_Click(object sender, RoutedEventArgs e)
         {
-            if (AnnouncementGrid.SelectedItem is not Announcement selectedItem)
+            var selectedItems = AnnouncementGrid.SelectedItems
+                .OfType<Announcement>()
+                .ToList();
+
+            int count = selectedItems.Count;
+
+            if (count == 0)
             {
-                WpfMessageBox.Show("Please select an announcement first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select one or more announcements first.", "Camp Info Board");
                 return;
             }
 
+            string label = count == 1 ? "event" : "events";
+
             if (WpfMessageBox.Show(
-                    "Delete the selected announcement?",
+                    $"Delete {count} selected {label}?",
                     "Camp Info Board",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) != MessageBoxResult.Yes)
@@ -876,9 +897,14 @@ namespace CampInfoBoard
                 return;
             }
 
-            Data.Announcements.Remove(selectedItem);
+            foreach (Announcement item in selectedItems)
+            {
+                Data.Announcements.Remove(item);
+            }
+
             AnnouncementGrid.Items.Refresh();
         }
+
 
         private void EditSelectedAnnouncement()
         {
@@ -990,14 +1016,22 @@ namespace CampInfoBoard
 
         private void DeletePhoto_Click(object sender, RoutedEventArgs e)
         {
-            if (PhotosGrid.SelectedItem is not PhotoItem selectedItem)
+            var selectedItems = PhotosGrid.SelectedItems
+                .OfType<PhotoItem>()
+                .ToList();
+
+            int count = selectedItems.Count;
+
+            if (count == 0)
             {
-                WpfMessageBox.Show("Please select a photo first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select one or more photos first.", "Camp Info Board");
                 return;
             }
 
+            string label = count == 1 ? "photo" : "photos";
+
             if (WpfMessageBox.Show(
-                    "Delete the selected photo?",
+                    $"Delete {count} selected {label}?",
                     "Camp Info Board",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) != MessageBoxResult.Yes)
@@ -1005,7 +1039,11 @@ namespace CampInfoBoard
                 return;
             }
 
-            Data.Photos.Remove(selectedItem);
+            foreach (PhotoItem item in selectedItems)
+            {
+                Data.Photos.Remove(item);
+            }
+
             NormalizePhotoDisplayOrder();
             PhotosGrid.Items.Refresh();
         }
@@ -1629,14 +1667,22 @@ namespace CampInfoBoard
 
         private void DeleteWeather_Click(object sender, RoutedEventArgs e)
         {
-            if (WeatherGrid.SelectedItem is not WeatherBlock selectedItem)
+            var selectedItems = WeatherGrid.SelectedItems
+                .OfType<WeatherBlock>()
+                .ToList();
+
+            int count = selectedItems.Count;
+
+            if (count == 0)
             {
-                WpfMessageBox.Show("Please select a weather row first.", "Camp Info Board");
+                WpfMessageBox.Show("Please select one or more weather rows first.", "Camp Info Board");
                 return;
             }
 
+            string label = count == 1 ? "entry" : "entries";
+
             if (WpfMessageBox.Show(
-                    "Delete the selected weather row?",
+                    $"Delete {count} selected weather {label}?",
                     "Camp Info Board",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) != MessageBoxResult.Yes)
@@ -1644,7 +1690,11 @@ namespace CampInfoBoard
                 return;
             }
 
-            Data.Weather.Remove(selectedItem);
+            foreach (WeatherBlock item in selectedItems)
+            {
+                Data.Weather.Remove(item);
+            }
+
             WeatherGrid.Items.Refresh();
         }
 
@@ -1896,5 +1946,45 @@ namespace CampInfoBoard
 
             return targetPath;
         }
+
+
+
+        private void ScheduleGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                DeleteScheduleItem_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void WeatherGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                DeleteWeather_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
+        private void AnnouncementGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                DeleteAnnouncement_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
+
+        private void PhotosGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                DeletePhoto_Click(sender, e);
+                e.Handled = true;
+            }
+        }
+
     }
 }
