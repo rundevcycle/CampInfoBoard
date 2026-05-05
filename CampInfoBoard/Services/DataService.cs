@@ -70,7 +70,7 @@ namespace CampInfoBoard.Services
                 {
                     try
                     {
-                        return Path.GetFullPath(path);
+                        return Path.GetFullPath(AppPaths.ResolveBoardPath(path));
                     }
                     catch
                     {
@@ -81,7 +81,9 @@ namespace CampInfoBoard.Services
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
             if (!Directory.Exists(AppPaths.PhotosDirectory))
+            {
                 return;
+            }
 
             foreach (string filePath in Directory.GetFiles(AppPaths.PhotosDirectory))
             {
@@ -122,7 +124,7 @@ namespace CampInfoBoard.Services
 
             string? activeBackgroundPath = string.IsNullOrWhiteSpace(data.BackgroundImagePath)
                 ? null
-                : Path.GetFullPath(data.BackgroundImagePath);
+                : Path.GetFullPath(AppPaths.ResolveBoardPath(data.BackgroundImagePath));
 
             foreach (string file in Directory.GetFiles(AppPaths.BackgroundDirectory))
             {
@@ -161,7 +163,7 @@ namespace CampInfoBoard.Services
             var usedImages = data.Announcements
                 .Select(a => a.ImagePath)
                 .Where(path => !string.IsNullOrWhiteSpace(path))
-                .Select(path => Path.GetFullPath(path!))
+                .Select(path => Path.GetFullPath(AppPaths.ResolveBoardPath(path!)))
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
             foreach (string file in Directory.GetFiles(AppPaths.AnnouncementsDirectory))

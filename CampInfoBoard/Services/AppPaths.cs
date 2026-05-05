@@ -34,6 +34,10 @@ public static class AppPaths
     public static string BackupsDirectory =>
         Path.Combine(CurrentBoardDirectory, "Backups");
 
+    public static string PreferencesFilePath =>
+        Path.Combine(LibraryDirectory, "app-preferences.json");
+
+
     public static void EnsureFolders()
     {
         Directory.CreateDirectory(DataDirectory);
@@ -75,7 +79,9 @@ public static class AppPaths
         string safeName = SanitizeBoardName(newBoardName);
 
         if (string.IsNullOrWhiteSpace(safeName))
+        {
             throw new ArgumentException("Board name cannot be empty.");
+        }
 
         string sourceDirectory = CurrentBoardDirectory;
         string oldBoardName = CurrentBoardName;
@@ -86,7 +92,9 @@ public static class AppPaths
         CurrentBoardName = oldBoardName;
 
         if (Directory.Exists(targetDirectory))
+        {
             throw new IOException("A board with that name already exists.");
+        }
 
         EnsureFolders();
 
@@ -213,5 +221,38 @@ public static class AppPaths
             string nextRoot = Path.Combine(entryRoot, folderName);
             AddDirectoryToZip(archive, directory, nextRoot);
         }
+    }
+
+    public static string ResolveBoardPath(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return "";
+        }
+
+        if (Path.IsPathRooted(path))
+        {
+            return path;
+        }
+
+        return Path.GetFullPath(Path.Combine(CurrentBoardDirectory, path));
+    }
+
+    public static string MakeBoardRelativePath(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return "";
+        }
+
+        string fullPath = Path.GetFullPath(path);
+        string boardPath = Path.GetFullPath(CurrentBoardDirectory);
+
+        if (!fullPath.StartsWith(boardPath, StringComparison.OrdinalIgnoreCase))
+        {
+            return path;
+        }
+
+        return Path.GetRelativePath(boardPath, fullPath);
     }
 }

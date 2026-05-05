@@ -59,10 +59,11 @@ public partial class PhotoEditorWindow : Window
     }
 
 
-
     private void UpdatePreview()
     {
-        if (!File.Exists(ImagePathBox.Text))
+        string resolvedPath = AppPaths.ResolveBoardPath(ImagePathBox.Text);
+
+        if (!File.Exists(resolvedPath))
         {
             PreviewImage.Source = null;
             return;
@@ -71,7 +72,7 @@ public partial class PhotoEditorWindow : Window
         var image = new BitmapImage();
         image.BeginInit();
         image.CacheOption = BitmapCacheOption.OnLoad;
-        image.UriSource = new Uri(ImagePathBox.Text);
+        image.UriSource = new Uri(resolvedPath);
         image.DecodePixelWidth = 300;
         image.EndInit();
 

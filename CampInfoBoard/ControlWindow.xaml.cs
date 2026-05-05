@@ -50,7 +50,16 @@ namespace CampInfoBoard
         public ControlWindow()
         {
             InitializeComponent();
+
+            AppPreferences preferences = AppPreferencesService.Load();
+
+            if (AppPaths.GetAvailableBoards().Contains(preferences.LastBoardName))
+            {
+                AppPaths.CurrentBoardName = preferences.LastBoardName;
+            }
+
             DataContext = this;
+
             LoadData();
             Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
         }
@@ -58,9 +67,58 @@ namespace CampInfoBoard
         private void LoadData()
         {
             Data = DataService.LoadData();
+            NormalizePathsToCurrentBoard();  // Make paths in older boards relative to board root.
             SortPhotosByDisplayOrder();
             SetupScheduleView();
         }
+
+
+        private void NormalizePathsToCurrentBoard()
+        {
+            foreach (var photo in Data.Photos)
+            {
+                photo.ImagePath = NormalizePath(photo.ImagePath, AppPaths.PhotosDirectory);
+            }
+
+            foreach (var announcement in Data.Announcements)
+            {
+                announcement.ImagePath = NormalizePath(announcement.ImagePath, AppPaths.AnnouncementsDirectory);
+            }
+
+            Data.BackgroundImagePath =
+                NormalizePath(Data.BackgroundImagePath, AppPaths.BackgroundDirectory);
+        }
+
+        private string NormalizePath(string? path, string expectedFolder)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return "";
+            }
+
+            string resolvedPath = Path.GetFullPath(AppPaths.ResolveBoardPath(path));
+            string expected = Path.GetFullPath(expectedFolder);
+
+            if (resolvedPath.StartsWith(expected, StringComparison.OrdinalIgnoreCase))
+            {
+                return AppPaths.MakeBoardRelativePath(resolvedPath);
+            }
+
+            string fileName = Path.GetFileName(resolvedPath);
+
+            if (!string.IsNullOrWhiteSpace(fileName))
+            {
+                string rebasedPath = Path.Combine(expectedFolder, fileName);
+
+                if (File.Exists(rebasedPath))
+                {
+                    return AppPaths.MakeBoardRelativePath(rebasedPath);
+                }
+            }
+
+            return path;
+        }
+
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -88,7 +146,7 @@ namespace CampInfoBoard
                 DataService.SaveData(Data);
 
                 AppPaths.SaveBoardAs(prompt.BoardName);
-
+                AppPreferencesService.SaveLastBoardName(AppPaths.CurrentBoardName);
                 LoadData();
 
                 Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
@@ -189,6 +247,7 @@ namespace CampInfoBoard
                 }
 
                 LoadData();
+                AppPreferencesService.SaveLastBoardName(AppPaths.CurrentBoardName);
 
                 Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
 
@@ -227,7 +286,7 @@ namespace CampInfoBoard
             DataService.SaveData(Data);
 
             AppPaths.CurrentBoardName = dialog.SelectedBoardName;
-
+            AppPreferencesService.SaveLastBoardName(AppPaths.CurrentBoardName);
             LoadData();
 
             Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
@@ -310,6 +369,7 @@ namespace CampInfoBoard
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             DataService.SaveData(Data);
+            AppPreferencesService.SaveLastBoardName(AppPaths.CurrentBoardName);
 
             if (_displayWindow != null)
             {
@@ -1949,7 +2009,7 @@ namespace CampInfoBoard
                 DataService.SaveData(Data);
 
                 AppPaths.CreateNewBoard(prompt.BoardName);
-
+                AppPreferencesService.SaveLastBoardName(AppPaths.CurrentBoardName);
                 LoadData();
 
                 Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
@@ -2012,7 +2072,7 @@ namespace CampInfoBoard
 
             File.Copy(sourcePath, targetPath, overwrite: false);
 
-            return targetPath;
+            return AppPaths.MakeBoardRelativePath(targetPath);
         }
 
         private void ChooseBackgroundColor_Click(object sender, RoutedEventArgs e)
@@ -2036,23 +2096,22 @@ namespace CampInfoBoard
         {
             AppPaths.EnsureFolders();
 
-            string sourceFullPath = Path.GetFullPath(sourcePath);
+            string sourceFullPath = Path.GetFullPath(AppPaths.ResolveBoardPath(sourcePath));
             string announcementsFolder = Path.GetFullPath(AppPaths.AnnouncementsDirectory);
 
             if (sourceFullPath.StartsWith(announcementsFolder, StringComparison.OrdinalIgnoreCase))
             {
-                return sourcePath;
+                return AppPaths.MakeBoardRelativePath(sourceFullPath);
             }
 
             string extension = Path.GetExtension(sourcePath);
             string fileName = $"announcement-{DateTime.Now:yyyyMMdd-HHmmssfff}{extension}";
             string targetPath = Path.Combine(AppPaths.AnnouncementsDirectory, fileName);
 
-            File.Copy(sourcePath, targetPath, overwrite: false);
+            File.Copy(sourceFullPath, targetPath, overwrite: false);
 
-            return targetPath;
+            return AppPaths.MakeBoardRelativePath(targetPath);
         }
-
 
 
         private void ScheduleGrid_PreviewKeyDown(object sender, KeyEventArgs e)
