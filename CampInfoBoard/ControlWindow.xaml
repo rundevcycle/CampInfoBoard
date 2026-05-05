@@ -65,6 +65,7 @@
                         </Grid>
                     </MenuItem.Icon>
                 </MenuItem>
+                
                 <Separator/>
                 <MenuItem Header="_Save" Click="Save_Click">
                     <MenuItem.Icon>
@@ -90,6 +91,11 @@
                         </Grid>
                     </MenuItem.Icon>
                 </MenuItem>
+
+                <Separator/>
+                <MenuItem Header="_Export Board Package..." Click="ExportBoard_Click"/>
+                <MenuItem Header="_Import Board Package..." Click="ImportBoard_Click"/>
+                
                 <Separator/>
                 <MenuItem Header="E_xit" Click="Exit_Click">
                     <MenuItem.Icon>

@@ -11,6 +11,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Forms = System.Windows.Forms;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace CampInfoBoard
 {
@@ -105,6 +107,110 @@ namespace CampInfoBoard
             }
         }
 
+        private void ExportBoard_Click(object sender, RoutedEventArgs e)
+        {
+            DataService.SaveData(Data);
+
+            var dialog = new SaveFileDialog
+            {
+                Title = "Export Board Package",
+                Filter = "Camp Info Board Package|*.ciboard|ZIP File|*.zip",
+                FileName = $"{AppPaths.CurrentBoardName}.ciboard"
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            try
+            {
+                AppPaths.ExportCurrentBoardPackage(dialog.FileName);
+
+                WpfMessageBox.Show(
+                    $"Board exported to:\n{dialog.FileName}",
+                    "Camp Info Board");
+            }
+            catch (Exception ex)
+            {
+                WpfMessageBox.Show(
+                    ex.Message,
+                    "Export Board Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+
+        private void ImportBoard_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new OpenFileDialog
+            {
+                Title = "Import Board Package",
+                Filter = "Camp Info Board Package|*.ciboard;*.zip|All Files|*.*"
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            try
+            {
+                string defaultBoardName = Path.GetFileNameWithoutExtension(dialog.FileName);
+
+                DataService.SaveData(Data);
+
+                while (true)
+                {
+                    var prompt = new BoardNamePromptWindow(defaultBoardName)
+                    {
+                        Owner = this
+                    };
+
+                    if (prompt.ShowDialog() != true)
+                    {
+                        return;
+                    }
+
+                    defaultBoardName = prompt.BoardName;
+
+                    try
+                    {
+                        AppPaths.ImportBoardPackage(dialog.FileName, prompt.BoardName);
+                        break;
+                    }
+                    catch (IOException ex) when (ex.Message.Contains("already exists"))
+                    {
+                        WpfMessageBox.Show(
+                            "A board with that name already exists. Please choose a different name.",
+                            "Camp Info Board");
+                    }
+                }
+
+                LoadData();
+
+                Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
+
+                if (_displayWindow?.DataContext is DisplayViewModel viewModel)
+                {
+                    viewModel.ReloadData();
+                    viewModel.RestartRotation();
+                }
+
+                WpfMessageBox.Show(
+                    $"Board imported as '{AppPaths.CurrentBoardName}'.",
+                    "Camp Info Board");
+            }
+            catch (Exception ex)
+            {
+                WpfMessageBox.Show(
+                    ex.Message,
+                    "Import Board Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
 
         private void OpenBoard_Click(object sender, RoutedEventArgs e)
         {

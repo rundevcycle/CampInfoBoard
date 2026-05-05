@@ -130,15 +130,15 @@ Next likely priorities:
     * [X] Move file operations from buttons to menu
     * [ ] User preferences (preferred units)
     * [X] Help > About
-* [ ] Import and export an info board to copy to another computer
+* [X] Import and export an info board to copy to another computer
 * [X] Background image selection and save with board folder
 * [X] Group FM frequencies in Dashboard admin tab
 * [X] Move Display Settings to bottom of Dashboard admin tab
 * [X] Move Tides & Sun tab to end, since they won't change very often if I do a bulk insert
-* [ ] Announcements admin tab:
+* [X] Announcements admin tab:
     * [X] Display image preview instead of path
     * [X] Simplify buttons: Add, Copy, Edit, Delete
-    * [ ] Delete multiple rows
+    * [X] Delete multiple rows
 * [ ] Announcement Edit window
     * [X] Add note or tooltip explaining that bigger number = higher priority
     * [X] Display image preview
@@ -156,12 +156,12 @@ Next likely priorities:
     * [ ] Colour coding for location, series, or tags
     * [ ] Alternating colour or highlight to visually group events on the same day
     * [ ] Filter by speaker, title, or series
-    * [ ] Delete multiple rows
-* [ ] Photos admin tab:
-    * [ ] Delete multiple rows
+    * [X] Delete multiple rows
+* [X] Photos admin tab:
+    * [X] Delete multiple rows
 * [X] Weather admin tab:
     * [X] Simplify buttons: Add, Edit, Copy, Delete
-    * [ ] Delete multiple rows
+    * [X] Delete multiple rows
 * [X] Tides admin tab:
     * [X] Simplify buttons: Add, Delete Old Entries
 * [X] Sun Times admin tab:
@@ -184,7 +184,12 @@ Next likely priorities:
     * [X] Featured Images go full screen, hiding the dashboard (help reduce screen burn-in)
     * [ ] Predefined themes
     * [ ] Allow for custom themes?
-    * [ ] Hide weather widget if there's no weather
+    * [X] Hide weather widget if there's no weather
 * [ ] Create Demo board during installation
 * [ ] Create installer
+* [ ] Control Window
+    * [ ] Add indicator to clearly show if the board is presenting live
+    * [ ] Separate Save from presentation buttons
+    * [ ] Add indicator if the currently presenting board is out of sync with the saved board.  I can still save changes while a board is presented, but let me know in case I want to bring the presentation in sync with my saved changes.
+
 
