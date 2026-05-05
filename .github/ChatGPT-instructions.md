@@ -135,9 +135,10 @@ Next likely priorities:
 * [X] Group FM frequencies in Dashboard admin tab
 * [X] Move Display Settings to bottom of Dashboard admin tab
 * [X] Move Tides & Sun tab to end, since they won't change very often if I do a bulk insert
-* [X] Announcements admin tab:
+* [ ] Announcements admin tab:
     * [X] Display image preview instead of path
     * [X] Simplify buttons: Add, Copy, Edit, Delete
+    * [ ] Delete multiple rows
 * [ ] Announcement Edit window
     * [X] Add note or tooltip explaining that bigger number = higher priority
     * [X] Display image preview
@@ -151,9 +152,16 @@ Next likely priorities:
 * [ ] Schedule Items
     * [ ] Include an optional image (use default if not provided?)
     * [X] Larger and fewer in Details panel, with rotation
-    * [ ] Colour coding for location, series, or topic (tags?)
+    * [ ] Allow tagging to group related events
+    * [ ] Colour coding for location, series, or tags
+    * [ ] Alternating colour or highlight to visually group events on the same day
+    * [ ] Filter by speaker, title, or series
+    * [ ] Delete multiple rows
+* [ ] Photos admin tab:
+    * [ ] Delete multiple rows
 * [X] Weather admin tab:
     * [X] Simplify buttons: Add, Edit, Copy, Delete
+    * [ ] Delete multiple rows
 * [X] Tides admin tab:
     * [X] Simplify buttons: Add, Delete Old Entries
 * [X] Sun Times admin tab:
@@ -164,6 +172,7 @@ Next likely priorities:
     * [X] Buttons in the same order as Weather & Announcements admin tab
 * [X] Windows icon
 * [ ] Presentation
+    * [ ] Banner (top or bottom), always visible, but stylistically distinct from the schedule and announcements
     * [X] Don't need "Weather" label on weather details
     * [X] Larger fonts throughout
     * [ ] Allow for custom font sizes
@@ -173,3 +182,9 @@ Next likely priorities:
     * [ ] Black outline for text?
     * [X] Cleaner presentation of wind km/h vs mph in Weather Details
     * [X] Featured Images go full screen, hiding the dashboard (help reduce screen burn-in)
+    * [ ] Predefined themes
+    * [ ] Allow for custom themes?
+    * [ ] Hide weather widget if there's no weather
+* [ ] Create Demo board during installation
+* [ ] Create installer
+
