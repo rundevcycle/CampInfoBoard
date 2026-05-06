@@ -405,9 +405,10 @@
                                                     Margin="0,4,0,0"/>
 
                                                     <TextBlock Text="{Binding DisplayEndTime}"
-                                                    FontSize="24"
-                                                    Foreground="#CCFFFFFF"
-                                                    Margin="0,2,0,0"/>
+                                                        FontSize="24"
+                                                        Foreground="#CCFFFFFF"
+                                                        Margin="0,2,0,0"
+                                                        Visibility="{Binding DisplayEndTime, Converter={StaticResource NullToVisibility}}"/>
                                                 </StackPanel>
                                                 
                                                 <!-- DETAILS -->

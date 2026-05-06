@@ -157,6 +157,8 @@ Next likely priorities:
     * [ ] Alternating colour or highlight to visually group events on the same day
     * [ ] Filter by speaker, title, or series
     * [X] Delete multiple rows
+    * [X] Allow for rapid entry with default focus and overwrite
+    * [X] Rapid entry of batches of events by keeping the window open and setting default times
 * [X] Photos admin tab:
     * [X] Delete multiple rows
 * [X] Weather admin tab:

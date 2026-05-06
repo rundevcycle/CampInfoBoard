@@ -835,6 +835,7 @@ namespace CampInfoBoard
             {
                 Start = source.Start,
                 End = source.End,
+                HasEndTime = source.HasEndTime,
                 Title = source.Title,
                 Location = source.Location,
                 Speaker = source.Speaker,
@@ -846,6 +847,7 @@ namespace CampInfoBoard
         {
             target.Start = source.Start;
             target.End = source.End;
+            target.HasEndTime = source.HasEndTime;
             target.Title = source.Title;
             target.Location = source.Location;
             target.Speaker = source.Speaker;
@@ -856,7 +858,12 @@ namespace CampInfoBoard
         {
             var item = CreateNextScheduleItem();
 
-            var editor = new ScheduleItemEditorWindow(item)
+            var editor = new ScheduleItemEditorWindow(item, savedItem => 
+            {
+                Data.Schedule.Add(savedItem);
+                ScheduleView.Refresh();
+                ScheduleGrid.SelectedItem = savedItem;
+            })
             {
                 Owner = this
             };

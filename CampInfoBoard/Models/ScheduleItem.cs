@@ -8,13 +8,17 @@ namespace CampInfoBoard.Models
     {
         public DateTime Start { get; set; } = DateTime.Today;
         public DateTime End { get; set; } = DateTime.Today.AddHours(1);
+        public bool HasEndTime { get; set; } = true;
+
         public string Title { get; set; } = "";
         public string Location { get; set; } = "";
         public string Speaker { get; set; } = "";
         public string Description { get; set; } = "";
 
-        public string TimeRange => $"{Start:h:mm tt} – {End:h:mm tt}";
-
+        public string TimeRange =>
+            HasEndTime
+                ? $"{Start:h:mm tt} – {End:h:mm tt}"
+                : $"{Start:h:mm tt}";
         public bool IsPast => End < DateTime.Now;
 
         public DateTime StartDate
@@ -68,8 +72,18 @@ namespace CampInfoBoard.Models
                         previousDuration = TimeSpan.FromHours(1);
                     }
 
+                    bool hadEndTime = HasEndTime;
+
                     Start = Start.Date + time;
-                    End = Start + previousDuration;
+
+                    if (hadEndTime)
+                    {
+                        End = Start + previousDuration;
+                    }
+                    else
+                    {
+                        End = Start;
+                    }
 
                     OnPropertyChanged(nameof(Start));
                     OnPropertyChanged(nameof(End));
@@ -105,9 +119,17 @@ namespace CampInfoBoard.Models
 
         public string EndTimeText
         {
-            get => End.ToString("h:mm tt");
+            get => HasEndTime ? End.ToString("h:mm tt") : "";
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    HasEndTime = false;
+                    End = Start;
+                    return;
+                }
+                HasEndTime = true;
+
                 if (TryParseFlexibleTime(value, out TimeSpan time))
                 {
                     End = End.Date + time;
@@ -237,9 +259,7 @@ namespace CampInfoBoard.Models
         public string DisplayStartTime => Start.ToString("h:mm tt");
 
         public string DisplayEndTime =>
-            End == default || End <= Start
-                ? ""
-                : End.ToString("h:mm tt");
+            HasEndTime ? End.ToString("h:mm tt") : "";
 
         public bool IsHappeningNow =>
             Start <= DateTime.Now && End >= DateTime.Now;
