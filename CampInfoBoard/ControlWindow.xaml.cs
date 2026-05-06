@@ -1389,6 +1389,9 @@ namespace CampInfoBoard
             Data.Settings.ScheduleEventsPerPage =
                 Math.Clamp(Data.Settings.ScheduleEventsPerPage, 1, 6);
 
+            Data.Settings.ScheduleLookAheadDays =
+                Math.Clamp(Data.Settings.ScheduleLookAheadDays, 1, 90);
+
             Data.Settings.WeatherRotationSeconds =
                 Math.Max(1, Data.Settings.WeatherRotationSeconds);
 

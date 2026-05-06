@@ -695,6 +695,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <TextBlock Grid.Row="0"
@@ -707,37 +708,55 @@
                                     Margin="0,0,0,8"/>
 
                                 <TextBlock Grid.Row="1"
-                                    Text="Schedule rotation seconds"
-                                    VerticalAlignment="Center"
-                                    Margin="0,0,8,8"/>
-                                <TextBox Grid.Row="1"
-                                    Grid.Column="1"
-                                    Text="{Binding Data.Settings.ScheduleRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
-                                    Margin="0,0,0,8"/>
+                                           Grid.Column="0"
+                                        Text="Show schedule for next"
+                                           VerticalAlignment="Center"
+                                        Margin="0,0,8,8"/>
+
+                                <StackPanel Grid.Row="1"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal">
+                                    <TextBox Text="{Binding Data.Settings.ScheduleLookAheadDays, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="50"
+                                        Margin="0,0,8,8"/>
+
+                                    <TextBlock Text="day(s)"
+                                        VerticalAlignment="Center"
+                                               Margin="0,0,0,8"/>
+                                </StackPanel>
 
                                 <TextBlock Grid.Row="2"
-                                    Text="Weather rotation seconds"
+                                    Text="Schedule rotation seconds"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
                                 <TextBox Grid.Row="2"
                                     Grid.Column="1"
-                                    Text="{Binding Data.Settings.WeatherRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Data.Settings.ScheduleRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>
 
                                 <TextBlock Grid.Row="3"
-                                    Text="Announcement rotation seconds"
+                                    Text="Weather rotation seconds"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
                                 <TextBox Grid.Row="3"
                                     Grid.Column="1"
-                                    Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding Data.Settings.WeatherRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>
 
                                 <TextBlock Grid.Row="4"
-                                    Text="Photo rotation seconds"
+                                    Text="Announcement rotation seconds"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
                                 <TextBox Grid.Row="4"
+                                    Grid.Column="1"
+                                    Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
+                                    Margin="0,0,0,8"/>
+
+                                <TextBlock Grid.Row="5"
+                                    Text="Photo rotation seconds"
+                                    VerticalAlignment="Center"
+                                    Margin="0,0,8,8"/>
+                                <TextBox Grid.Row="5"
                                     Grid.Column="1"
                                     Text="{Binding Data.Settings.PhotoRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>

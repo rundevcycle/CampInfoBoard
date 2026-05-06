@@ -109,6 +109,7 @@ namespace CampInfoBoard.Services
             var data = new AppData();
 
             data.Settings.ScheduleEventsPerPage = 4;
+            data.Settings.ScheduleLookAheadDays = 1;
 
             return data;
         }

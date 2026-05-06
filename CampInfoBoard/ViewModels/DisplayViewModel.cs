@@ -19,6 +19,8 @@ public class DisplayViewModel : INotifyPropertyChanged
     private int _schedulePageIndex = 0;
     private int ScheduleEventsPerPage =>
         Math.Clamp(Settings.ScheduleEventsPerPage, 1, 6);
+    private int ScheduleLookAheadDays =>
+        Math.Clamp(Settings.ScheduleLookAheadDays, 1, 90);
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -154,12 +156,21 @@ public class DisplayViewModel : INotifyPropertyChanged
         set { _currentTime = value; OnPropertyChanged(); OnPropertyChanged(nameof(FilteredSchedule)); }
     }
 
-    public IEnumerable<ScheduleItem> FilteredSchedule =>
-        Schedule
-            .Where(x => x.End >= DateTime.Now && x.Start <= DateTime.Now.AddHours(24))
-            .OrderBy(x => x.Start)
-            .Skip(_schedulePageIndex * ScheduleEventsPerPage)
-            .Take(ScheduleEventsPerPage);
+    public IEnumerable<ScheduleItem> FilteredSchedule
+    {
+        get
+        {
+            DateTime now = DateTime.Now;
+            DateTime end = now.AddDays(ScheduleLookAheadDays);
+
+            return Schedule
+                .Where(x => x.End >= now && x.Start <= end)
+                .OrderBy(x => x.Start)
+                .Skip(_schedulePageIndex * ScheduleEventsPerPage)
+                .Take(ScheduleEventsPerPage);
+        }
+    }
+
 
     public IEnumerable<Announcement> ActiveAnnouncements =>
         Announcements
@@ -461,8 +472,11 @@ public class DisplayViewModel : INotifyPropertyChanged
     {
         get
         {
+            DateTime now = DateTime.Now;
+            DateTime end = now.AddDays(ScheduleLookAheadDays);
+
             int count = Schedule
-                .Count(x => x.End >= DateTime.Now && x.Start <= DateTime.Now.AddHours(24));
+                .Count(x => x.End >= now && x.Start <= end);
 
             return Math.Max(1, (int)Math.Ceiling(count / (double)ScheduleEventsPerPage));
         }

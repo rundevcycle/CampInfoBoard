@@ -185,6 +185,7 @@ Next likely priorities:
     * [ ] Predefined themes
     * [ ] Allow for custom themes?
     * [X] Hide weather widget if there's no weather
+    * [X] Configure schedule for next X days instead of fixed at only 1 day.
 * [ ] Create Demo board during installation
 * [ ] Create installer
 * [ ] Control Window
