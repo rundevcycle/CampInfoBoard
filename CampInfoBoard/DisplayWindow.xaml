@@ -409,33 +409,53 @@
                                                     Foreground="#CCFFFFFF"
                                                     Margin="0,2,0,0"/>
                                                 </StackPanel>
+                                                
                                                 <!-- DETAILS -->
                                                 <StackPanel Grid.Column="1"
-                                                Margin="20,0,0,0">
+                                                    Margin="20,0,0,0">
 
                                                     <TextBlock Text="{Binding Title}"
-                                                    FontSize="54"
-                                                    FontWeight="SemiBold"
-                                                    Foreground="White"/>
+                                                        FontSize="54"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="White"/>
 
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding Location}"
-                                                        FontSize="30"
-                                                        Foreground="#9AD0FF"
-                                                        Margin="0,6,24,0"/>
+                                                            FontSize="30"
+                                                            Foreground="#9AD0FF"
+                                                            Margin="0,6,0,0"
+                                                            Visibility="{Binding Location, Converter={StaticResource NullToVisibility}}"/>
 
+                                                        <TextBlock Text=" • "
+                                                            FontSize="30"
+                                                            Foreground="#809AD0FF"
+                                                            Margin="6,6,6,0">
+                                                            <TextBlock.Style>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Location}" Value="">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Speaker}" Value="">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
                                                         <TextBlock Text="{Binding Speaker}"
-                                                        FontSize="30"
-                                                        Foreground="#DDFFFFFF"
-                                                        Margin="0,6,24,0"/>
+                                                            FontSize="30"
+                                                            Foreground="#9AD0FF"
+                                                            Margin="0,6,24,0"/>
                                                     </StackPanel>
 
                                                     <TextBlock Text="{Binding Description}"
-                                                    FontSize="36"
-                                                    Foreground="White"
-                                                    TextWrapping="Wrap"
-                                                    Margin="0,10,0,0"
-                                                    Opacity="0.95"/>
+                                                        FontSize="36"
+                                                        Foreground="White"
+                                                        TextWrapping="Wrap"
+                                                        Margin="0,10,0,0"
+                                                        Opacity="0.95"/>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
