@@ -6,20 +6,30 @@ public static class PhotoFileService
 {
     public static string ImportPhoto(string sourcePath)
     {
-        if (string.IsNullOrWhiteSpace(sourcePath) || !File.Exists(sourcePath))
+        if (string.IsNullOrWhiteSpace(sourcePath))
+        {
+            return "";
+        }
+
+        string resolvedSourcePath = AppPaths.ResolveBoardPath(sourcePath);
+
+        if (!File.Exists(resolvedSourcePath))
         {
             return sourcePath;
         }
 
         AppPaths.EnsureFolders();
 
-        string fileName = Path.GetFileName(sourcePath);
-        string destinationPath = Path.Combine(AppPaths.PhotosDirectory, fileName);
+        string sourceFullPath = Path.GetFullPath(resolvedSourcePath);
+        string photosFolder = Path.GetFullPath(AppPaths.PhotosDirectory);
 
-        if (Path.GetFullPath(sourcePath).Equals(Path.GetFullPath(destinationPath), StringComparison.OrdinalIgnoreCase))
+        if (sourceFullPath.StartsWith(photosFolder, StringComparison.OrdinalIgnoreCase))
         {
-            return sourcePath;
+            return AppPaths.MakeBoardRelativePath(sourceFullPath);
         }
+
+        string fileName = Path.GetFileName(sourceFullPath);
+        string destinationPath = Path.Combine(AppPaths.PhotosDirectory, fileName);
 
         if (File.Exists(destinationPath))
         {
@@ -31,8 +41,8 @@ public static class PhotoFileService
                 $"{name}_{DateTime.Now:yyyyMMdd_HHmmss}{extension}");
         }
 
-        File.Copy(sourcePath, destinationPath);
+        File.Copy(sourceFullPath, destinationPath);
 
-        return destinationPath;
+        return AppPaths.MakeBoardRelativePath(destinationPath);
     }
 }

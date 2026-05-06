@@ -196,7 +196,7 @@ public class DisplayViewModel : INotifyPropertyChanged
                 p.IsActive &&
                 !p.IsExpired &&
                 !string.IsNullOrWhiteSpace(p.ImagePath) &&
-                File.Exists(p.ImagePath))
+                File.Exists(AppPaths.ResolveBoardPath(p.ImagePath)))
             .OrderBy(p => p.DisplayOrder)
             .ToList();
 

@@ -577,7 +577,7 @@
                                    TextAlignment="Center"
                                    Margin="0,0,0,26"/>
 
-                                <Image Source="{Binding CurrentAnnouncement.ImagePath}"
+                                <Image Source="{Binding CurrentAnnouncement.ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
                                     MaxHeight="400"
                                     Stretch="Uniform"
                                     Margin="0,0,0,24">
@@ -585,10 +585,7 @@
                                         <Style TargetType="Image">
                                             <Setter Property="Visibility" Value="Visible"/>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="{x:Null}">
+                                                <DataTrigger Binding="{Binding Source, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -661,6 +658,9 @@
                         <Setter Property="Visibility" Value="Visible" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsPhotoFallbackVisible}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Source, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>

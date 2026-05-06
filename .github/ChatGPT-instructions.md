@@ -66,31 +66,31 @@ Continuing CampInfoBoard WPF/C# public display app.
 
 Please review `ChatGPT-instructions.md` and `copilot-instructions.md` first, then inspect the uploaded solution before suggesting changes.
 
-Current status:
-- Multi-board system with AppPaths board folders.
-- JSON persistence with backups.
-- Menu bar added: New Board, Open Board, Reload, Save, Save As, Exit, Help > About.
-- Version number/About window added.
-- Auto-save on board switch/exit.
-- Display settings moved to Settings tab.
-- Dashboard toggles include weather, sun, tides, FM; date/time always visible.
-- Display supports background image copied into Background folder, solid background color picker, and cleanup of unused background-* files.
-- Featured photos are full-screen on black; background image/overlay hidden during photo mode.
-- Weather dashboard and detailed weather polished, with UV color badge.
-- Schedule mode polished: 3-line time block, active event highlight, paged schedule rotation, configurable ScheduleEventsPerPage.
-- Announcements polished: card layout, image thumbnails in table, image preview in editor, Browse/Clear image, images copied into Announcements folder, cleanup of unused announcement-* files.
-- Admin DataGrid rows for past weather/tides/sun/schedule show gray/dimmed.
-- Nullable weather numeric fields use NullableIntConverter so blank text sets int? values back to null.
+Current status / recent changes:
 
-Recent thing fixed:
-- Clearing nullable numeric weather values now works using NullableIntConverter.
+* Added multi-select delete + Delete-key support for Schedule, Weather, Announcements, and Photos.
+* Added board export/import using .ciboard packages with marker-file validation.
+* Added persistent “last opened board” preferences.
+* Converted board-owned image paths (photos/backgrounds/announcements) to relative paths.
+* Added AppPaths.ResolveBoardPath + MakeBoardRelativePath helpers.
+* Updated ImagePathToBitmapConverter and presentation image bindings to support relative paths.
+* Fixed announcement images and featured photos in presentation mode.
+* Fixed RefreshActivePhotos() to resolve relative paths before File.Exists checks.
+* Added configurable schedule look-ahead days.
+* Added optional schedule end times using HasEndTime.
+* Added Save & New workflow in ScheduleItemEditorWindow.
+* Added select-all-on-focus behavior for schedule entry fields.
+* Added top/bottom dashboard message bar with separator-line style instead of panel background.
+* Message bar uses secondary blue text styling (#9AD0FF).
 
-Next likely priorities:
-1. Thorough testing and bug fixes from field testing.
-2. Import/export full board package.
-3. More admin cleanup/reordering if needed.
-4. Optional empty-state messages.
-5. Bilingual display support later.
+Potential next areas:
+
+* Continued presentation-mode polish
+* Transition/fade animations
+* Distance/readability pass
+* Additional schedule formatting refinements
+* Testing imported/exported boards on another machine
+
 
 
 
@@ -154,7 +154,7 @@ Next likely priorities:
     * [X] Larger and fewer in Details panel, with rotation
     * [ ] Allow tagging to group related events
     * [ ] Colour coding for location, series, or tags
-    * [ ] Alternating colour or highlight to visually group events on the same day
+    * [ ] Alternating colour or highlight in control table to visually group events on the same day
     * [ ] Filter by speaker, title, or series
     * [X] Delete multiple rows
     * [X] Allow for rapid entry with default focus and overwrite
