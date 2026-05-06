@@ -19,6 +19,7 @@ The project is organized as follows:
 * `Converters/BoolToVisibilityConverter.cs`
 * `Converters/ImagePathToBitmapConverter.cs`
 * `Converters/NullToVisibilityConverter.cs`
+* `Converters/NullableIntConverter.cs`
 * `Converters/ScheduleBackgroundConverter.cs`
 * `Converters/ScheduleBorderConverter.cs`
 * `Converters/UVIndexToBrushConverter.cs`
@@ -27,6 +28,8 @@ The project is organized as follows:
 * `GlobalUsings.cs`
 * `Models/Announcement.cs`
 * `Models/AppData.cs`
+* `Models/AppPreferences.cs`
+* `Models/BannerPosition.cs`
 * `Models/DisplayMode.cs`
 * `Models/DisplaySettings.cs`
 * `Models/MeasurementDisplayMode.cs`
@@ -47,6 +50,7 @@ The project is organized as follows:
 * `ScheduleItemEditorWindow.xaml`
 * `ScheduleItemEditorWindow.xaml.cs`
 * `Services/AppPaths.cs`
+* `Services/AppPreferencesService.cs`
 * `Services/DataService.cs`
 * `Services/PhotoFileService.cs`
 * `Services/SunImportService.cs`
@@ -91,6 +95,11 @@ Potential next areas:
 * Additional schedule formatting refinements
 * Testing imported/exported boards on another machine
 
+
+## Additional Instructions
+* If you need to make changes in a file I haven't uploaded, don't guess; ask for it instead.
+* Before moving on to something else, give me a short summary of the proposed changes before showing the code changes.  I may want to add something more, and limiting the amount of code displayed makes it easier to see where to make the changes.
+* If there is potential ambiguitity with namespaces, add a comment or note as to which one I should use  e.g. System.Windows.Forms vs System.Windows.Controls.
 
 
 

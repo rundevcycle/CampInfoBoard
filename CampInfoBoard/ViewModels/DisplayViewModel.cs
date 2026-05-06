@@ -268,8 +268,38 @@ public class DisplayViewModel : INotifyPropertyChanged
         _rotationTimer = new DispatcherTimer();
         _rotationTimer.Tick += (_, _) => AdvanceMode();
 
-        SetMode(DisplayMode.Schedule, ScheduleSeconds);
+        StartRotationAtFirstAvailableMode();
     }
+
+
+    // ViewModels/DisplayViewModel.cs
+
+    private void StartRotationAtFirstAvailableMode()
+    {
+        if (FilteredSchedule.Any())
+        {
+            SetMode(DisplayMode.Schedule, ScheduleSeconds);
+        }
+        else if (Settings.ShowDetailedWeatherMode && DisplayWeather.Any())
+        {
+            SetMode(DisplayMode.Weather, WeatherSeconds);
+        }
+        else if (ActiveAnnouncements.Any())
+        {
+            _announcementIndex = 0;
+            SetMode(DisplayMode.Announcement, AnnouncementSeconds);
+        }
+        else if (ActivePhotos.Any())
+        {
+            _photoIndex = 0;
+            SetMode(DisplayMode.Photo, PhotoSeconds);
+        }
+        else
+        {
+            SetMode(DisplayMode.Schedule, ScheduleSeconds);
+        }
+    }
+
 
     private void AdvanceMode()
     {
@@ -321,7 +351,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             }
             else
             {
-                SetMode(DisplayMode.Schedule, ScheduleSeconds);
+                StartRotationAtFirstAvailableMode();
             }
 
             return;
@@ -343,7 +373,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             }
             else
             {
-                SetMode(DisplayMode.Schedule, ScheduleSeconds);
+                StartRotationAtFirstAvailableMode();
             }
 
             return;
@@ -360,7 +390,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             }
             else
             {
-                SetMode(DisplayMode.Schedule, ScheduleSeconds);
+                StartRotationAtFirstAvailableMode();
             }
         }
     }
@@ -464,7 +494,7 @@ public class DisplayViewModel : INotifyPropertyChanged
         _announcementIndex = 0;
         _photoIndex = 0;
 
-        SetMode(DisplayMode.Schedule, ScheduleSeconds);
+        StartRotationAtFirstAvailableMode();
     }
 
 
