@@ -134,39 +134,82 @@
             </Grid.RowDefinitions>
             
             <!-- Top Buttons -->
-            <StackPanel Grid.Row="0"
-                    Orientation="Horizontal"
-                    Margin="0,0,0,12">
+            <!-- Top Controls -->
+            <Grid Grid.Row="0"
+      Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="24"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Button Content="Save"
-                    Click="Save_Click"
-                    Padding="12,4"
-                    Margin="0,0,8,0"/>
-                
-                <Button x:Name="DisplayToggleButton"
-                    Content="Show Display"
-                    Width="120"
-                    Margin="0,0,8,0"
-                    Click="DisplayToggle_Click"/>
-
-                <Button Content="Refresh Display"
-                    Width="120"
-                    Margin="0,0,8,0"
-                    Click="RefreshDisplay_Click"/>
-
-                <StackPanel Orientation="Horizontal"
-                Margin="12,0,0,0"
-                VerticalAlignment="Center">
-
-                    <TextBlock Text="Display Monitor:"
-                    VerticalAlignment="Center"
-                    Margin="0,0,8,0"/>
-
-                    <ComboBox Width="240"
-                    ItemsSource="{Binding DisplayMonitors}"
-                    SelectedIndex="{Binding SelectedMonitorIndex, Mode=TwoWay}" />
+                <StackPanel Grid.Column="0"
+                    Orientation="Horizontal">
+                    <Button Content="Save"
+                        Click="Save_Click"
+                        Padding="12,4"
+                        Margin="0,0,8,0"/>
                 </StackPanel>
-            </StackPanel>
+
+                <Border Grid.Column="2"
+                    BorderBrush="#CCC"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="10,6">
+                    <DockPanel LastChildFill="False">
+
+                        <StackPanel DockPanel.Dock="Left"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                            <TextBlock Text="Display Monitor:"
+                                VerticalAlignment="Center"
+                                Margin="0,0,8,0"/>
+
+                            <ComboBox Width="240"
+                                ItemsSource="{Binding DisplayMonitors}"
+                                SelectedIndex="{Binding SelectedMonitorIndex, Mode=TwoWay}" />
+                        </StackPanel>
+
+                        <StackPanel DockPanel.Dock="Right"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+
+                            <TextBlock x:Name="PresentationStatusText"
+                                Text="Offline"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center"
+                                TextAlignment="Right"
+                                Width="170"
+                                Margin="0,0,6,0"/>
+
+                            <Ellipse x:Name="PresentationStatusDot"
+                                Width="12"
+                                Height="12"
+                                Margin="0,0,8,0"
+                                Fill="Gray"
+                                VerticalAlignment="Center"/>
+
+                            <Button x:Name="StartPresentationButton"
+                                Content="▶ Start"
+                                Width="80"
+                                Margin="0,0,8,0"
+                                Click="StartPresentation_Click"/>
+
+                            <Button x:Name="UpdateLiveButton"
+                                Content="↻ Refresh"
+                                Width="80"
+                                Margin="0,0,8,0"
+                                Click="UpdateLive_Click"/>
+
+                            <Button x:Name="StopPresentationButton"
+                                Content="■ Stop"
+                                Width="80"
+                                Click="StopPresentation_Click"/>
+                        </StackPanel>
+
+                    </DockPanel>
+                </Border>
+            </Grid>
 
             <TabControl Grid.Row="1">
 

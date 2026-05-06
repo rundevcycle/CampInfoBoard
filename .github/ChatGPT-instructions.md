@@ -70,29 +70,42 @@ Continuing CampInfoBoard WPF/C# public display app.
 
 Please review `ChatGPT-instructions.md` and `copilot-instructions.md` first, then inspect the uploaded solution before suggesting changes.
 
-Current status / recent changes:
+Recent work completed:
 
-* Added multi-select delete + Delete-key support for Schedule, Weather, Announcements, and Photos.
-* Added board export/import using .ciboard packages with marker-file validation.
-* Added persistent “last opened board” preferences.
-* Converted board-owned image paths (photos/backgrounds/announcements) to relative paths.
-* Added AppPaths.ResolveBoardPath + MakeBoardRelativePath helpers.
-* Updated ImagePathToBitmapConverter and presentation image bindings to support relative paths.
-* Fixed announcement images and featured photos in presentation mode.
-* Fixed RefreshActivePhotos() to resolve relative paths before File.Exists checks.
-* Added configurable schedule look-ahead days.
-* Added optional schedule end times using HasEndTime.
-* Added Save & New workflow in ScheduleItemEditorWindow.
-* Added select-all-on-focus behavior for schedule entry fields.
-* Added top/bottom dashboard message bar with separator-line style instead of panel background.
-* Message bar uses secondary blue text styling (#9AD0FF).
+* Reworked presentation controls into a clearer operator workflow.
+* Replaced Show/Hide + Refresh with:
+
+  * ▶ Start
+  * ↻ Refresh
+  * ■ Stop
+* Added live presentation status indicator:
+
+  * Offline
+  * Live
+  * Live – Pending Changes
+* Refresh now only works from a saved state.
+* Added snapshot-based unsaved-change detection using serialized AppData comparison.
+* Added dirty tracking for collection changes (schedule, weather, announcements, photos, tides, sun, background image).
+* Cleaned up false dirty prompts during startup by removing event-only dirty-state dependence.
+* Presentation rotation logic now skips empty schedule mode and starts from the first available content mode.
+
+Current presentation control layout:
+
+* DockPanel-based layout.
+* Monitor picker on the left.
+* Status text + status dot near the presentation buttons on the right.
+* Flexible spacing between monitor controls and presentation controls intentionally retained to allow wider status text.
 
 Potential next areas:
 
-* Continued presentation-mode polish
-* Transition/fade animations
-* Distance/readability pass
-* Additional schedule formatting refinements
+* Presentation transition/fade animations.
+* Large-display readability/distance pass.
+* Presentation typography scaling/custom font sizing.
+* Schedule grouping/highlighting in control tables.
+* Bilingual display support.
+* Announcement templating/formatting system.
+* Additional presentation polish and operator UX refinement.
+
 * Testing imported/exported boards on another machine
 
 
@@ -199,9 +212,9 @@ Potential next areas:
     * [X] Configure schedule for next X days instead of fixed at only 1 day.
 * [ ] Create Demo board during installation
 * [ ] Create installer
-* [ ] Control Window
-    * [ ] Add indicator to clearly show if the board is presenting live
-    * [ ] Separate Save from presentation buttons
-    * [ ] Add indicator if the currently presenting board is out of sync with the saved board.  I can still save changes while a board is presented, but let me know in case I want to bring the presentation in sync with my saved changes.
+* [X] Control Window
+    * [X] Add indicator to clearly show if the board is presenting live
+    * [X] Separate Save from presentation buttons
+    * [X] Add indicator if the currently presenting board is out of sync with the saved board.  I can still save changes while a board is presented, but let me know in case I want to bring the presentation in sync with my saved changes.
 
 

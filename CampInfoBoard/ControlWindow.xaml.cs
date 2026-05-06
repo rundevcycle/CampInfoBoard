@@ -1,7 +1,6 @@
 ﻿using CampInfoBoard.Models;
 using CampInfoBoard.Services;
 using CampInfoBoard.ViewModels;
-using Microsoft.Win32;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -13,12 +12,16 @@ using Forms = System.Windows.Forms;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
+using System.Windows.Controls.Primitives;
+using TextBoxBase = System.Windows.Controls.Primitives.TextBoxBase;
 
 namespace CampInfoBoard
 {
     public partial class ControlWindow : Window, INotifyPropertyChanged
     {
         private DisplayWindow? _displayWindow;
+        private bool _liveDisplayOutOfSync;
+        private string _lastSavedSnapshot = "";
 
         private AppData _data = new();
 
@@ -62,6 +65,15 @@ namespace CampInfoBoard
             DataContext = this;
 
             LoadData();
+            AddDirtyTrackingHandlers();
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _liveDisplayOutOfSync = false;
+                UpdatePresentationControls();
+            }));
+
+            UpdatePresentationControls();
             Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
         }
 
@@ -71,6 +83,11 @@ namespace CampInfoBoard
             NormalizePathsToCurrentBoard();  // Make paths in older boards relative to board root.
             SortPhotosByDisplayOrder();
             SetupScheduleView();
+
+            _liveDisplayOutOfSync = false;
+
+            RefreshSavedSnapshot();
+            UpdatePresentationControls();
         }
 
 
@@ -123,13 +140,10 @@ namespace CampInfoBoard
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            // Sanity check before saving.
-            NormalizeDisplaySettings();
-            RefreshDisplaySettingsBindings();
-
-            DataService.SaveData(Data);
+            SaveBoard();
             WpfMessageBox.Show("Saved.", "Camp Info Board");
         }
+
 
 
         private void SaveBoardAs_Click(object sender, RoutedEventArgs e)
@@ -304,52 +318,106 @@ namespace CampInfoBoard
             LoadData();
         }
 
-        private void DisplayToggle_Click(object sender, RoutedEventArgs e)
+
+        private void StartPresentation_Click(object sender, RoutedEventArgs e)
         {
+            if (!PromptToSaveIfNeeded())
+            {
+                return;
+            }
+
             if (_displayWindow == null)
             {
                 _displayWindow = new DisplayWindow();
-                _displayWindow.Topmost = Data.Settings.DisplayAlwaysOnTop;
-                PositionDisplayWindowOnSelectedMonitor();
-
                 _displayWindow.Closed += (_, _) =>
                 {
                     _displayWindow = null;
-                    DisplayToggleButton.Content = "Show Display";
+                    _liveDisplayOutOfSync = false;
+                    UpdatePresentationControls();
                 };
+            }
 
-                _displayWindow.Show();
-                _displayWindow.WindowState = WindowState.Maximized;
-                DisplayToggleButton.Content = "Hide Display";
+            _displayWindow.Topmost = Data.Settings.DisplayAlwaysOnTop;
+            PositionDisplayWindowOnSelectedMonitor();
+
+            _displayWindow.Show();
+            _displayWindow.WindowState = WindowState.Maximized;
+            _displayWindow.Activate();
+
+            UpdateLivePresentation();
+        }
+
+        private void StopPresentation_Click(object sender, RoutedEventArgs e)
+        {
+            if (_displayWindow == null)
+            {
+                return;
+            }
+
+            _displayWindow.Hide();
+            UpdatePresentationControls();
+        }
+
+        private void UpdateLive_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsPresentationRunning())
+            {
+                return;
+            }
+
+            if (HasUnsavedChanges())
+            {
+                WpfMessageBox.Show(
+                    "Please save your changes before updating the live presentation.",
+                    "Camp Info Board",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
 
                 return;
             }
 
-            if (_displayWindow.IsVisible)
-            {
-                _displayWindow.Hide();
-                DisplayToggleButton.Content = "Show Display";
-            }
-            else
-            {
-                PositionDisplayWindowOnSelectedMonitor();
-
-                _displayWindow.Topmost = Data.Settings.DisplayAlwaysOnTop;
-                _displayWindow.Show();
-                _displayWindow.WindowState = WindowState.Maximized;
-                _displayWindow.Activate();
-
-                DisplayToggleButton.Content = "Hide Display";
-            }
+            UpdateLivePresentation();
         }
 
+        private bool PromptToSaveIfNeeded()
+        {
+            if (!HasUnsavedChanges())
+            {
+                return true;
+            }
 
-        private void RefreshDisplay_Click(object sender, RoutedEventArgs e)
+            MessageBoxResult result = WpfMessageBox.Show(
+                "Save changes first?",
+                "Camp Info Board",
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Cancel)
+            {
+                return false;
+            }
+
+            if (result == MessageBoxResult.Yes)
+            {
+                SaveBoard();
+            }
+
+            return true;
+        }
+
+        private void SaveBoard()
         {
             NormalizeDisplaySettings();
             RefreshDisplaySettingsBindings();
-            DataService.SaveData(Data);
 
+            DataService.SaveData(Data);
+            RefreshSavedSnapshot();
+
+            UpdatePresentationControls();
+        }
+
+        private void UpdateLivePresentation()
+        {
             if (_displayWindow != null)
             {
                 _displayWindow.Topmost = Data.Settings.DisplayAlwaysOnTop;
@@ -360,7 +428,67 @@ namespace CampInfoBoard
                 viewModel.ReloadData();
                 viewModel.RestartRotation();
             }
+
+            _liveDisplayOutOfSync = false;
+            UpdatePresentationControls();
         }
+
+        private bool IsPresentationRunning()
+        {
+            return _displayWindow != null && _displayWindow.IsVisible;
+        }
+
+        private void UpdatePresentationControls()
+        {
+            bool isLive = IsPresentationRunning();
+
+            StartPresentationButton.IsEnabled = !isLive;
+            StopPresentationButton.IsEnabled = isLive;
+            UpdateLiveButton.IsEnabled = isLive && _liveDisplayOutOfSync;
+
+            if (!isLive)
+            {
+                PresentationStatusText.Text = "Offline";
+                PresentationStatusDot.Fill = System.Windows.Media.Brushes.Gray;
+                return;
+            }
+
+            if (_liveDisplayOutOfSync)
+            {
+                PresentationStatusText.Text = "Live - Pending Changes";
+                PresentationStatusDot.Fill = System.Windows.Media.Brushes.Goldenrod;
+                return;
+            }
+
+            PresentationStatusText.Text = "Live";
+            PresentationStatusDot.Fill = System.Windows.Media.Brushes.LimeGreen;
+        }
+
+        private void MarkBoardChanged()
+        {
+            if (IsPresentationRunning())
+            {
+                _liveDisplayOutOfSync = true;
+            }
+
+            UpdatePresentationControls();
+        }
+
+        private void AddDirtyTrackingHandlers()
+        {
+            AddHandler(
+                TextBoxBase.TextChangedEvent,
+                new TextChangedEventHandler((_, _) => MarkBoardChanged()));
+
+            AddHandler(
+                ToggleButton.CheckedEvent,
+                new RoutedEventHandler((_, _) => MarkBoardChanged()));
+
+            AddHandler(
+                ToggleButton.UncheckedEvent,
+                new RoutedEventHandler((_, _) => MarkBoardChanged()));
+        }
+
 
         private void OnPropertyChanged([CallerMemberName] string? name = null)
         {
@@ -453,6 +581,7 @@ namespace CampInfoBoard
                 }
 
                 SortTidesByTime();
+                MarkBoardChanged();
 
                 WpfMessageBox.Show(
                     $"Imported {result.ImportedTides.Count} tide(s).\nSkipped {result.SkippedRows} row(s).",
@@ -495,6 +624,7 @@ namespace CampInfoBoard
             RecalculateTideLevelsFrom(selectedTide);
 
             TideGrid.Items.Refresh();
+            MarkBoardChanged();
         }
 
         private void DeletePastTides_Click(object sender, RoutedEventArgs e)
@@ -511,6 +641,7 @@ namespace CampInfoBoard
             }
 
             TideGrid.Items.Refresh();
+            MarkBoardChanged();
         }
 
         private void RecalculateTideLevelsFrom(TideEntry anchor)
@@ -621,6 +752,7 @@ namespace CampInfoBoard
 
             TideGrid.SelectedItem = newTide;
             TideGrid.CurrentCell = new DataGridCellInfo(newTide, TideGrid.Columns[0]);
+            MarkBoardChanged();
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -805,6 +937,7 @@ namespace CampInfoBoard
                     tide.Date = picker.SelectedDate.Value;
                     popup.Close();
                     TideGrid.Items.Refresh();
+                    MarkBoardChanged();
                 }
             };
 
@@ -863,6 +996,7 @@ namespace CampInfoBoard
                 Data.Schedule.Add(savedItem);
                 ScheduleView.Refresh();
                 ScheduleGrid.SelectedItem = savedItem;
+                MarkBoardChanged();
             })
             {
                 Owner = this
@@ -873,6 +1007,7 @@ namespace CampInfoBoard
                 Data.Schedule.Add(item);
                 ScheduleView.Refresh();
                 ScheduleGrid.SelectedItem = item;
+                MarkBoardChanged();
             }
         }
 
@@ -917,6 +1052,7 @@ namespace CampInfoBoard
             }
 
             ScheduleView.Refresh();
+            MarkBoardChanged();
         }
 
         private void EditSelectedScheduleItem()
@@ -938,6 +1074,7 @@ namespace CampInfoBoard
             {
                 CopyScheduleItem(editableCopy, selectedItem);
                 ScheduleView.Refresh();
+                MarkBoardChanged();
             }
         }
 
@@ -977,6 +1114,7 @@ namespace CampInfoBoard
                 Data.Schedule.Add(copiedItem);
                 ScheduleView.Refresh();
                 ScheduleGrid.SelectedItem = copiedItem;
+                MarkBoardChanged();
             }
         }
 
@@ -1006,6 +1144,7 @@ namespace CampInfoBoard
                 Data.Announcements.Add(item);
                 AnnouncementGrid.Items.Refresh();
                 AnnouncementGrid.SelectedItem = item;
+                MarkBoardChanged();
             }
         }
 
@@ -1033,6 +1172,7 @@ namespace CampInfoBoard
                 Data.Announcements.Add(copiedItem);
                 AnnouncementGrid.Items.Refresh();
                 AnnouncementGrid.SelectedItem = copiedItem;
+                MarkBoardChanged();
             }
         }
 
@@ -1077,6 +1217,7 @@ namespace CampInfoBoard
             }
 
             AnnouncementGrid.Items.Refresh();
+            MarkBoardChanged();
         }
 
 
@@ -1104,6 +1245,7 @@ namespace CampInfoBoard
 
                 CopyAnnouncement(editableCopy, selectedItem);
                 AnnouncementGrid.Items.Refresh();
+                MarkBoardChanged();
             }
         }
 
@@ -1151,6 +1293,7 @@ namespace CampInfoBoard
             {
                 Data.Photos.Add(item);
                 PhotosGrid.Items.Refresh();
+                MarkBoardChanged();
             }
         }
 
@@ -1175,6 +1318,7 @@ namespace CampInfoBoard
                 Data.Photos.Add(copiedItem);
                 PhotosGrid.Items.Refresh();
                 PhotosGrid.SelectedItem = copiedItem;
+                MarkBoardChanged();
             }
         }
 
@@ -1220,6 +1364,7 @@ namespace CampInfoBoard
 
             NormalizePhotoDisplayOrder();
             PhotosGrid.Items.Refresh();
+            MarkBoardChanged();
         }
 
         private void EditSelectedPhoto()
@@ -1241,6 +1386,7 @@ namespace CampInfoBoard
             {
                 CopyPhoto(editableCopy, selectedItem);
                 PhotosGrid.Items.Refresh();
+                MarkBoardChanged();
             }
         }
 
@@ -1314,6 +1460,7 @@ namespace CampInfoBoard
             PhotosGrid.Items.Refresh();
             PhotosGrid.SelectedItem = selectedItem;
             PhotosGrid.ScrollIntoView(selectedItem);
+            MarkBoardChanged();
         }
 
         private void MovePhotoDown_Click(object sender, RoutedEventArgs e)
@@ -1337,6 +1484,7 @@ namespace CampInfoBoard
             PhotosGrid.Items.Refresh();
             PhotosGrid.SelectedItem = selectedItem;
             PhotosGrid.ScrollIntoView(selectedItem);
+            MarkBoardChanged();
         }
 
         private void NormalizePhotoDisplayOrder()
@@ -1426,6 +1574,7 @@ namespace CampInfoBoard
 
             SunGrid.SelectedItem = newEntry;
             SunGrid.CurrentCell = new DataGridCellInfo(newEntry, SunGrid.Columns[0]);
+            MarkBoardChanged();
 
             Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -1511,6 +1660,7 @@ namespace CampInfoBoard
                 }
 
                 SortSunEntriesByDate();
+                MarkBoardChanged();
 
                 int importedCount = result.ImportedSunEntries.Count;
 
@@ -1546,6 +1696,7 @@ namespace CampInfoBoard
             }
 
             SunGrid.Items.Refresh();
+            MarkBoardChanged();
         }
 
         private void PickSunDate_Click(object sender, RoutedEventArgs e)
@@ -1583,6 +1734,7 @@ namespace CampInfoBoard
 
                     popup.Close();
                     SunGrid.Items.Refresh();
+                    MarkBoardChanged();
                 }
             };
 
@@ -1798,6 +1950,7 @@ namespace CampInfoBoard
                 Data.Weather.Add(item);
                 SortWeatherByDate();
                 WeatherGrid.SelectedItem = item;
+                MarkBoardChanged();
             }
         }
 
@@ -1839,6 +1992,7 @@ namespace CampInfoBoard
                 Data.Weather.Add(copiedItem);
                 SortWeatherByDate();
                 WeatherGrid.SelectedItem = copiedItem;
+                MarkBoardChanged();
             }
         }
 
@@ -1873,6 +2027,7 @@ namespace CampInfoBoard
             }
 
             WeatherGrid.Items.Refresh();
+            MarkBoardChanged();
         }
 
         private void EditSelectedWeather()
@@ -1895,6 +2050,7 @@ namespace CampInfoBoard
                 CopyWeatherBlock(editableCopy, selectedItem);
                 SortWeatherByDate();
                 WeatherGrid.SelectedItem = selectedItem;
+                MarkBoardChanged();
             }
         }
 
@@ -2056,6 +2212,7 @@ namespace CampInfoBoard
             {
                 Data.BackgroundImagePath = CopyBackgroundImageToBoardFolder(path);
                 OnPropertyChanged(nameof(Data));
+                MarkBoardChanged();
             }
             catch (Exception ex)
             {
@@ -2162,5 +2319,23 @@ namespace CampInfoBoard
             }
         }
 
+
+
+        private string CreateBoardSnapshot()
+        {
+            NormalizeDisplaySettings();
+
+            return System.Text.Json.JsonSerializer.Serialize(Data);
+        }
+
+        private bool HasUnsavedChanges()
+        {
+            return CreateBoardSnapshot() != _lastSavedSnapshot;
+        }
+
+        private void RefreshSavedSnapshot()
+        {
+            _lastSavedSnapshot = CreateBoardSnapshot();
+        }
     }
 }
