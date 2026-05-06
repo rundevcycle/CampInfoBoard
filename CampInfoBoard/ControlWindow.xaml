@@ -605,6 +605,33 @@
 
                 <TabItem Header="Dashboard">
                     <StackPanel Margin="12" Width="500" HorizontalAlignment="Left">
+
+                        <GroupBox Header="Message Bar" Margin="0,8">
+                            <StackPanel Margin="8">
+                                <DockPanel LastChildFill="False">
+                                    <CheckBox Content="Show message bar"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Left"
+                                            IsChecked="{Binding Data.Settings.ShowBanner}"/>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                DockPanel.Dock="Right"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="Position" Margin="0,0,8,0"/>
+                                        <ComboBox ItemsSource="{Binding BannerPositions}"
+                                            SelectedItem="{Binding Data.Settings.BannerPosition}"
+                                            Width="80" />
+                                    </StackPanel>
+                                </DockPanel>
+                                
+                                <TextBlock Text="Banner text" Margin="0,8,0,2"/>
+                                <TextBox Text="{Binding Data.Settings.BannerText, UpdateSourceTrigger=PropertyChanged}"
+                                        MinWidth="320"/>
+
+                            </StackPanel>
+                        </GroupBox>
+
+
                         <CheckBox Content="Show weather"
                             IsChecked="{Binding Data.Settings.ShowWeather}"
                             Margin="0,0,0,8"/>

@@ -38,6 +38,7 @@ namespace CampInfoBoard
 
 
         public Array TideLevels => Enum.GetValues(typeof(TideType));
+        public Array BannerPositions => Enum.GetValues(typeof(BannerPosition));
 
         public List<string> DisplayMonitors =>
             Forms.Screen.AllScreens

@@ -320,150 +320,195 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-                
+
 
             <!-- ================= MAIN CONTENT AREA ================= -->
             <Grid Grid.Column="1"
                   Margin="40,0,0,0">
 
-                <!-- ================= SCHEDULE ================= -->
-                <Grid Visibility="{Binding IsScheduleVisible, Converter={StaticResource BoolToVisibility}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <ItemsControl ItemsSource="{Binding FilteredSchedule}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Margin="0,10"
+
+                <!-- ================= TOP BANNER ================= -->
+                <Grid Grid.Row="0" Margin="0,0,0,12">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Settings.ShowBanner}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Settings.BannerPosition}" Value="Bottom">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Settings.BannerText}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <StackPanel>
+                        <!-- Banner text -->
+                        <TextBlock Text="{Binding Settings.BannerText}"
+                            FontSize="28"
+                            FontWeight="Medium"
+                            Foreground="#9AD0FF"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap"
+                            Margin="0,0,0,8"/>
+
+                        <!-- Separator line -->
+                        <Border Height="2"
+                            Background="#40FFFFFF"
+                            HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Grid>
+                
+
+                <Grid Grid.Row="1">
+                    <!-- ================= SCHEDULE ================= -->
+                    <Grid Visibility="{Binding IsScheduleVisible, Converter={StaticResource BoolToVisibility}}">
+
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <ItemsControl ItemsSource="{Binding FilteredSchedule}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,10"
                                             Padding="16"
                                             Background="{Binding IsHappeningNow, Converter={StaticResource ScheduleBackgroundConverter}}"
                                             BorderBrush="{Binding IsHappeningNow, Converter={StaticResource ScheduleBorderConverter}}"
                                             BorderThickness="3"
                                             CornerRadius="10">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="190"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="190"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
 
-                                            <!-- TIME -->
-                                            <StackPanel Grid.Column="0"
+                                                <!-- TIME -->
+                                                <StackPanel Grid.Column="0"
                                                 VerticalAlignment="Top">
-                                                <TextBlock Text="{Binding DisplayDayLabel}"
+                                                    <TextBlock Text="{Binding DisplayDayLabel}"
                                                     FontSize="24"
                                                     FontWeight="SemiBold"
                                                     Foreground="#9AD0FF"/>
 
-                                                <TextBlock Text="{Binding DisplayStartTime}"
+                                                    <TextBlock Text="{Binding DisplayStartTime}"
                                                     FontSize="40"
                                                     FontWeight="Bold"
                                                     Foreground="White"
                                                     Margin="0,4,0,0"/>
 
-                                                <TextBlock Text="{Binding DisplayEndTime}"
+                                                    <TextBlock Text="{Binding DisplayEndTime}"
                                                     FontSize="24"
                                                     Foreground="#CCFFFFFF"
                                                     Margin="0,2,0,0"/>
-                                            </StackPanel>
-                                            <!-- DETAILS -->
-                                            <StackPanel Grid.Column="1"
+                                                </StackPanel>
+                                                <!-- DETAILS -->
+                                                <StackPanel Grid.Column="1"
                                                 Margin="20,0,0,0">
 
-                                                <TextBlock Text="{Binding Title}"
+                                                    <TextBlock Text="{Binding Title}"
                                                     FontSize="54"
                                                     FontWeight="SemiBold"
                                                     Foreground="White"/>
 
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Location}"
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Location}"
                                                         FontSize="30"
                                                         Foreground="#9AD0FF"
                                                         Margin="0,6,24,0"/>
 
-                                                    <TextBlock Text="{Binding Speaker}"
+                                                        <TextBlock Text="{Binding Speaker}"
                                                         FontSize="30"
                                                         Foreground="#DDFFFFFF"
                                                         Margin="0,6,24,0"/>
-                                                </StackPanel>
-                                                
-                                                <TextBlock Text="{Binding Description}"
+                                                    </StackPanel>
+
+                                                    <TextBlock Text="{Binding Description}"
                                                     FontSize="36"
                                                     Foreground="White"
                                                     TextWrapping="Wrap"
                                                     Margin="0,10,0,0"
                                                     Opacity="0.95"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
 
-                </Grid>
+                    </Grid>
 
 
-                <!-- ================= WEATHER ================= -->
-                <Grid Visibility="{Binding IsWeatherVisible, Converter={StaticResource BoolToVisibility}}">
-                    <StackPanel VerticalAlignment="Top"
+                    <!-- ================= WEATHER ================= -->
+                    <Grid Visibility="{Binding IsWeatherVisible, Converter={StaticResource BoolToVisibility}}">
+                        <StackPanel VerticalAlignment="Top"
                         HorizontalAlignment="Center"
                         Width="1100">
 
-                        <ItemsControl ItemsSource="{Binding DisplayWeather}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Margin="0,10"
+                            <ItemsControl ItemsSource="{Binding DisplayWeather}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,10"
                                         Padding="28"
                                         Background="#33000000"
                                         CornerRadius="14">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="180"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="150"/>
-                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="180"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="150"/>
+                                                </Grid.ColumnDefinitions>
 
-                                            <Image Grid.Column="0"
+                                                <Image Grid.Column="0"
                                                 Source="{Binding IconPath}"
                                                 Width="152"
                                                 Height="152"
                                                 VerticalAlignment="Top"/>
 
-                                            <StackPanel Grid.Column="1"
+                                                <StackPanel Grid.Column="1"
                                                 Margin="20,0,0,0">
 
-                                                <TextBlock Text="{Binding DateLabel}"
+                                                    <TextBlock Text="{Binding DateLabel}"
                                                     FontSize="24"
                                                     FontWeight="SemiBold"
                                                     Foreground="#9AD0FF"/>
 
-                                                <TextBlock Text="{Binding TemperatureDisplay}"
+                                                    <TextBlock Text="{Binding TemperatureDisplay}"
                                                     FontSize="48"
                                                     FontWeight="Bold"
                                                     Foreground="White"/>
 
-                                                <TextBlock Text="{Binding FeelsLikeDisplay}"
+                                                    <TextBlock Text="{Binding FeelsLikeDisplay}"
                                                     FontSize="32"
                                                     Foreground="LightGray"
                                                     Visibility="{Binding HasFeelsLike, Converter={StaticResource BoolToVisibility}}"/>
 
-                                                <TextBlock Text="{Binding Description}"
+                                                    <TextBlock Text="{Binding Description}"
                                                     FontSize="36"
                                                     Foreground="White"
                                                     FontWeight="SemiBold"
                                                     TextWrapping="Wrap"/>
 
-                                                <TextBlock Text="{Binding WindDisplay}"
+                                                    <TextBlock Text="{Binding WindDisplay}"
                                                     FontSize="26"
                                                     Foreground="LightGray"
                                                     Visibility="{Binding HasWind, Converter={StaticResource BoolToVisibility}}"/>
 
-                                                <TextBlock Text="{Binding PrecipitationDisplay}"
+                                                    <TextBlock Text="{Binding PrecipitationDisplay}"
                                                     FontSize="26"
                                                     Foreground="LightGray"
                                                     Visibility="{Binding PrecipitationDisplay, Converter={StaticResource NullToVisibility}}"/>
-                                            </StackPanel>
+                                                </StackPanel>
 
-                                            <Border Grid.Column="2"
+                                                <Border Grid.Column="2"
                                                 Width="116"
                                                 Height="116"
                                                 CornerRadius="58"
@@ -471,66 +516,66 @@
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Right"
                                                 Visibility="{Binding HasUV, Converter={StaticResource BoolToVisibility}}">
-                                                <StackPanel HorizontalAlignment="Center"
+                                                    <StackPanel HorizontalAlignment="Center"
                                                     VerticalAlignment="Center">
-                                                    <TextBlock Text="UV"
+                                                        <TextBlock Text="UV"
                                                         FontSize="22"
                                                         FontWeight="Bold"
                                                         Foreground="Black"
                                                         HorizontalAlignment="Center"/>
-                                                    <TextBlock Text="{Binding UVIndex}"
+                                                        <TextBlock Text="{Binding UVIndex}"
                                                         FontSize="46"
                                                         FontWeight="Bold"
                                                         Foreground="Black"
                                                         HorizontalAlignment="Center"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </Grid>
-                
-                
-                <!-- ================= ANNOUNCEMENTS ================= -->
-                <Grid Visibility="{Binding IsAnnouncementVisible, Converter={StaticResource BoolToVisibility}}">
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
 
-                    <Border Background="#44000000"
+
+                    <!-- ================= ANNOUNCEMENTS ================= -->
+                    <Grid Visibility="{Binding IsAnnouncementVisible, Converter={StaticResource BoolToVisibility}}">
+
+                        <Border Background="#44000000"
                         CornerRadius="18"
                         Padding="34"
                         Width="1050"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top">
-                        <StackPanel>
-                            <TextBlock Text="{Binding CurrentAnnouncement.Title}"
+                            <StackPanel>
+                                <TextBlock Text="{Binding CurrentAnnouncement.Title}"
                                    FontSize="58"
                                    FontWeight="SemiBold"
                                    Foreground="White"
                                    TextAlignment="Center"
                                    Margin="0,0,0,26"/>
 
-                            <Image Source="{Binding CurrentAnnouncement.ImagePath}"
+                                <Image Source="{Binding CurrentAnnouncement.ImagePath}"
                                     MaxHeight="400"
                                     Stretch="Uniform"
                                     Margin="0,0,0,24">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="{x:Null}">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                            
-                            <TextBlock Text="{Binding CurrentAnnouncement.BodyText}"
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CurrentAnnouncement.ImagePath}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+
+                                <TextBlock Text="{Binding CurrentAnnouncement.BodyText}"
                                 FontSize="40"
                                 LineHeight="50"
                                 Foreground="White"
@@ -538,11 +583,47 @@
                                 TextAlignment="Left"
                                 Opacity="0.95"/>
 
-                        </StackPanel>
-                    </Border>
+                            </StackPanel>
+                        </Border>
 
+                    </Grid>
                 </Grid>
 
+                <!-- ================= BOTTOM BANNER ================= -->
+                <Grid Grid.Row="2" Margin="0,12,0,0">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Settings.ShowBanner}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Settings.BannerPosition}" Value="Top">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Settings.BannerText}" Value="">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <StackPanel>
+                        <!-- Separator line -->
+                        <Border Height="2"
+                            Background="#40FFFFFF"
+                            HorizontalAlignment="Stretch"/>
+
+                        <!-- Banner text -->
+                        <TextBlock Text="{Binding Settings.BannerText}"
+                            FontSize="28"
+                            FontWeight="Medium"
+                            Foreground="#9AD0FF"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap"
+                            Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Grid>
             </Grid>
 
         </Grid>

@@ -17,5 +17,11 @@
         public bool DisplayAlwaysOnTop { get; set; } = false;
 
         public string BackgroundColor { get; set; } = "#101820";
+
+        public bool ShowBanner { get; set; }
+
+        public string BannerText { get; set; } = "";
+
+        public BannerPosition BannerPosition { get; set; } = BannerPosition.Top;
     }
 }

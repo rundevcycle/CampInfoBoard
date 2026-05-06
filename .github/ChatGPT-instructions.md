@@ -172,7 +172,7 @@ Next likely priorities:
     * [X] Buttons in the same order as Weather & Announcements admin tab
 * [X] Windows icon
 * [ ] Presentation
-    * [ ] Banner (top or bottom), always visible, but stylistically distinct from the schedule and announcements
+    * [X] Banner (top or bottom), always visible, but stylistically distinct from the schedule and announcements
     * [X] Don't need "Weather" label on weather details
     * [X] Larger fonts throughout
     * [ ] Allow for custom font sizes
