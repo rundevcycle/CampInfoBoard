@@ -24,157 +24,159 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New Board..."
+
+    <Grid>
+
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New Board..."
                     Click="NewBoard_Click">
-                    <MenuItem.Icon>
-                        <Grid Width="16"
+                        <MenuItem.Icon>
+                            <Grid Width="16"
                             Height="16">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
                                 Text="&#xE710;"
                                 FontSize="14"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                        </Grid>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="_Open Board..." Click="OpenBoard_Click">
-                    <MenuItem.Icon>
-                        <Grid Width="16"
+                            </Grid>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Open Board..." Click="OpenBoard_Click">
+                        <MenuItem.Icon>
+                            <Grid Width="16"
                             Height="16">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
                                 Text="&#xE8B7;"
                                 FontSize="14"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                        </Grid>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="_Reload" Click="Reload_Click">
-                    <MenuItem.Icon>
-                        <Grid Width="16"
+                            </Grid>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="_Reload" Click="Reload_Click">
+                        <MenuItem.Icon>
+                            <Grid Width="16"
                             Height="16">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
                                 Text="&#xE72C;"
                                 FontSize="14"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                        </Grid>
-                    </MenuItem.Icon>
-                </MenuItem>
-                
-                <Separator/>
-                <MenuItem Header="_Save" Click="Save_Click">
-                    <MenuItem.Icon>
-                        <Grid Width="16"
+                            </Grid>
+                        </MenuItem.Icon>
+                    </MenuItem>
+
+                    <Separator/>
+                    <MenuItem Header="_Save" Click="Save_Click">
+                        <MenuItem.Icon>
+                            <Grid Width="16"
                             Height="16">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
                                 Text="&#xE74E;"
                                 FontSize="14"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                        </Grid>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Save Board _As..." Click="SaveBoardAs_Click">
-                    <MenuItem.Icon>
-                        <Grid Width="16"
+                            </Grid>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Save Board _As..." Click="SaveBoardAs_Click">
+                        <MenuItem.Icon>
+                            <Grid Width="16"
                             Height="16">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
                                 Text="&#xE792;"
                                 FontSize="14"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                        </Grid>
-                    </MenuItem.Icon>
-                </MenuItem>
+                            </Grid>
+                        </MenuItem.Icon>
+                    </MenuItem>
 
-                <Separator/>
-                <MenuItem Header="_Export Board Package..." Click="ExportBoard_Click"/>
-                <MenuItem Header="_Import Board Package..." Click="ImportBoard_Click"/>
-                
-                <Separator/>
-                <MenuItem Header="E_xit" Click="Exit_Click">
-                    <MenuItem.Icon>
-                        <Grid Width="16"
+                    <Separator/>
+                    <MenuItem Header="_Export Board Package..." Click="ExportBoard_Click"/>
+                    <MenuItem Header="_Import Board Package..." Click="ImportBoard_Click"/>
+
+                    <Separator/>
+                    <MenuItem Header="E_xit" Click="Exit_Click">
+                        <MenuItem.Icon>
+                            <Grid Width="16"
                             Height="16">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
                                 Text="&#xE8BB;"
                                 FontSize="14"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                        </Grid>
-                    </MenuItem.Icon>
+                            </Grid>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-            </MenuItem>
 
-            <MenuItem Header="_Help">
-                <MenuItem Header="_About" Click="About_Click">
-                    <MenuItem.Icon>
-                        <Grid Width="16"
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_About" Click="About_Click">
+                        <MenuItem.Icon>
+                            <Grid Width="16"
                             Height="16">
-                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                <TextBlock FontFamily="Segoe MDL2 Assets"
                                 Text="&#xE897;"
                                 FontSize="14"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"/>
-                        </Grid>
-                    </MenuItem.Icon>
+                            </Grid>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
-            </MenuItem>
-        </Menu>
+            </Menu>
 
-        <Grid Margin="12">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
-            <!-- Top Buttons -->
-            <!-- Top Controls -->
-            <Grid Grid.Row="0"
+            <Grid Margin="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Top Buttons -->
+                <!-- Top Controls -->
+                <Grid Grid.Row="0"
       Margin="0,0,0,12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="24"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="24"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0"
+                    <StackPanel Grid.Column="0"
                     Orientation="Horizontal">
-                    <Button Content="Save"
+                        <Button Content="Save"
                         Click="Save_Click"
                         Padding="12,4"
                         Margin="0,0,8,0"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <Border Grid.Column="2"
+                    <Border Grid.Column="2"
                     BorderBrush="#CCC"
                     BorderThickness="1"
                     CornerRadius="4"
                     Padding="10,6">
-                    <DockPanel LastChildFill="False">
+                        <DockPanel LastChildFill="False">
 
-                        <StackPanel DockPanel.Dock="Left"
+                            <StackPanel DockPanel.Dock="Left"
                             Orientation="Horizontal"
                             VerticalAlignment="Center">
-                            <TextBlock Text="Display Monitor:"
+                                <TextBlock Text="Display Monitor:"
                                 VerticalAlignment="Center"
                                 Margin="0,0,8,0"/>
 
-                            <ComboBox Width="240"
+                                <ComboBox Width="240"
                                 ItemsSource="{Binding DisplayMonitors}"
                                 SelectedIndex="{Binding SelectedMonitorIndex, Mode=TwoWay}" />
-                        </StackPanel>
+                            </StackPanel>
 
-                        <StackPanel DockPanel.Dock="Right"
+                            <StackPanel DockPanel.Dock="Right"
                             Orientation="Horizontal"
                             VerticalAlignment="Center">
 
-                            <TextBlock x:Name="PresentationStatusText"
+                                <TextBlock x:Name="PresentationStatusText"
                                 Text="Offline"
                                 FontWeight="SemiBold"
                                 VerticalAlignment="Center"
@@ -182,64 +184,64 @@
                                 Width="170"
                                 Margin="0,0,6,0"/>
 
-                            <Ellipse x:Name="PresentationStatusDot"
+                                <Ellipse x:Name="PresentationStatusDot"
                                 Width="12"
                                 Height="12"
                                 Margin="0,0,8,0"
                                 Fill="Gray"
                                 VerticalAlignment="Center"/>
 
-                            <Button x:Name="StartPresentationButton"
+                                <Button x:Name="StartPresentationButton"
                                 Content="▶ Start"
                                 Width="80"
                                 Margin="0,0,8,0"
                                 Click="StartPresentation_Click"/>
 
-                            <Button x:Name="UpdateLiveButton"
+                                <Button x:Name="UpdateLiveButton"
                                 Content="↻ Refresh"
                                 Width="80"
                                 Margin="0,0,8,0"
                                 Click="UpdateLive_Click"/>
 
-                            <Button x:Name="StopPresentationButton"
+                                <Button x:Name="StopPresentationButton"
                                 Content="■ Stop"
                                 Width="80"
                                 Click="StopPresentation_Click"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                    </DockPanel>
-                </Border>
-            </Grid>
+                        </DockPanel>
+                    </Border>
+                </Grid>
 
-            <TabControl Grid.Row="1">
+                <TabControl Grid.Row="1">
 
-                <TabItem Header="Weather">
-                    <DockPanel Margin="12">
-                        <StackPanel DockPanel.Dock="Top"
+                    <TabItem Header="Weather">
+                        <DockPanel Margin="12">
+                            <StackPanel DockPanel.Dock="Top"
                         Orientation="Horizontal"
                         Margin="0,0,0,8">
 
-                            <Button Content="Add"
+                                <Button Content="Add"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="AddWeather_Click"/>
 
-                            <Button Content="Copy"
+                                <Button Content="Copy"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="CopyWeather_Click"/>
 
-                            <Button Content="Edit"
+                                <Button Content="Edit"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="EditWeather_Click"/>
 
-                            <Button Content="Delete"
+                                <Button Content="Delete"
                             Width="100"
                             Click="DeleteWeather_Click"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <DataGrid x:Name="WeatherGrid"
+                            <DataGrid x:Name="WeatherGrid"
                             ItemsSource="{Binding Data.Weather}"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
@@ -250,84 +252,84 @@
                                   PreviewKeyDown="WeatherGrid_PreviewKeyDown"
                             MouseDoubleClick="WeatherGrid_MouseDoubleClick">
 
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Date"
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Date"
                                     Binding="{Binding Date, StringFormat={}{0:d}}"
                                     Width="110"/>
 
-                                <DataGridTextColumn Header="Period"
+                                    <DataGridTextColumn Header="Period"
                                     Binding="{Binding PeriodDisplay}"
                                     Width="60"/>
 
-                                <DataGridTemplateColumn Header="Icon" Width="50">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding IconPath}"
+                                    <DataGridTemplateColumn Header="Icon" Width="50">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding IconPath}"
                                             Width="28"
                                             Height="28"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn Header="Temp °C"
+                                    <DataGridTextColumn Header="Temp °C"
                                     Binding="{Binding TemperatureC}"
                                     Width="60"/>
 
-                                <DataGridTextColumn Header="Feels °C"
+                                    <DataGridTextColumn Header="Feels °C"
                                     Binding="{Binding FeelsLikeC}"
                                     Width="60"/>
 
-                                <DataGridTextColumn Header="UV"
+                                    <DataGridTextColumn Header="UV"
                                     Binding="{Binding UVIndex}"
                                     Width="30"/>
 
-                                <DataGridTextColumn Header="Wind"
+                                    <DataGridTextColumn Header="Wind"
                                     Binding="{Binding WindDisplay}"
                                     Width="150"/>
 
-                                <DataGridTextColumn Header="Precip"
+                                    <DataGridTextColumn Header="Precip"
                                     Binding="{Binding PrecipitationDisplay}"
                                     Width="110"/>
 
-                                <DataGridTextColumn Header="Description"
+                                    <DataGridTextColumn Header="Description"
                                     Binding="{Binding Description}"
                                     Width="*"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </DockPanel>
-                </TabItem>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </TabItem>
 
 
-                <TabItem Header="Schedule">
-                    <DockPanel Margin="12">
+                    <TabItem Header="Schedule">
+                        <DockPanel Margin="12">
 
-                        <StackPanel DockPanel.Dock="Top"
+                            <StackPanel DockPanel.Dock="Top"
                         Orientation="Horizontal"
                         Margin="0,0,0,8">
 
-                            <Button Content="Add"
+                                <Button Content="Add"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="AddScheduleItem_Click"/>
 
-                            <Button Content="Copy"
+                                <Button Content="Copy"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="CopyScheduleItem_Click"/>
 
-                            <Button Content="Edit"
+                                <Button Content="Edit"
                             Width="100"
                             Margin="0,0,8,0"
                             Click="EditScheduleItem_Click"/>
 
-                            <Button Content="Delete"
+                                <Button Content="Delete"
                             Width="100"
                             Click="DeleteScheduleItem_Click"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <DataGrid x:Name="ScheduleGrid"
+                            <DataGrid x:Name="ScheduleGrid"
                             ItemsSource="{Binding ScheduleView}"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
@@ -339,61 +341,61 @@
                                   PreviewKeyDown="ScheduleGrid_PreviewKeyDown"
                             MouseDoubleClick="ScheduleGrid_MouseDoubleClick">
 
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Start"
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Start"
                                     Binding="{Binding Start, StringFormat=g}"
                                     Width="150"/>
 
-                                <DataGridTextColumn Header="End"
+                                    <DataGridTextColumn Header="End"
                                     Binding="{Binding End, StringFormat=g}"
                                     Width="150"/>
 
-                                <DataGridTextColumn Header="Title"
+                                    <DataGridTextColumn Header="Title"
                                     Binding="{Binding Title}"
                                     Width="*"/>
 
-                                <DataGridTextColumn Header="Location"
+                                    <DataGridTextColumn Header="Location"
                                     Binding="{Binding Location}"
                                     Width="160"/>
 
-                                <DataGridTextColumn Header="Speaker"
+                                    <DataGridTextColumn Header="Speaker"
                                     Binding="{Binding Speaker}"
                                     Width="160"/>
-                            </DataGrid.Columns>
+                                </DataGrid.Columns>
 
-                        </DataGrid>
-                    </DockPanel>
-                </TabItem>
+                            </DataGrid>
+                        </DockPanel>
+                    </TabItem>
 
 
-                <TabItem Header="Announcements">
-                    <DockPanel Margin="12">
+                    <TabItem Header="Announcements">
+                        <DockPanel Margin="12">
 
-                        <StackPanel DockPanel.Dock="Top"
+                            <StackPanel DockPanel.Dock="Top"
                                 Orientation="Horizontal"
                                 Margin="0,0,0,8">
 
-                            <Button Content="Add"
+                                <Button Content="Add"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="AddAnnouncement_Click"/>
 
-                            <Button Content="Copy"
+                                <Button Content="Copy"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="CopyAnnouncement_Click"/>
 
-                            <Button Content="Edit"
+                                <Button Content="Edit"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="EditAnnouncement_Click"/>
 
-                            <Button Content="Delete"
+                                <Button Content="Delete"
                                 Width="100"
                                 Click="DeleteAnnouncement_Click"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <DataGrid x:Name="AnnouncementGrid"
+                            <DataGrid x:Name="AnnouncementGrid"
                             ItemsSource="{Binding Data.Announcements}"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
@@ -404,75 +406,75 @@
                                   PreviewKeyDown="AnnouncementGrid_PreviewKeyDown"
                             MouseDoubleClick="AnnouncementGrid_MouseDoubleClick">
 
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Priority"
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Priority"
                                     Binding="{Binding Priority}"
                                     Width="80"/>
 
-                                <DataGridTextColumn Header="Start"
+                                    <DataGridTextColumn Header="Start"
                                     Binding="{Binding Start, StringFormat=g}"
                                     Width="150"/>
 
-                                <DataGridTextColumn Header="End"
+                                    <DataGridTextColumn Header="End"
                                     Binding="{Binding End, StringFormat=g}"
                                     Width="150"/>
 
-                                <DataGridTextColumn Header="Title"
+                                    <DataGridTextColumn Header="Title"
                                     Binding="{Binding Title}"
                                     Width="*"/>
 
-                                <DataGridTemplateColumn Header="Image" Width="80">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
+                                    <DataGridTemplateColumn Header="Image" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
                                                 Width="64"
                                                 Height="40"
                                                 Stretch="UniformToFill"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </DockPanel>
-                </TabItem>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </TabItem>
 
 
-                <TabItem Header="Photos">
-                    <DockPanel Margin="12">
-                        <StackPanel DockPanel.Dock="Top"
+                    <TabItem Header="Photos">
+                        <DockPanel Margin="12">
+                            <StackPanel DockPanel.Dock="Top"
                             Orientation="Horizontal"
                             Margin="0,0,0,8">
-                            <Button Content="Add"
+                                <Button Content="Add"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="AddPhoto_Click"/>
 
-                            <Button Content="Copy"
+                                <Button Content="Copy"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="CopyPhoto_Click"/>
 
-                            <Button Content="Edit"
+                                <Button Content="Edit"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="EditPhoto_Click"/>
 
-                            <Button Content="Delete"
+                                <Button Content="Delete"
                                 Width="100"
                                 Margin="0,0,24,0"
                                 Click="DeletePhoto_Click"/>
 
-                            <Button Content="Move Up"
+                                <Button Content="Move Up"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="MovePhotoUp_Click"/>
 
-                            <Button Content="Move Down"
+                                <Button Content="Move Down"
                                 Width="100"
                                 Click="MovePhotoDown_Click"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <DataGrid x:Name="PhotosGrid"
+                            <DataGrid x:Name="PhotosGrid"
                                 ItemsSource="{Binding Data.Photos}"
                                 AutoGenerateColumns="False"
                                 SelectionMode="Extended"
@@ -481,125 +483,125 @@
                                 PreviewKeyDown="PhotosGrid_PreviewKeyDown"
                                 CanUserAddRows="False"
                                 CanUserDeleteRows="False">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Photo" Width="90">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"                                            Width="72"
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Photo" Width="90">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"                                            Width="72"
                                             Height="48"
                                             Stretch="UniformToFill"
                                             Margin="4"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Header="Image Path" Binding="{Binding ImagePath}" Width="220"/>
-                                <DataGridTextColumn Header="Caption" Binding="{Binding Caption}" Width="*"/>
-                                <DataGridTextColumn Header="Credit" Binding="{Binding Credit}" Width="180"/>
-                                <DataGridTextColumn Header="Expiry" Binding="{Binding ExpiryDate, StringFormat=d}" Width="110"/>
-                                <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="70"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Image Path" Binding="{Binding ImagePath}" Width="220"/>
+                                    <DataGridTextColumn Header="Caption" Binding="{Binding Caption}" Width="*"/>
+                                    <DataGridTextColumn Header="Credit" Binding="{Binding Credit}" Width="180"/>
+                                    <DataGridTextColumn Header="Expiry" Binding="{Binding ExpiryDate, StringFormat=d}" Width="110"/>
+                                    <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="70"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                    </DockPanel>
-                </TabItem>
+                        </DockPanel>
+                    </TabItem>
 
 
-                <TabItem Header="Tides">
-                    <DockPanel Margin="12">
+                    <TabItem Header="Tides">
+                        <DockPanel Margin="12">
 
-                        <StackPanel DockPanel.Dock="Top"
+                            <StackPanel DockPanel.Dock="Top"
                             Orientation="Horizontal"
                             Margin="0,0,0,8">
 
-                            <Button Content="Add"
+                                <Button Content="Add"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="AddTide_Click"/>
 
-                            <Button Content="Import CSV..."
+                                <Button Content="Import CSV..."
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="ImportTidesCsv_Click"/>
 
-                            <Button Content="Alternate From Selected"
+                                <Button Content="Alternate From Selected"
                                 Width="190"
                                 Margin="0,0,8,0"
                                 Click="RecalculateTidesFromSelected_Click"/>
 
-                            <Button Content="Delete Past Tides"
+                                <Button Content="Delete Past Tides"
                                 Width="140"
                                 Click="DeletePastTides_Click"/>
 
-                        </StackPanel>
+                            </StackPanel>
 
-                        <DataGrid x:Name="TideGrid"
+                            <DataGrid x:Name="TideGrid"
                             ItemsSource="{Binding Data.TideEntries}"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
                             CanUserDeleteRows="True"
                             RowStyle="{StaticResource PastItemRowStyle}"
                             PreviewKeyDown="TideGrid_PreviewKeyDown">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Date" Width="190">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Date, StringFormat={}{0:d}}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Date" Width="190">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Date, StringFormat={}{0:d}}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
 
-                                    <DataGridTemplateColumn.CellEditingTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <Button Content="📅"
+                                        <DataGridTemplateColumn.CellEditingTemplate>
+                                            <DataTemplate>
+                                                <DockPanel>
+                                                    <Button Content="📅"
                                                 DockPanel.Dock="Right"
                                                 Width="32"
                                                 Margin="4,0,0,0"
                                                 Click="PickTideDate_Click"/>
-                                                <TextBox Text="{Binding DateText, UpdateSourceTrigger=LostFocus}"
+                                                    <TextBox Text="{Binding DateText, UpdateSourceTrigger=LostFocus}"
                                                 VerticalContentAlignment="Center"
                                                 Loaded="EditingTextBox_Loaded"/>
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellEditingTemplate>
-                                </DataGridTemplateColumn>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn Header="Time"
+                                    <DataGridTextColumn Header="Time"
                         Binding="{Binding TimeText, UpdateSourceTrigger=LostFocus}"
                         Width="120"/>
 
-                                <DataGridTextColumn Header="High / Low"
+                                    <DataGridTextColumn Header="High / Low"
                         Binding="{Binding TideLevel, UpdateSourceTrigger=PropertyChanged}"
                         Width="140"/>
 
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                    </DockPanel>
-                </TabItem>
+                        </DockPanel>
+                    </TabItem>
 
 
-                <TabItem Header="Sun">
-                    <DockPanel Margin="12">
-                        <StackPanel DockPanel.Dock="Top"
+                    <TabItem Header="Sun">
+                        <DockPanel Margin="12">
+                            <StackPanel DockPanel.Dock="Top"
                             Orientation="Horizontal"
                             Margin="0,0,0,8">
 
-                            <Button Content="Add"
+                                <Button Content="Add"
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="AddSunEntry_Click"/>
 
-                            <Button Content="Import CSV..."
+                                <Button Content="Import CSV..."
                                 Width="100"
                                 Margin="0,0,8,0"
                                 Click="ImportSunCsv_Click"/>
 
-                            <Button Content="Delete Past Days"
+                                <Button Content="Delete Past Days"
                                 Width="140"
                                 Click="DeletePastSun_Click"/>
-                        </StackPanel>
+                            </StackPanel>
 
-                        <DataGrid x:Name="SunGrid"
+                            <DataGrid x:Name="SunGrid"
                             ItemsSource="{Binding Data.SunEntries}"
                             AutoGenerateColumns="False"
                             CanUserAddRows="False"
@@ -607,124 +609,124 @@
                             RowStyle="{StaticResource PastItemRowStyle}"
                             PreviewKeyDown="SunGrid_PreviewKeyDown">
 
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Date" Width="190">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Date, StringFormat={}{0:d}}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Date" Width="190">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Date, StringFormat={}{0:d}}"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
 
-                                    <DataGridTemplateColumn.CellEditingTemplate>
-                                        <DataTemplate>
-                                            <DockPanel>
-                                                <Button Content="📅"
+                                        <DataGridTemplateColumn.CellEditingTemplate>
+                                            <DataTemplate>
+                                                <DockPanel>
+                                                    <Button Content="📅"
                                         DockPanel.Dock="Right"
                                         Width="32"
                                         Margin="4,0,0,0"
                                         Click="PickSunDate_Click"/>
 
-                                                <TextBox Text="{Binding DateText, UpdateSourceTrigger=LostFocus}"
+                                                    <TextBox Text="{Binding DateText, UpdateSourceTrigger=LostFocus}"
                                          VerticalContentAlignment="Center"
                                          Loaded="EditingTextBox_Loaded"/>
-                                            </DockPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellEditingTemplate>
-                                </DataGridTemplateColumn>
+                                                </DockPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellEditingTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn Header="Sunrise"
+                                    <DataGridTextColumn Header="Sunrise"
                                     Binding="{Binding SunriseText, UpdateSourceTrigger=LostFocus}"
                                     Width="120"/>
 
-                                <DataGridTextColumn Header="Sunset"
+                                    <DataGridTextColumn Header="Sunset"
                                     Binding="{Binding SunsetText, UpdateSourceTrigger=LostFocus}"
                                     Width="120"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                </DataGrid.Columns>
+                            </DataGrid>
 
-                    </DockPanel>
-                </TabItem>
+                        </DockPanel>
+                    </TabItem>
 
 
-                <TabItem Header="Dashboard">
-                    <StackPanel Margin="12" Width="500" HorizontalAlignment="Left">
+                    <TabItem Header="Dashboard">
+                        <StackPanel Margin="12" Width="500" HorizontalAlignment="Left">
 
-                        <GroupBox Header="Message Bar" Margin="0,8">
-                            <StackPanel Margin="8">
-                                <DockPanel LastChildFill="False">
-                                    <CheckBox Content="Show message bar"
+                            <GroupBox Header="Message Bar" Margin="0,8">
+                                <StackPanel Margin="8">
+                                    <DockPanel LastChildFill="False">
+                                        <CheckBox Content="Show message bar"
                                             VerticalAlignment="Center"
                                             DockPanel.Dock="Left"
                                             IsChecked="{Binding Data.Settings.ShowBanner}"/>
 
-                                    <StackPanel Orientation="Horizontal"
+                                        <StackPanel Orientation="Horizontal"
                                                 DockPanel.Dock="Right"
                                                 VerticalAlignment="Center">
-                                        <TextBlock Text="Position" Margin="0,0,8,0"/>
-                                        <ComboBox ItemsSource="{Binding BannerPositions}"
+                                            <TextBlock Text="Position" Margin="0,0,8,0"/>
+                                            <ComboBox ItemsSource="{Binding BannerPositions}"
                                             SelectedItem="{Binding Data.Settings.BannerPosition}"
                                             Width="80" />
-                                    </StackPanel>
-                                </DockPanel>
-                                
-                                <TextBlock Text="Banner text" Margin="0,8,0,2"/>
-                                <TextBox Text="{Binding Data.Settings.BannerText, UpdateSourceTrigger=PropertyChanged}"
+                                        </StackPanel>
+                                    </DockPanel>
+
+                                    <TextBlock Text="Banner text" Margin="0,8,0,2"/>
+                                    <TextBox Text="{Binding Data.Settings.BannerText, UpdateSourceTrigger=PropertyChanged}"
                                         MinWidth="320"/>
 
-                            </StackPanel>
-                        </GroupBox>
+                                </StackPanel>
+                            </GroupBox>
 
 
-                        <CheckBox Content="Show weather"
+                            <CheckBox Content="Show weather"
                             IsChecked="{Binding Data.Settings.ShowWeather}"
                             Margin="0,0,0,8"/>
 
-                        <CheckBox Content="Enable Detailed Weather Mode"
+                            <CheckBox Content="Enable Detailed Weather Mode"
                             IsChecked="{Binding Data.Settings.ShowDetailedWeatherMode}"
                             Margin="0,0,0,8"/>
 
-                        <CheckBox Content="Show sun times"
+                            <CheckBox Content="Show sun times"
                               IsChecked="{Binding Data.Settings.ShowSun}"
                               Margin="0,0,0,8"/>
 
-                        <CheckBox Content="Show tides"
+                            <CheckBox Content="Show tides"
                               IsChecked="{Binding Data.Settings.ShowTides}"
                               Margin="0,0,0,8"/>
 
-                        <StackPanel Orientation="Horizontal"
+                            <StackPanel Orientation="Horizontal"
                             VerticalAlignment="Center"
                             Margin="0,0,0,8">
-                            <CheckBox Content="Show FM Frequencies"
+                                <CheckBox Content="Show FM Frequencies"
                                 IsChecked="{Binding Data.Radio.Enabled}"
                                 VerticalAlignment="Center"
                                 Margin="0,0,16,0"/>
 
-                            <TextBlock Text="English:"
+                                <TextBlock Text="English:"
                                 VerticalAlignment="Center"
                                 Margin="0,0,4,0"/>
-                            <TextBox Text="{Binding Data.Radio.EnglishFrequency, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBox Text="{Binding Data.Radio.EnglishFrequency, UpdateSourceTrigger=PropertyChanged}"
                                 Width="80"
                                 Margin="0,0,12,0"/>
 
-                            <TextBlock Text="French:"
+                                <TextBlock Text="French:"
                                 VerticalAlignment="Center"
                                 Margin="0,0,4,0"/>
-                            <TextBox Text="{Binding Data.Radio.FrenchFrequency, UpdateSourceTrigger=PropertyChanged}"
+                                <TextBox Text="{Binding Data.Radio.FrenchFrequency, UpdateSourceTrigger=PropertyChanged}"
                                 Width="80"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </TabItem>
+                    </TabItem>
 
 
-                <TabItem Header="Settings">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                    <TabItem Header="Settings">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
                                   HorizontalAlignment="Stretch">
-                        <StackPanel Margin="12">
+                            <StackPanel Margin="12">
 
-                            <TextBlock Text="Display Font Scale" Margin="0,10,0,4"/>
+                                <TextBlock Text="Display Font Scale" Margin="0,10,0,4"/>
 
-                            <StackPanel Orientation="Horizontal">
-                                <Slider Width="220"
+                                <StackPanel Orientation="Horizontal">
+                                    <Slider Width="220"
                                     Minimum="0.85"
                                     Maximum="1.25"
                                     TickFrequency="0.05"
@@ -736,159 +738,178 @@
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <TextBlock Margin="12,0,0,0"
+                                    <TextBlock Margin="12,0,0,0"
                                     VerticalAlignment="Center"
                                     Text="{Binding Data.Settings.DisplayFontScale,
                                     StringFormat={}{0:P0}}"/>
-                            </StackPanel>
-                            
+                                </StackPanel>
 
-                            <TextBlock Text="Rotation"
+
+                                <TextBlock Text="Rotation"
                                 FontSize="18"
                                 FontWeight="SemiBold"
                                 Margin="0,0,0,12"/>
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="240"/>
-                                    <ColumnDefinition Width="120"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="240"/>
+                                        <ColumnDefinition Width="120"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0"
+                                    <TextBlock Grid.Row="0"
                                     Text="Schedule events per page"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
-                                <TextBox Grid.Row="0"
+                                    <TextBox Grid.Row="0"
                                     Grid.Column="1"
                                     Text="{Binding Data.Settings.ScheduleEventsPerPage, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>
 
-                                <TextBlock Grid.Row="1"
+                                    <TextBlock Grid.Row="1"
                                            Grid.Column="0"
                                         Text="Show schedule for next"
                                            VerticalAlignment="Center"
                                         Margin="0,0,8,8"/>
 
-                                <StackPanel Grid.Row="1"
+                                    <StackPanel Grid.Row="1"
                                             Grid.Column="1"
                                             Orientation="Horizontal">
-                                    <TextBox Text="{Binding Data.Settings.ScheduleLookAheadDays, UpdateSourceTrigger=PropertyChanged}"
+                                        <TextBox Text="{Binding Data.Settings.ScheduleLookAheadDays, UpdateSourceTrigger=PropertyChanged}"
                                         Width="50"
                                         Margin="0,0,8,8"/>
 
-                                    <TextBlock Text="day(s)"
+                                        <TextBlock Text="day(s)"
                                         VerticalAlignment="Center"
                                                Margin="0,0,0,8"/>
-                                </StackPanel>
+                                    </StackPanel>
 
-                                <TextBlock Grid.Row="2"
+                                    <TextBlock Grid.Row="2"
                                     Text="Schedule rotation seconds"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
-                                <TextBox Grid.Row="2"
+                                    <TextBox Grid.Row="2"
                                     Grid.Column="1"
                                     Text="{Binding Data.Settings.ScheduleRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>
 
-                                <TextBlock Grid.Row="3"
+                                    <TextBlock Grid.Row="3"
                                     Text="Weather rotation seconds"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
-                                <TextBox Grid.Row="3"
+                                    <TextBox Grid.Row="3"
                                     Grid.Column="1"
                                     Text="{Binding Data.Settings.WeatherRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>
 
-                                <TextBlock Grid.Row="4"
+                                    <TextBlock Grid.Row="4"
                                     Text="Announcement rotation seconds"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
-                                <TextBox Grid.Row="4"
+                                    <TextBox Grid.Row="4"
                                     Grid.Column="1"
                                     Text="{Binding Data.Settings.AnnouncementRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>
 
-                                <TextBlock Grid.Row="5"
+                                    <TextBlock Grid.Row="5"
                                     Text="Photo rotation seconds"
                                     VerticalAlignment="Center"
                                     Margin="0,0,8,8"/>
-                                <TextBox Grid.Row="5"
+                                    <TextBox Grid.Row="5"
                                     Grid.Column="1"
                                     Text="{Binding Data.Settings.PhotoRotationSeconds, UpdateSourceTrigger=PropertyChanged}"
                                     Margin="0,0,0,8"/>
-                            </Grid>
+                                </Grid>
 
-                            <CheckBox Content="Display always on top"
+                                <CheckBox Content="Display always on top"
                                 IsChecked="{Binding Data.Settings.DisplayAlwaysOnTop}"
                                 Margin="0,0,0,16"/>
 
 
 
-                            <TextBlock Text="Background"
+                                <TextBlock Text="Background"
                                 FontSize="18"
                                 FontWeight="SemiBold"
                                 Margin="0,0,0,12"/>
 
-                            <StackPanel Orientation="Horizontal"
+                                <StackPanel Orientation="Horizontal"
                                         Margin="0,0,0,16">
-                                <TextBlock Text="Background color (hex)"
+                                    <TextBlock Text="Background color (hex)"
                                     Margin="0,0,8,0"
                                     VerticalAlignment="Center"/>
-                                <Border Width="28"
+                                    <Border Width="28"
                                     Height="28"
                                     Background="{Binding Data.Settings.BackgroundColor}"
                                     BorderBrush="#66000000"
                                     BorderThickness="1"
                                     Margin="8,0"/>
-                                <TextBox Text="{Binding Data.Settings.BackgroundColor, UpdateSourceTrigger=PropertyChanged}"
+                                    <TextBox Text="{Binding Data.Settings.BackgroundColor, UpdateSourceTrigger=PropertyChanged}"
                                     Width="120"/>
-                                <Button Content="Choose Color..."
+                                    <Button Content="Choose Color..."
                                     Click="ChooseBackgroundColor_Click"
                                     Padding="12,4"
                                     Margin="8,0"/>
-                            </StackPanel>
+                                </StackPanel>
 
-                            <StackPanel Orientation="Horizontal"
+                                <StackPanel Orientation="Horizontal"
                                 Margin="0,0,0,8">
-                                <Button Content="Choose Image..."
+                                    <Button Content="Choose Image..."
                                     Click="ChooseBackgroundImage_Click"
                                     Padding="12,4"
                                     Margin="0,0,8,0"/>
-                                <Button Content="Clear"
+                                    <Button Content="Clear"
                                     Click="ClearBackgroundImage_Click"
                                     Padding="12,4" />
-                            </StackPanel>
+                                </StackPanel>
 
 
-                            <TextBlock Text="{Binding Data.BackgroundImagePath}"
+                                <TextBlock Text="{Binding Data.BackgroundImagePath}"
                                 TextWrapping="Wrap"
                                 Margin="0,8"
                                 Opacity="0.7"/>
-                            <Border Width="320"
+                                <Border Width="320"
                                     Height="180"
                                     HorizontalAlignment="Left"
                                     Background="#22000000"
                                     BorderBrush="#33000000"
                                     BorderThickness="1"
                                     Margin="0,8">
-                                <Image Source="{Binding Data.BackgroundImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
+                                    <Image Source="{Binding Data.BackgroundImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
                                         Stretch="UniformToFill"/>
-                            </Border>
-                        </StackPanel>
-                        
-                    </ScrollViewer>
-                </TabItem>
+                                </Border>
+                            </StackPanel>
 
-            </TabControl>
-        </Grid>
-    </DockPanel>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </DockPanel>
+
+
+        <!-- =========== TOAST NOTIFICATIONS =========== -->
+        <Border x:Name="ToastBorder"
+                Visibility="Collapsed"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="20"
+                Padding="14,10"
+                Background="#DD222222"
+                BorderBrush="#4CAF50"
+                BorderThickness="2"
+                CornerRadius="10"
+                Panel.ZIndex="999">
+            <TextBlock x:Name="ToastText"
+                    Foreground="White"
+                    FontSize="16"
+                    FontWeight="SemiBold"/>
+        </Border>
+    </Grid>
 </Window>

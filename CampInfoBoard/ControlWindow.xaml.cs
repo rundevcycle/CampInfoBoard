@@ -6,13 +6,14 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using Forms = System.Windows.Forms;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
-using System.Windows.Controls.Primitives;
 using TextBoxBase = System.Windows.Controls.Primitives.TextBoxBase;
 
 namespace CampInfoBoard
@@ -43,6 +44,10 @@ namespace CampInfoBoard
         public Array TideLevels => Enum.GetValues(typeof(TideType));
         public Array BannerPositions => Enum.GetValues(typeof(BannerPosition));
 
+        private readonly DispatcherTimer _toastTimer = new();
+
+
+
         public List<string> DisplayMonitors =>
             Forms.Screen.AllScreens
                 .Select((screen, index) =>
@@ -54,6 +59,13 @@ namespace CampInfoBoard
         public ControlWindow()
         {
             InitializeComponent();
+
+            _toastTimer.Interval = TimeSpan.FromSeconds(3);
+            _toastTimer.Tick += (_, _) =>
+            {
+                _toastTimer.Stop();
+                ToastBorder.Visibility = Visibility.Collapsed;
+            };
 
             AppPreferences preferences = AppPreferencesService.Load();
 
@@ -141,7 +153,7 @@ namespace CampInfoBoard
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             SaveBoard();
-            WpfMessageBox.Show("Saved.", "Camp Info Board");
+            ShowToast("Board saved");
         }
 
 
@@ -2344,6 +2356,17 @@ namespace CampInfoBoard
         private void RefreshSavedSnapshot()
         {
             _lastSavedSnapshot = CreateBoardSnapshot();
+        }
+
+
+        private void ShowToast(string message)
+        {
+            ToastText.Text = message;
+
+            ToastBorder.Visibility = Visibility.Visible;
+
+            _toastTimer.Stop();
+            _toastTimer.Start();
         }
     }
 }
