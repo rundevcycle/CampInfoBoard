@@ -24,5 +24,7 @@
         public string BannerText { get; set; } = "";
 
         public BannerPosition BannerPosition { get; set; } = BannerPosition.Top;
+
+        public double DisplayFontScale { get; set; } = 1.0;
     }
 }

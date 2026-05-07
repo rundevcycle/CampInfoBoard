@@ -13,6 +13,9 @@ This file tells Copilot how to behave when modifying or creating files in this r
 - Keep responses short and impersonal.
 - Use `markdown` for documentation and `mermaid` for diagrams.
 - Don't guess.  If you are uncertain, check the files ore ask for additional input.
+- In XML files, attributes should be nested 4 spaces under its parent, with only 1 attribute per line.
+- Try to limit line length to at most 140 characters where possible.
+
 
 ## Coding conventions
 - Follow repository `.editorconfig` if present; otherwise follow standard Microsoft C# conventions.

@@ -487,6 +487,10 @@ namespace CampInfoBoard
             AddHandler(
                 ToggleButton.UncheckedEvent,
                 new RoutedEventHandler((_, _) => MarkBoardChanged()));
+
+            AddHandler(
+                Slider.ValueChangedEvent,
+                new RoutedPropertyChangedEventHandler<double>((_, _) => MarkBoardChanged()));
         }
 
 
@@ -1555,7 +1559,11 @@ namespace CampInfoBoard
 
             Data.Settings.PhotoRotationSeconds =
                 Math.Max(1, Data.Settings.PhotoRotationSeconds);
+
+            Data.Settings.DisplayFontScale =
+                Math.Clamp(Data.Settings.DisplayFontScale, 0.85, 1.25);
         }
+
 
         private void RefreshDisplaySettingsBindings()
         {
