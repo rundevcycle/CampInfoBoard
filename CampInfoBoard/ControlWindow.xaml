@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:converters="clr-namespace:CampInfoBoard.Converters"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         Title="Camp Info Board Control"
         Width="1100"
         Height="750"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        Loaded="Window_Loaded">
 
     <Window.Resources>
         <converters:ImagePathToBitmapConverter x:Key="ImagePathToBitmapConverter"/>
@@ -138,7 +140,7 @@
                 <!-- Top Buttons -->
                 <!-- Top Controls -->
                 <Grid Grid.Row="0"
-      Margin="0,0,0,12">
+                      Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="24"/>
@@ -888,6 +890,64 @@
                             </StackPanel>
 
                         </ScrollViewer>
+                    </TabItem>
+
+
+                    <TabItem Header="Notes">
+                        <DockPanel Margin="16">
+                            <ToggleButton x:Name="NotesEditModeToggle"
+                                          DockPanel.Dock="Top"
+                                          Width="100"
+                                          HorizontalAlignment="Left"
+                                          Margin="0,0,0,12"
+                                          Checked="NotesEditModeToggle_Changed"
+                                          Unchecked="NotesEditModeToggle_Changed">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Content" Value="Edit"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="Content" Value="Done"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                            <Grid>
+                                <wv2:WebView2 x:Name="NotesPreviewWebView">
+                                    <wv2:WebView2.Style>
+                                        <Style TargetType="wv2:WebView2">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsChecked, ElementName=NotesEditModeToggle}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </wv2:WebView2.Style>
+                                </wv2:WebView2>
+
+                                <TextBox Text="{Binding Data.Notes, UpdateSourceTrigger=PropertyChanged}"
+                                         AcceptsReturn="True"
+                                         AcceptsTab="True"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto"
+                                         HorizontalScrollBarVisibility="Auto"
+                                         FontFamily="Consolas"
+                                         FontSize="14">
+                                    <TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsChecked, ElementName=NotesEditModeToggle}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>
+                                </TextBox>
+                            </Grid>
+                        </DockPanel>
                     </TabItem>
                 </TabControl>
             </Grid>

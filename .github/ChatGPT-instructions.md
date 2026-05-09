@@ -218,8 +218,8 @@ Potential next areas:
     * [X] Add indicator to clearly show if the board is presenting live
     * [X] Separate Save from presentation buttons
     * [X] Add indicator if the currently presenting board is out of sync with the saved board.  I can still save changes while a board is presented, but let me know in case I want to bring the presentation in sync with my saved changes.
-* [ ] Add a notes tab for additional info, instructions when sharing, and links that are useful when populating a board (e.g. closest tide station, weather sources, event website with schedule, etc.).
-    * [ ] Commonmark markdown support
-    * [ ] Display rendered text by default, but allow for edit
-    * [ ] Default is "No notes."
+* [X] Add a notes tab for additional info, instructions when sharing, and links that are useful when populating a board (e.g. closest tide station, weather sources, event website with schedule, etc.).
+    * [X] Commonmark markdown support
+    * [X] Display rendered text by default, but allow for edit
+    * [X] Default is "No notes."
 

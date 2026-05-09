@@ -1,7 +1,10 @@
 ﻿using CampInfoBoard.Models;
 using CampInfoBoard.Services;
 using CampInfoBoard.ViewModels;
+using Markdig;
+using Microsoft.Web.WebView2.Core;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -519,6 +522,26 @@ namespace CampInfoBoard
 
             WpfApplication.Current.Shutdown();
         }
+
+
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await NotesPreviewWebView.EnsureCoreWebView2Async();
+                NotesPreviewWebView.CoreWebView2.NavigationStarting += NotesPreviewWebView_NavigationStarting;
+                RefreshNotesPreview();
+            }
+            catch (Exception ex)
+            {
+                WpfMessageBox.Show(
+                    ex.Message,
+                    "Notes Preview Failed",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
 
 
         private void SetupScheduleView()
@@ -2358,6 +2381,90 @@ namespace CampInfoBoard
 
             _toastTimer.Stop();
             _toastTimer.Start();
+        }
+
+
+
+        private void NotesEditModeToggle_Changed(object sender, RoutedEventArgs e)
+        {
+            if (NotesEditModeToggle.IsChecked == false)
+            {
+                RefreshNotesPreview();
+            }
+        }
+
+        private void RefreshNotesPreview()
+        {
+            if (NotesPreviewWebView == null)
+            {
+                return;
+            }
+
+            if (NotesPreviewWebView?.CoreWebView2 == null)
+            {
+                return;
+            }
+
+            string markdown = Data.Notes ?? "";
+            string body = Markdown.ToHtml(markdown);
+
+            string html = $$"""
+    <!doctype html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            body {
+                font-family: "Segoe UI", sans-serif;
+                font-size: 15px;
+                line-height: 1.45;
+                margin: 16px;
+                color: #222;
+                background: #fff;
+            }
+
+            h1, h2, h3 {margin: 12px 0 6px 0; }
+            h4, h5, h6 {margin: 6px 0 4px 0; }
+
+            p { margin: 4px 0 8px 0;}
+
+            ul, ol { margin-top: 4px; }
+
+            a { color: #0067b8; }
+
+            pre { 
+                border: solid 1px gray;
+                padding: 1ex;
+                background-color: #f4f4f4;
+            }
+        </style>
+    </head>
+    <body>
+        {{body}}
+    </body>
+    </html>
+    """;
+
+            NotesPreviewWebView.NavigateToString(html);
+        }
+
+
+        // Open links in default browser.
+        private void NotesPreviewWebView_NavigationStarting(
+            object? sender,
+            CoreWebView2NavigationStartingEventArgs e)
+        {
+            if (e.Uri.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                e.Uri.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                e.Cancel = true;
+
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = e.Uri,
+                    UseShellExecute = true
+                });
+            }
         }
     }
 }

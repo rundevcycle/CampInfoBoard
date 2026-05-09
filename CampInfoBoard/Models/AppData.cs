@@ -19,5 +19,7 @@
         public List<PhotoItem> Photos { get; set; } = new();
 
         public string BackgroundImagePath { get; set; } = "";
+
+        public string Notes { get; set; } = "*(No notes)*";
     }
 }
