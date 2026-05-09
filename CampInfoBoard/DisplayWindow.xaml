@@ -18,30 +18,159 @@
         <converters:ScaleValueConverter x:Key="ScaleValueConverter"/>
 
         <!-- Display text styles -->
+        <SolidColorBrush x:Key="DisplayTextBrush" Color="White"/>
+        <SolidColorBrush x:Key="DisplayMutedTextBrush" Color="#DDFFFFFF"/>
+        <SolidColorBrush x:Key="DisplayAccentTextBrush" Color="#9AD0FF"/>
+        <SolidColorBrush x:Key="DisplayCardBrush" Color="#33000000"/>
+        <SolidColorBrush x:Key="DisplayStrongCardBrush" Color="#44000000"/>
+        <SolidColorBrush x:Key="DisplaySeparatorBrush" Color="#40FFFFFF"/>
+
+
+        <Style x:Key="DisplayTinyTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"
+                Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=20}"/>
+            <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplayTinySubtleTextStyle"
+                TargetType="TextBlock"
+                BasedOn="{StaticResource DisplayTinyTextStyle}">
+            <Setter Property="Opacity" Value="0.75"/>
+        </Style>
+
+        <Style x:Key="DisplayAccentTinyTextStyle"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource DisplayTinyTextStyle}">
+            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="DisplayLabelTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"
+                Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=24}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplaySoftLabelTextStyle"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource DisplayLabelTextStyle}">
+            <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplayMetaTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"
+                Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=28}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplayMutedMetaTextStyle"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource DisplayMetaTextStyle}">
+            <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+        </Style>
+        <Style x:Key="DisplayAccentMetaTextStyle"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource DisplayMetaTextStyle}">
+            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplayBodyTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"
+                Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=36}"/>
+            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplayLargeBodyTextStyle"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource DisplayBodyTextStyle}">
+            <Setter Property="FontSize"
+                    Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=40}"/>
+        </Style>
+        <Style x:Key="DisplayValueTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"
+                Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=40}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
+        </Style>
+        
+        <Style x:Key="DisplayCaptionTextStyle"
+               TargetType="TextBlock"
+               BasedOn="{StaticResource DisplayValueTextStyle}">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="DisplayTemperatureTextStyle"
+               TargetType="TextBlock">
+            <Setter Property="FontSize"
+                    Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=48}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplayTitleTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize"
+                Value="{Binding DataContext.Settings.DisplayFontScale,
+                            RelativeSource={RelativeSource AncestorType=Window},
+                            Converter={StaticResource ScaleValueConverter},
+                            ConverterParameter=54}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
+        </Style>
+
+        <Style x:Key="DisplayBannerTextStyle"
+                TargetType="TextBlock"
+                BasedOn="{StaticResource DisplayMetaTextStyle}">
+            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+
         <Style x:Key="PanelCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="#33000000"/>
+            <Setter Property="Background" Value="{StaticResource DisplayCardBrush}"/>
             <Setter Property="CornerRadius" Value="14"/>
             <Setter Property="Padding" Value="16"/>
-            <Setter Property="Margin" Value="0,0,0,16"/>
+            <Setter Property="Margin" Value="0,0,0,16" />
         </Style>
 
-        <Style x:Key="AccentLabelTextStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#9AD0FF"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
+        <Style x:Key="LargePanelCardStyle"
+            TargetType="Border"
+            BasedOn="{StaticResource PanelCardStyle}">
+            <Setter Property="Padding" Value="28"/>
         </Style>
 
-        <Style x:Key="PrimaryDisplayTextStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="34"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
+        <Style x:Key="StrongPanelCardStyle"
+            TargetType="Border"
+            BasedOn="{StaticResource PanelCardStyle}">
+            <Setter Property="Background" Value="{StaticResource DisplayStrongCardBrush}"/>
+            <Setter Property="CornerRadius" Value="18"/>
+            <Setter Property="Padding" Value="34"/>
         </Style>
-
-        <Style x:Key="SecondaryDisplayTextStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#DDFFFFFF"/>
-            <Setter Property="FontSize" Value="18"/>
-        </Style>
-
     </Window.Resources>
 
     <Grid Background="{Binding Settings.BackgroundColor}">
@@ -112,16 +241,10 @@
                 <Border Style="{StaticResource PanelCardStyle}">
                     <StackPanel>
                         <TextBlock Text="{Binding CurrentTime, StringFormat='{}{0:dddd, MMMM d}'}"
-                                   FontSize="{Binding Settings.DisplayFontScale, 
-                                   Converter={StaticResource ScaleValueConverter}, ConverterParameter=24}"
-                                   Foreground="White"
-                                   Opacity="0.75"/>
+                                   Style="{StaticResource DisplayLabelTextStyle}"/>
 
                         <TextBlock Text="{Binding CurrentTime, StringFormat='{}{0:h:mm tt}'}"
-                                   FontSize="{Binding Settings.DisplayFontScale, 
-                                   Converter={StaticResource ScaleValueConverter}, ConverterParameter=52}"
-                                   FontWeight="SemiBold"
-                                   Foreground="White"/>
+                                   Style="{StaticResource DisplayTitleTextStyle}"/>
                     </StackPanel>
                 </Border>
 
@@ -130,7 +253,7 @@
                 <Border>
                     <Border.Style>
                         <Style TargetType="Border"
-            BasedOn="{StaticResource PanelCardStyle}">
+                            BasedOn="{StaticResource PanelCardStyle}">
                             <Setter Property="Visibility" Value="Visible"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Settings.ShowWeather}" Value="False">
@@ -163,28 +286,13 @@
                                         <StackPanel Grid.Column="1"
                                             VerticalAlignment="Center">
                                             <TextBlock Text="{Binding DateLabel}"
-                                               FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                    Converter={StaticResource ScaleValueConverter}, 
-                                                    ConverterParameter=18}"
-                                                Foreground="#9AD0FF"
-                                                FontWeight="SemiBold"/>
+                                                       Style="{StaticResource DisplayAccentTinyTextStyle}"/>
 
                                             <TextBlock Text="{Binding TemperatureDisplay}"
-                                               FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                    Converter={StaticResource ScaleValueConverter}, 
-                                                    ConverterParameter=28}"
-                                                FontWeight="SemiBold"
-                                                Foreground="White"/>
+                                                       Style="{StaticResource DisplayMetaTextStyle}"/>
 
                                             <TextBlock Text="{Binding FeelsLikeDisplay}"
-                                               FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                    Converter={StaticResource ScaleValueConverter}, 
-                                                    ConverterParameter=20}"
-                                                Foreground="#DDFFFFFF"
-                                                Opacity="0.75"
+                                                Style="{StaticResource DisplayTinySubtleTextStyle}"
                                                 Visibility="{Binding HasFeelsLike, Converter={StaticResource BoolToVisibility}}"/>
                                         </StackPanel>
 
@@ -230,12 +338,8 @@
                                     Height="48"
                                     Margin="0,0,14,0"/>
                                 <TextBlock Text="{Binding TodaySun.Sunrise, StringFormat={}{0:h:mm tt}}"
-                                    FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=26}"
-                                    FontWeight="SemiBold"
-                                    Foreground="White"
-                                    VerticalAlignment="Center"/>
+                                           Style="{StaticResource DisplayMetaTextStyle}"
+                                           VerticalAlignment="Center"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
@@ -244,12 +348,8 @@
                                     Height="48"
                                     Margin="0,0,14,0"/>
                                 <TextBlock Text="{Binding TodaySun.Sunset, StringFormat={}{0:h:mm tt}}"
-                                    FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=26}"
-                                    FontWeight="SemiBold"
-                                    Foreground="White"
-                                    VerticalAlignment="Center"/>
+                                           Style="{StaticResource DisplayMetaTextStyle}"
+                                           VerticalAlignment="Center"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -263,15 +363,10 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <TextBlock Text="{Binding SeparatorLabel}"
-                                        FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                            RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                            Converter={StaticResource ScaleValueConverter}, 
-                                            ConverterParameter=20}"
-                                        FontWeight="SemiBold"
-                                        Foreground="#9AD0FF">
+                                    <TextBlock Text="{Binding SeparatorLabel}">
                                         <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
+                                            <Style TargetType="TextBlock"
+                                                   BasedOn="{StaticResource DisplayAccentTinyTextStyle}">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsSeparator}" Value="True">
@@ -300,13 +395,8 @@
                                             Height="48"
                                             Margin="0,0,14,0"/>
                                         <TextBlock Text="{Binding TimeDisplay}"
-                                            FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                Converter={StaticResource ScaleValueConverter}, 
-                                                ConverterParameter=26}"
-                                            FontWeight="SemiBold"
-                                            Foreground="White"
-                                            VerticalAlignment="Center"/>
+                                                   Style="{StaticResource DisplayMetaTextStyle}"
+                                                   VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -322,28 +412,16 @@
                         <!-- RADIO -->
                         <StackPanel>
                             <TextBlock Text="FM Radio"
-                                   FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=18}"
-                                   Foreground="White"
-                                   Opacity="0.75"
-                                   Margin="0,0,0,6"/>
+                                       Style="{StaticResource DisplayAccentTinyTextStyle}"
+                                       Margin="0,0,0,6"/>
 
                             <TextBlock Text="{Binding Radio.EnglishFrequency, StringFormat='EN {0} MHz'}"
-                                   Foreground="White"
-                                   FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=26}"
-                                   FontWeight="SemiBold"
-                                   Visibility="{Binding Radio.EnglishFrequency, Converter={StaticResource NullToVisibility}}"/>
+                                       Style="{StaticResource DisplayMetaTextStyle}"
+                                       Visibility="{Binding Radio.EnglishFrequency, Converter={StaticResource NullToVisibility}}"/>
 
                             <TextBlock Text="{Binding Radio.FrenchFrequency, StringFormat='FR {0} MHz'}"
-                                   Foreground="White"
-                                   FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=26}"
-                                   FontWeight="SemiBold"
-                                   Visibility="{Binding Radio.FrenchFrequency, Converter={StaticResource NullToVisibility}}"/>
+                                       Style="{StaticResource DisplayMetaTextStyle}"
+                                       Visibility="{Binding Radio.FrenchFrequency, Converter={StaticResource NullToVisibility}}"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -383,18 +461,12 @@
                     <StackPanel>
                         <!-- Banner text -->
                         <TextBlock Text="{Binding Settings.BannerText}"
-                            FontSize="{Binding Settings.DisplayFontScale,
-                                Converter={StaticResource ScaleValueConverter},
-                                ConverterParameter=28}"
-                            FontWeight="Medium"
-                            Foreground="#9AD0FF"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap"
-                            Margin="0,0,0,8"/>
+                                   Style="{StaticResource DisplayBannerTextStyle}"
+                                   Margin="0,0,0,8"/>
 
                         <!-- Separator line -->
                         <Border Height="2"
-                            Background="#40FFFFFF"
+                            Background="{StaticResource DisplaySeparatorBrush}"
                             HorizontalAlignment="Stretch"/>
                     </StackPanel>
                 </Grid>
@@ -408,7 +480,7 @@
                             <ItemsControl ItemsSource="{Binding FilteredSchedule}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Margin="0,10"
+                                        <Border Margin="0,0,0,10"
                                             Padding="16"
                                             Background="{Binding IsHappeningNow, Converter={StaticResource ScheduleBackgroundConverter}}"
                                             BorderBrush="{Binding IsHappeningNow, Converter={StaticResource ScheduleBorderConverter}}"
@@ -424,30 +496,17 @@
                                                 <StackPanel Grid.Column="0"
                                                 VerticalAlignment="Top">
                                                     <TextBlock Text="{Binding DisplayDayLabel}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=24}"
-                                                    FontWeight="SemiBold"
-                                                    Foreground="#9AD0FF"/>
+                                                               Style="{StaticResource DisplayLabelTextStyle}"/>
 
                                                     <TextBlock Text="{Binding DisplayStartTime}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=40}"
-                                                    FontWeight="Bold"
-                                                    Foreground="White"
-                                                    Margin="0,4,0,0"/>
+                                                               Style="{StaticResource DisplayValueTextStyle}"
+                                                               Margin="0,4,0,0"/>
 
+                                                    <!-- TODO Use a brush for colour -->
                                                     <TextBlock Text="{Binding DisplayEndTime}"
-                                                        FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                            Converter={StaticResource ScaleValueConverter}, 
-                                                            ConverterParameter=24}"
-                                                        Foreground="#CCFFFFFF"
-                                                        Margin="0,2,0,0"
-                                                        Visibility="{Binding DisplayEndTime, Converter={StaticResource NullToVisibility}}"/>
+                                                               Style="{StaticResource DisplaySoftLabelTextStyle}"
+                                                               Margin="0,2,0,0"
+                                                               Visibility="{Binding DisplayEndTime, Converter={StaticResource NullToVisibility}}"/>
                                                 </StackPanel>
                                                 
                                                 <!-- DETAILS -->
@@ -455,32 +514,19 @@
                                                     Margin="20,0,0,0">
 
                                                     <TextBlock Text="{Binding Title}"
-                                                        FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                            Converter={StaticResource ScaleValueConverter}, 
-                                                            ConverterParameter=54}"
-                                                        FontWeight="SemiBold"
-                                                        Foreground="White"/>
+                                                               Style="{StaticResource DisplayTitleTextStyle}" />
 
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding Location}"
-                                                            FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                                RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                                Converter={StaticResource ScaleValueConverter}, 
-                                                                ConverterParameter=30}"
-                                                            Foreground="#9AD0FF"
-                                                            Margin="0,6,0,0"
-                                                            Visibility="{Binding Location, Converter={StaticResource NullToVisibility}}"/>
+                                                                   Style="{StaticResource DisplayAccentMetaTextStyle}"
+                                                                   Margin="0,6,0,0"
+                                                                   Visibility="{Binding Location, Converter={StaticResource NullToVisibility}}"/>
 
                                                         <TextBlock Text=" • "
-                                                            FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                                RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                                Converter={StaticResource ScaleValueConverter}, 
-                                                                ConverterParameter=30}"
-                                                            Foreground="#809AD0FF"
-                                                            Margin="6,6,6,0">
+                                                                   Margin="6,6,6,0">
                                                             <TextBlock.Style>
-                                                                <Style TargetType="TextBlock">
+                                                                <Style TargetType="TextBlock"
+                                                                       BasedOn="{StaticResource DisplayAccentMetaTextStyle}">
                                                                     <Setter Property="Visibility" Value="Visible"/>
                                                                     <Style.Triggers>
                                                                         <DataTrigger Binding="{Binding Location}" Value="">
@@ -494,23 +540,15 @@
                                                             </TextBlock.Style>
                                                         </TextBlock>
                                                         <TextBlock Text="{Binding Speaker}"
-                                                            FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                                RelativeSource={RelativeSource AncestorType=ItemsControl},
-                                                                Converter={StaticResource ScaleValueConverter}, 
-                                                                ConverterParameter=30}"
-                                                            Foreground="#9AD0FF"
-                                                            Margin="0,6,24,0"/>
+                                                                   Style="{StaticResource DisplayAccentMetaTextStyle}"
+                                                                   Margin="0,6,24,0"/>
                                                     </StackPanel>
 
                                                     <TextBlock Text="{Binding Description}"
-                                                        FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                            Converter={StaticResource ScaleValueConverter}, 
-                                                            ConverterParameter=36}"
-                                                        Foreground="White"
-                                                        TextWrapping="Wrap"
-                                                        Margin="0,10,0,0"
-                                                        Opacity="0.95"/>
+                                                               Style="{StaticResource DisplayBodyTextStyle}"
+                                                               TextWrapping="Wrap"
+                                                               Margin="0,10,0,0"
+                                                               Opacity="0.95"/>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
@@ -531,10 +569,10 @@
                             <ItemsControl ItemsSource="{Binding DisplayWeather}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Margin="0,10"
-                                        Padding="28"
-                                        Background="#33000000"
-                                        CornerRadius="14">
+                                        <Border Margin="0,0,0,10"
+                                                Padding="28"
+                                                Style="{StaticResource LargePanelCardStyle}"
+                                                CornerRadius="14">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="180"/>
@@ -552,75 +590,49 @@
                                                 Margin="20,0,0,0">
 
                                                     <TextBlock Text="{Binding DateLabel}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=24}"
-                                                    FontWeight="SemiBold"
-                                                    Foreground="#9AD0FF"/>
+                                                               Style="{StaticResource DisplayLabelTextStyle}"/>
 
                                                     <TextBlock Text="{Binding TemperatureDisplay}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=48}"
-                                                    FontWeight="Bold"
-                                                    Foreground="White"/>
+                                                               Style="{StaticResource DisplayTemperatureTextStyle}"/>
 
                                                     <TextBlock Text="{Binding FeelsLikeDisplay}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=32}"
-                                                    Foreground="LightGray"
-                                                    Visibility="{Binding HasFeelsLike, Converter={StaticResource BoolToVisibility}}"/>
+                                                               Style="{StaticResource DisplayMutedMetaTextStyle}"
+                                                               Visibility="{Binding HasFeelsLike, Converter={StaticResource BoolToVisibility}}"/>
 
                                                     <TextBlock Text="{Binding Description}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=36}"
-                                                    Foreground="White"
-                                                    FontWeight="SemiBold"
-                                                    TextWrapping="Wrap"/>
+                                                               Style="{StaticResource DisplayBodyTextStyle}"
+                                                               FontWeight="SemiBold"
+                                                               TextWrapping="Wrap"/>
 
                                                     <TextBlock Text="{Binding WindDisplay}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=26}"
-                                                    Foreground="LightGray"
-                                                    Visibility="{Binding HasWind, Converter={StaticResource BoolToVisibility}}"/>
+                                                               Style="{StaticResource DisplayMutedMetaTextStyle}"
+                                                               Visibility="{Binding HasWind, Converter={StaticResource BoolToVisibility}}"/>
 
                                                     <TextBlock Text="{Binding PrecipitationDisplay}"
-                                                    FontSize="{Binding DataContext.Settings.DisplayFontScale, 
-                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}, 
-                                                        Converter={StaticResource ScaleValueConverter}, 
-                                                        ConverterParameter=26}"
-                                                    Foreground="LightGray"
-                                                    Visibility="{Binding PrecipitationDisplay, Converter={StaticResource NullToVisibility}}"/>
+                                                               Style="{StaticResource DisplayMutedMetaTextStyle}"
+                                                               Visibility="{Binding PrecipitationDisplay, Converter={StaticResource NullToVisibility}}"/>
                                                 </StackPanel>
 
                                                 <Border Grid.Column="2"
-                                                Width="116"
-                                                Height="116"
-                                                CornerRadius="58"
-                                                Background="{Binding UVIndex, Converter={StaticResource UVIndexToBrushConverter}}"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Right"
-                                                Visibility="{Binding HasUV, Converter={StaticResource BoolToVisibility}}">
+                                                        Width="116"
+                                                        Height="116"
+                                                        CornerRadius="58"
+                                                        Background="{Binding UVIndex, Converter={StaticResource UVIndexToBrushConverter}}"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Right"
+                                                        Visibility="{Binding HasUV, Converter={StaticResource BoolToVisibility}}">
                                                     <StackPanel HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center">
+                                                                VerticalAlignment="Center">
                                                         <TextBlock Text="UV"
-                                                        FontSize="22"
-                                                        FontWeight="Bold"
-                                                        Foreground="Black"
-                                                        HorizontalAlignment="Center"/>
+                                                                   FontSize="22"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="Black"
+                                                                   HorizontalAlignment="Center"/>
                                                         <TextBlock Text="{Binding UVIndex}"
-                                                        FontSize="46"
-                                                        FontWeight="Bold"
-                                                        Foreground="Black"
-                                                        HorizontalAlignment="Center"/>
+                                                                   FontSize="46"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="Black"
+                                                                   HorizontalAlignment="Center"/>
                                                     </StackPanel>
                                                 </Border>
                                             </Grid>
@@ -635,21 +647,17 @@
                     <!-- ================= ANNOUNCEMENTS ================= -->
                     <Grid Visibility="{Binding IsAnnouncementVisible, Converter={StaticResource BoolToVisibility}}">
 
-                        <Border Background="#44000000"
-                        CornerRadius="18"
-                        Padding="34"
-                        Width="1050"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top">
+                        <Border Style="{StaticResource StrongPanelCardStyle}"
+                                CornerRadius="18"
+                                Padding="34"
+                                Width="1050"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
                             <StackPanel>
                                 <TextBlock Text="{Binding CurrentAnnouncement.Title}"
-                                   FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=58}"
-                                   FontWeight="SemiBold"
-                                   Foreground="White"
-                                   TextAlignment="Center"
-                                   Margin="0,0,0,26"/>
+                                           Style="{StaticResource DisplayTitleTextStyle}"
+                                           TextAlignment="Center"
+                                           Margin="0,0,0,26"/>
 
                                 <Image Source="{Binding CurrentAnnouncement.ImagePath, Converter={StaticResource ImagePathToBitmapConverter}}"
                                     MaxHeight="400"
@@ -668,20 +676,18 @@
                                 </Image>
 
                                 <TextBlock Text="{Binding CurrentAnnouncement.BodyText}"
-                                FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=40}"
-                                LineHeight="50"
-                                Foreground="White"
-                                TextWrapping="Wrap"
-                                TextAlignment="Left"
-                                Opacity="0.95"/>
+                                           Style="{StaticResource DisplayLargeBodyTextStyle}"
+                                           LineHeight="50"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Left"
+                                           Opacity="0.95"/>
 
                             </StackPanel>
                         </Border>
 
                     </Grid>
                 </Grid>
+
 
                 <!-- ================= BOTTOM BANNER ================= -->
                 <Grid Grid.Row="2" Margin="0,12,0,0">
@@ -705,19 +711,13 @@
                     <StackPanel>
                         <!-- Separator line -->
                         <Border Height="2"
-                            Background="#40FFFFFF"
+                            Background="{StaticResource DisplaySeparatorBrush}"
                             HorizontalAlignment="Stretch"/>
 
                         <!-- Banner text -->
                         <TextBlock Text="{Binding Settings.BannerText}"
-                            FontSize="{Binding Settings.DisplayFontScale,
-                                Converter={StaticResource ScaleValueConverter},
-                                ConverterParameter=28}"
-                            FontWeight="Medium"
-                            Foreground="#9AD0FF"
-                            TextAlignment="Center"
-                            TextWrapping="Wrap"
-                            Margin="0,8,0,0"/>
+                                   Style="{StaticResource DisplayBannerTextStyle}"
+                                   Margin="0,8,0,0"/>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -765,20 +765,13 @@
 
                 <StackPanel>
                     <TextBlock Text="No Active Photos"
-                                Foreground="White"
-                                FontSize="{Binding Settings.DisplayFontScale, 
-                                    Converter={StaticResource ScaleValueConverter}, 
-                                    ConverterParameter=36}"
-                                FontWeight="Bold"
-                                HorizontalAlignment="Center" />
+                               Style="{StaticResource DisplayBodyTextStyle}"
+                               HorizontalAlignment="Center" />
 
                     <TextBlock Text="Add photos or mark existing photos as Active."
-                                Foreground="#DDFFFFFF"
-                                FontSize="{Binding Settings.DisplayFontScale, 
-                                    Converter={StaticResource ScaleValueConverter}, 
-                                    ConverterParameter=18}"
-                                Margin="0,10,0,0"
-                                HorizontalAlignment="Center" />
+                               Style="{StaticResource DisplayTinyTextStyle}"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center" />
                 </StackPanel>
             </Border>
 
@@ -811,23 +804,17 @@
                     <StackPanel VerticalAlignment="Bottom">
 
                         <TextBlock Text="{Binding CurrentPhoto.Caption}"
-                                    FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=40}"
-                                    FontWeight="SemiBold"
-                                    Foreground="White"
-                                    TextWrapping="Wrap"
+                                   Style="{StaticResource DisplayCaptionTextStyle}"
+                                   TextWrapping="Wrap"
                                    Margin="0,0,0,4"/>
 
                         <TextBlock Text="{Binding CurrentPhoto.Credit}"
-                                    FontSize="{Binding Settings.DisplayFontScale, 
-                                        Converter={StaticResource ScaleValueConverter}, 
-                                        ConverterParameter=22}"
-                                    Foreground="#DDFFFFFF"
-                                    Margin="0,8,0,0"
-                                    TextWrapping="Wrap">
+                                   Margin="0,8,0,0"
+                                   TextWrapping="Wrap">
                             <TextBlock.Style>
-                                <Style TargetType="TextBlock">
+                                <Style TargetType="TextBlock"
+                                       BasedOn="{StaticResource DisplayLabelTextStyle}">
+                                    <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}" />
                                     <Setter Property="Visibility" Value="Visible" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding CurrentPhoto.Credit}" Value="">
