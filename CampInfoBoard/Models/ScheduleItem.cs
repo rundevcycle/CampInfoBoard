@@ -259,7 +259,7 @@ namespace CampInfoBoard.Models
         public string DisplayStartTime => Start.ToString("h:mm tt");
 
         public string DisplayEndTime =>
-            HasEndTime ? End.ToString("h:mm tt") : "";
+            HasEndTime ? $"to {End.ToString("h:mm tt")}" : "";
 
         public bool IsHappeningNow =>
             Start <= DateTime.Now && End >= DateTime.Now;
