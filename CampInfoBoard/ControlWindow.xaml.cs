@@ -178,9 +178,7 @@ namespace CampInfoBoard
 
                 Title = $"Camp Info Board - {AppPaths.CurrentBoardName}";
 
-                WpfMessageBox.Show(
-                    $"Board saved as '{AppPaths.CurrentBoardName}'.",
-                    "Camp Info Board");
+                ShowToast($"Board saved as '{AppPaths.CurrentBoardName}'.");
             }
             catch (Exception ex)
             {
@@ -212,9 +210,7 @@ namespace CampInfoBoard
             {
                 AppPaths.ExportCurrentBoardPackage(dialog.FileName);
 
-                WpfMessageBox.Show(
-                    $"Board exported to:\n{dialog.FileName}",
-                    "Camp Info Board");
+                ShowToast($"Board exported to {dialog.FileName}.");
             }
             catch (Exception ex)
             {
@@ -284,9 +280,7 @@ namespace CampInfoBoard
                     viewModel.RestartRotation();
                 }
 
-                WpfMessageBox.Show(
-                    $"Board imported as '{AppPaths.CurrentBoardName}'.",
-                    "Camp Info Board");
+                ShowToast($"Board imported as '{AppPaths.CurrentBoardName}'.");
             }
             catch (Exception ex)
             {
@@ -389,6 +383,7 @@ namespace CampInfoBoard
             }
 
             UpdateLivePresentation();
+            ShowToast("Presentation updated.");
         }
 
         private bool PromptToSaveIfNeeded()
@@ -599,9 +594,9 @@ namespace CampInfoBoard
                 SortTidesByTime();
                 MarkBoardChanged();
 
-                WpfMessageBox.Show(
-                    $"Imported {result.ImportedTides.Count} tide(s).\nSkipped {result.SkippedRows} row(s).",
-                    "Camp Info Board");
+                string tidesPluralized = result.ImportedTides.Count == 1 ? "tide" : "tides";
+                string skippedPluralized = result.SkippedRows == 1 ? "row" : "rows";
+                ShowToast($"Imported {result.ImportedTides.Count:N0} {tidesPluralized}.\nSkipped {result.SkippedRows:N0} {skippedPluralized}.");
             }
             catch (Exception ex)
             {
@@ -1645,10 +1640,8 @@ namespace CampInfoBoard
 
                 if (result.ImportedSunEntries.Count == 0)
                 {
-                    WpfMessageBox.Show(
-                        $"No sun entries were imported.\nSkipped {result.SkippedRows} row(s).",
-                        "Camp Info Board");
-
+                    string skippedPluralized2 = result.SkippedRows == 1 ? "row" : "rows";
+                    ShowToast($"No sun entries were imported.\nSkipped {result.SkippedRows:N0} {skippedPluralized2}.");
                     return;
                 }
 
@@ -1687,10 +1680,8 @@ namespace CampInfoBoard
                 string entryLabel = importedCount == 1
                     ? "entry"
                     : "entries";
-
-                WpfMessageBox.Show(
-                    $"Imported {importedCount} sun {entryLabel}.\nSkipped {result.SkippedRows} row(s).",
-                    "Camp Info Board");
+                string skippedPluralized = result.SkippedRows == 1 ? "row" : "rows";
+                ShowToast($"Imported {importedCount} sun {entryLabel:N0}.\nSkipped {result.SkippedRows:N0} {skippedPluralized}.");
             }
             catch (Exception ex)
             {
