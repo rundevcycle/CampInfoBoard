@@ -9,168 +9,169 @@
         Background="Black">
 
     <Window.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
-        <converters:ImagePathToBitmapConverter x:Key="ImagePathToBitmapConverter"/>
-        <converters:UVIndexToBrushConverter x:Key="UVIndexToBrushConverter"/>
-        <converters:ScheduleBackgroundConverter x:Key="ScheduleBackgroundConverter"/>
-        <converters:ScheduleBorderConverter x:Key="ScheduleBorderConverter"/>
-        <converters:ScaleValueConverter x:Key="ScaleValueConverter"/>
 
-        <!-- Display text styles -->
-        <SolidColorBrush x:Key="DisplayTextBrush" Color="White"/>
-        <SolidColorBrush x:Key="DisplayMutedTextBrush" Color="#DDFFFFFF"/>
-        <SolidColorBrush x:Key="DisplayAccentTextBrush" Color="#9AD0FF"/>
-        <SolidColorBrush x:Key="DisplayCardBrush" Color="#33000000"/>
-        <SolidColorBrush x:Key="DisplayStrongCardBrush" Color="#44000000"/>
-        <SolidColorBrush x:Key="DisplaySeparatorBrush" Color="#40FFFFFF"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/DarkTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+            <converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+            <converters:ImagePathToBitmapConverter x:Key="ImagePathToBitmapConverter"/>
+            <converters:UVIndexToBrushConverter x:Key="UVIndexToBrushConverter"/>
+            <converters:ScaleValueConverter x:Key="ScaleValueConverter"/>
 
 
-        <Style x:Key="DisplayTinyTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize"
-                Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=20}"/>
-            <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}"/>
-        </Style>
 
-        <Style x:Key="DisplayTinySubtleTextStyle"
-                TargetType="TextBlock"
-                BasedOn="{StaticResource DisplayTinyTextStyle}">
-            <Setter Property="Opacity" Value="0.75"/>
-        </Style>
-
-        <Style x:Key="DisplayAccentTinyTextStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource DisplayTinyTextStyle}">
-            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-
-        <Style x:Key="DisplayLabelTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize"
-                Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=24}"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
-        </Style>
-
-        <Style x:Key="DisplaySoftLabelTextStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource DisplayLabelTextStyle}">
-            <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}"/>
-        </Style>
-
-        <Style x:Key="DisplayMetaTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize"
-                Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=28}"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
-        </Style>
-
-        <Style x:Key="DisplayMutedMetaTextStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource DisplayMetaTextStyle}">
-            <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-        </Style>
-        <Style x:Key="DisplayAccentMetaTextStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource DisplayMetaTextStyle}">
-            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
-        </Style>
-
-        <Style x:Key="DisplayBodyTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize"
-                Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=36}"/>
-            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
-        </Style>
-
-        <Style x:Key="DisplayLargeBodyTextStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource DisplayBodyTextStyle}">
-            <Setter Property="FontSize"
+            <Style x:Key="DisplayTinyTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize"
                     Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=40}"/>
-        </Style>
-        <Style x:Key="DisplayValueTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize"
-                Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=40}"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
-        </Style>
-        
-        <Style x:Key="DisplayCaptionTextStyle"
-               TargetType="TextBlock"
-               BasedOn="{StaticResource DisplayValueTextStyle}">
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
-
-        <Style x:Key="DisplayTemperatureTextStyle"
-               TargetType="TextBlock">
-            <Setter Property="FontSize"
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=20}"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisplayMutedTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplayAccentTinyTextStyle"
+                   TargetType="TextBlock"
+                   BasedOn="{StaticResource DisplayTinyTextStyle}">
+                <Setter Property="Foreground" Value="{DynamicResource DisplayAccentTextBrush}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+    
+            <Style x:Key="DisplayLabelTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize"
                     Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=48}"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
-        </Style>
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=24}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisplayAccentTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplaySoftLabelTextStyle"
+                   TargetType="TextBlock"
+                   BasedOn="{StaticResource DisplayLabelTextStyle}">
+                <Setter Property="Foreground" Value="{DynamicResource DisplayMutedTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplayMetaTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize"
+                    Value="{Binding DataContext.Settings.DisplayFontScale,
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=28}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisplayTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplayMutedMetaTextStyle"
+                   TargetType="TextBlock"
+                   BasedOn="{StaticResource DisplayMetaTextStyle}">
+                <Setter Property="Foreground" Value="{DynamicResource DisplayMutedTextBrush}"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+            <Style x:Key="DisplayAccentMetaTextStyle"
+                   TargetType="TextBlock"
+                   BasedOn="{StaticResource DisplayMetaTextStyle}">
+                <Setter Property="Foreground" Value="{DynamicResource DisplayAccentTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplayBodyTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize"
+                    Value="{Binding DataContext.Settings.DisplayFontScale,
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=36}"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisplayTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplayLargeBodyTextStyle"
+                   TargetType="TextBlock"
+                   BasedOn="{StaticResource DisplayBodyTextStyle}">
+                <Setter Property="FontSize"
+                        Value="{Binding DataContext.Settings.DisplayFontScale,
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=40}"/>
+            </Style>
+            <Style x:Key="DisplayValueTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize"
+                    Value="{Binding DataContext.Settings.DisplayFontScale,
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=40}"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisplayTextBrush}"/>
+            </Style>
+            
+            <Style x:Key="DisplayCaptionTextStyle"
+                   TargetType="TextBlock"
+                   BasedOn="{StaticResource DisplayValueTextStyle}">
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+    
+            <Style x:Key="DisplayTemperatureTextStyle"
+                   TargetType="TextBlock">
+                <Setter Property="FontSize"
+                        Value="{Binding DataContext.Settings.DisplayFontScale,
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=48}"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisplayTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplayTitleTextStyle" TargetType="TextBlock">
+                <Setter Property="FontSize"
+                    Value="{Binding DataContext.Settings.DisplayFontScale,
+                                RelativeSource={RelativeSource AncestorType=Window},
+                                Converter={StaticResource ScaleValueConverter},
+                                ConverterParameter=54}"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="{DynamicResource DisplayTextBrush}"/>
+            </Style>
+    
+            <Style x:Key="DisplayBannerTextStyle"
+                    TargetType="TextBlock"
+                    BasedOn="{StaticResource DisplayMetaTextStyle}">
+                <Setter Property="Foreground" Value="{DynamicResource DisplayAccentTextBrush}"/>
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="TextWrapping" Value="Wrap"/>
+            </Style>
+    
+    
+            <Style x:Key="PanelCardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{DynamicResource DisplayCardBrush}"/>
+                <Setter Property="CornerRadius" Value="14"/>
+                <Setter Property="Padding" Value="16"/>
+                <Setter Property="Margin" Value="0,0,0,16" />
+            </Style>
+    
+            <Style x:Key="LargePanelCardStyle"
+                TargetType="Border"
+                BasedOn="{StaticResource PanelCardStyle}">
+                <Setter Property="Padding" Value="28"/>
+            </Style>
+    
+            <Style x:Key="StrongPanelCardStyle"
+                TargetType="Border"
+                BasedOn="{StaticResource PanelCardStyle}">
+                <Setter Property="Background" Value="{DynamicResource DisplayStrongCardBrush}"/>
+                <Setter Property="CornerRadius" Value="18"/>
+                <Setter Property="Padding" Value="34"/>
+            </Style>
 
-        <Style x:Key="DisplayTitleTextStyle" TargetType="TextBlock">
-            <Setter Property="FontSize"
-                Value="{Binding DataContext.Settings.DisplayFontScale,
-                            RelativeSource={RelativeSource AncestorType=Window},
-                            Converter={StaticResource ScaleValueConverter},
-                            ConverterParameter=54}"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{StaticResource DisplayTextBrush}"/>
-        </Style>
 
-        <Style x:Key="DisplayBannerTextStyle"
-                TargetType="TextBlock"
-                BasedOn="{StaticResource DisplayMetaTextStyle}">
-            <Setter Property="Foreground" Value="{StaticResource DisplayAccentTextBrush}"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-        </Style>
-
-
-        <Style x:Key="PanelCardStyle" TargetType="Border">
-            <Setter Property="Background" Value="{StaticResource DisplayCardBrush}"/>
-            <Setter Property="CornerRadius" Value="14"/>
-            <Setter Property="Padding" Value="16"/>
-            <Setter Property="Margin" Value="0,0,0,16" />
-        </Style>
-
-        <Style x:Key="LargePanelCardStyle"
-            TargetType="Border"
-            BasedOn="{StaticResource PanelCardStyle}">
-            <Setter Property="Padding" Value="28"/>
-        </Style>
-
-        <Style x:Key="StrongPanelCardStyle"
-            TargetType="Border"
-            BasedOn="{StaticResource PanelCardStyle}">
-            <Setter Property="Background" Value="{StaticResource DisplayStrongCardBrush}"/>
-            <Setter Property="CornerRadius" Value="18"/>
-            <Setter Property="Padding" Value="34"/>
-        </Style>
+            <Style x:Key="BannerPanelStyle"
+                   TargetType="Border">
+                <Setter Property="Background" Value="{DynamicResource DisplayCardBrush}"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Padding" Value="14,8"/>
+            </Style>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid Background="{Binding Settings.BackgroundColor}">
@@ -199,8 +200,7 @@
         </Image>
 
         <!-- readability overlay -->
-        <Rectangle Fill="Black"
-           Opacity="0.45">
+        <Rectangle Fill="{DynamicResource DisplayReadabilityOverlayBrush}">
             <Rectangle.Style>
                 <Style TargetType="Rectangle">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -292,7 +292,7 @@
                                                        Style="{StaticResource DisplayMetaTextStyle}"/>
 
                                             <TextBlock Text="{Binding FeelsLikeDisplay}"
-                                                Style="{StaticResource DisplayTinySubtleTextStyle}"
+                                                Style="{StaticResource DisplayTinyTextStyle}"
                                                 Visibility="{Binding HasFeelsLike, Converter={StaticResource BoolToVisibility}}"/>
                                         </StackPanel>
 
@@ -460,14 +460,10 @@
 
                     <StackPanel>
                         <!-- Banner text -->
-                        <TextBlock Text="{Binding Settings.BannerText}"
-                                   Style="{StaticResource DisplayBannerTextStyle}"
-                                   Margin="0,0,0,8"/>
-
-                        <!-- Separator line -->
-                        <Border Height="2"
-                            Background="{StaticResource DisplaySeparatorBrush}"
-                            HorizontalAlignment="Stretch"/>
+                        <Border Style="{StaticResource BannerPanelStyle}">
+                            <TextBlock Text="{Binding Settings.BannerText}"
+                                   Style="{StaticResource DisplayBannerTextStyle}"/>
+                        </Border>
                     </StackPanel>
                 </Grid>
                 
@@ -482,10 +478,22 @@
                                     <DataTemplate>
                                         <Border Margin="0,0,0,10"
                                             Padding="16"
-                                            Background="{Binding IsHappeningNow, Converter={StaticResource ScheduleBackgroundConverter}}"
-                                            BorderBrush="{Binding IsHappeningNow, Converter={StaticResource ScheduleBorderConverter}}"
-                                            BorderThickness="3"
                                             CornerRadius="10">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{DynamicResource DisplayCardBrush}"/>
+                                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsHappeningNow}" Value="True">
+                                                            <Setter Property="BorderBrush" Value="{DynamicResource DisplayCurrentEventBorderBrush}"/>
+                                                            <Setter Property="BorderThickness" Value="5"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="220"/>
@@ -708,15 +716,11 @@
                     </Grid.Style>
 
                     <StackPanel>
-                        <!-- Separator line -->
-                        <Border Height="2"
-                            Background="{StaticResource DisplaySeparatorBrush}"
-                            HorizontalAlignment="Stretch"/>
-
                         <!-- Banner text -->
-                        <TextBlock Text="{Binding Settings.BannerText}"
-                                   Style="{StaticResource DisplayBannerTextStyle}"
-                                   Margin="0,8,0,0"/>
+                        <Border Style="{StaticResource BannerPanelStyle}">
+                            <TextBlock Text="{Binding Settings.BannerText}"
+                                       Style="{StaticResource DisplayBannerTextStyle}"/>
+                        </Border>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -813,7 +817,7 @@
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock"
                                        BasedOn="{StaticResource DisplayLabelTextStyle}">
-                                    <Setter Property="Foreground" Value="{StaticResource DisplayMutedTextBrush}" />
+                                    <Setter Property="Foreground" Value="#DDFFFFFF" />
                                     <Setter Property="Visibility" Value="Visible" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding CurrentPhoto.Credit}" Value="">

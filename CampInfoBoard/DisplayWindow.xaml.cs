@@ -1,15 +1,6 @@
-﻿using CampInfoBoard.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using CampInfoBoard.Models;
+using CampInfoBoard.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CampInfoBoard
 {
@@ -22,6 +13,37 @@ namespace CampInfoBoard
         {
             InitializeComponent();
             DataContext = new DisplayViewModel();
+            ApplyTheme();
+        }
+
+        private void ApplyTheme()
+        {
+            if (DataContext is not DisplayViewModel viewModel)
+            {
+                return;
+            }
+
+            string themePath = viewModel.Settings.Theme switch
+            {
+                DisplayTheme.Light => "/Themes/LightTheme.xaml",
+                DisplayTheme.DarkHighContrast => "/Themes/DarkHighContrastTheme.xaml",
+                DisplayTheme.LightHighContrast => "/Themes/LightHighContrastTheme.xaml",
+                _ => "/Themes/DarkTheme.xaml"
+            };
+
+            ResourceDictionary themeDictionary = new()
+            {
+                Source = new Uri(themePath, UriKind.Relative)
+            };
+
+            Resources.MergedDictionaries.Clear();
+            Resources.MergedDictionaries.Add(themeDictionary);
+        }
+
+
+        public void RefreshTheme()
+        {
+            ApplyTheme();
         }
     }
 }

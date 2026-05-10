@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="DisplayTextBrush" Color="White"/>
+    <SolidColorBrush x:Key="DisplayMutedTextBrush" Color="#F0F0F0"/>
+    <SolidColorBrush x:Key="DisplayAccentTextBrush" Color="#4FC3FF"/>
+
+    <SolidColorBrush x:Key="DisplayCardBrush" Color="#DD000000"/>
+    <SolidColorBrush x:Key="DisplayStrongCardBrush" Color="#F0000000"/>
+    <SolidColorBrush x:Key="DisplaySeparatorBrush" Color="#CC4FC3FF"/>
+
+    <SolidColorBrush x:Key="DisplayCurrentEventBorderBrush" Color="#FF4FC3FF"/>
+    
+    <SolidColorBrush x:Key="DisplayReadabilityOverlayBrush" Color="#AA000000"/>
+
+</ResourceDictionary>

@@ -26,5 +26,7 @@
         public BannerPosition BannerPosition { get; set; } = BannerPosition.Top;
 
         public double DisplayFontScale { get; set; } = 1.0;
+
+        public DisplayTheme Theme { get; set; } = DisplayTheme.Dark;
     }
 }

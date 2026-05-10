@@ -146,9 +146,9 @@ Potential next areas:
     * [ ] English and French support to start
     * [ ] Primary language
     * [ ] Secondary language (optional)
-* [ ] Review all font & panel styles in the Display Window for consistency
+* [X] Review all font & panel styles in the Display Window for consistency
     * [X] Create a list of all places where fonts are used, including size, colour, and opacity
-    * [ ] Create a list of all places where background panels are used, including size, colour, opacity, and borders
+    * [X] Create a list of all places where background panels are used, including size, colour, opacity, and borders
 * [X] Version number
 * [ ] Menu 
     * [X] Move file operations from buttons to menu
@@ -197,19 +197,21 @@ Potential next areas:
     * [X] Simplify labels: Add, Copy, Edit, Delete
     * [X] Buttons in the same order as Weather & Announcements admin tab
 * [X] Windows icon
-* [ ] Presentation
+* [X] Presentation
     * [X] Banner (top or bottom), always visible, but stylistically distinct from the schedule and announcements
     * [X] Don't need "Weather" label on weather details
     * [X] Larger fonts throughout
-    * [ ] Allow for custom font sizes
+    * [X] Allow for custom font sizes
     * [X] Dashboard widgets with borders, shading, or dividers
     * [X] Larger text in weather widget
     * [X] Larger text for date & time
-    * [ ] Black outline for text?
+    * [X] Black outline for text?
+        * Addressed by high contrast themes.
     * [X] Cleaner presentation of wind km/h vs mph in Weather Details
     * [X] Featured Images go full screen, hiding the dashboard (help reduce screen burn-in)
-    * [ ] Predefined themes
-    * [ ] Allow for custom themes?
+    * [X] Predefined themes
+    * [X] Allow for custom themes?
+        * No, we'll stick with the predefined themes.
     * [X] Hide weather widget if there's no weather
     * [X] Configure schedule for next X days instead of fixed at only 1 day.
 * [ ] Create Demo board during installation

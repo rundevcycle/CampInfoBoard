@@ -58,6 +58,11 @@ namespace CampInfoBoard
                     (screen.Primary ? " (Primary)" : ""))
                 .ToList();
 
+        public IEnumerable<DisplayTheme> DisplayThemes =>
+            Enum.GetValues(typeof(DisplayTheme)).Cast<DisplayTheme>();
+
+
+
 
         public ControlWindow()
         {
@@ -436,6 +441,7 @@ namespace CampInfoBoard
             if (_displayWindow?.DataContext is DisplayViewModel viewModel)
             {
                 viewModel.ReloadData();
+                _displayWindow.RefreshTheme();
                 viewModel.RestartRotation();
             }
 
@@ -2262,6 +2268,7 @@ namespace CampInfoBoard
         {
             Data.BackgroundImagePath = "";
             OnPropertyChanged(nameof(Data));
+            MarkBoardChanged();
         }
 
         private string CopyBackgroundImageToBoardFolder(string sourcePath)
