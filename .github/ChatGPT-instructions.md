@@ -63,6 +63,7 @@ The project is organized as follows:
 * `WeatherEditorWindow.xaml.cs`
 
 
+---
 
 
 ## Where We Left Off
@@ -70,43 +71,203 @@ Continuing CampInfoBoard WPF/C# public display app.
 
 Please review `ChatGPT-instructions.md` and `copilot-instructions.md` first, then inspect the uploaded solution before suggesting changes.
 
-Recent work completed:
 
-* Reworked presentation controls into a clearer operator workflow.
-* Replaced Show/Hide + Refresh with:
+Please review the attached CampInfoBoard files and read the session notes below before suggesting changes.  We recently completed a major display system refactor including semantic styles, live themes (Dark/Light/High Contrast), Markdown notes using Markdig + WebView2, current-event highlighting, and panel/style consolidation.  The display architecture is now resource-dictionary/theme based using DynamicResource semantic brushes.  Next priorities are field-test polish, validation/length limits, announcement templates/layout variants, and bilingual support.  Please inspect the current implementation before proposing changes and avoid guessing at existing code structure.
 
-  * ▶ Start
-  * ↻ Refresh
-  * ■ Stop
-* Added live presentation status indicator:
 
-  * Offline
-  * Live
-  * Live – Pending Changes
-* Refresh now only works from a saved state.
-* Added snapshot-based unsaved-change detection using serialized AppData comparison.
-* Added dirty tracking for collection changes (schedule, weather, announcements, photos, tides, sun, background image).
-* Cleaned up false dirty prompts during startup by removing event-only dirty-state dependence.
-* Presentation rotation logic now skips empty schedule mode and starts from the first available content mode.
+### CampInfoBoard — Session Notes
+#### Completed This Session
+##### Notes System
+* Replaced MdXaml with:
+    * Markdig
+    * WebView2 preview
+* Notes now support:
+    * rendered Markdown
+    * edit/preview toggle button
+    * clickable external links
+    * external browser launching via NavigationStarting
+* HTML/CSS styling handled directly in generated HTML
+* Compact heading spacing added
+* WebView2 initialized with EnsureCoreWebView2Async()
 
-Current presentation control layout:
+##### Toast Notifications
+* Added non-blocking save toast system
+* Uses existing ShowToast() approach in ControlWindow
+* Fixed layout shifting by using overlay positioning instead of layout flow
 
-* DockPanel-based layout.
-* Monitor picker on the left.
-* Status text + status dot near the presentation buttons on the right.
-* Flexible spacing between monitor controls and presentation controls intentionally retained to allow wider status text.
+##### Display Style Consolidation
+* Major cleanup of:
+    * text styles
+    * semantic typography hierarchy
+    * semantic brushes
+    * panel/card styles
+* Reduced duplicate font sizes/styles
+* Added:
+    * `DisplayTinyTextStyle`
+    * `DisplayMetaTextStyle`
+    * `DisplayAccentMetaTextStyle`
+    * etc.
+* Converted most display text to shared styles
 
-Potential next areas:
+##### Themes
 
-* Presentation transition/fade animations.
-* Large-display readability/distance pass.
-* Presentation typography scaling/custom font sizing.
-* Schedule grouping/highlighting in control tables.
-* Bilingual display support.
-* Announcement templating/formatting system.
-* Additional presentation polish and operator UX refinement.
-* Testing imported/exported boards on another machine
+Implemented full live-switching theme system:
 
+* Dark
+* Light
+* Dark High Contrast
+* Light High Contrast
+
+Architecture:
+
+* ResourceDictionary-based themes
+* DynamicResource brushes
+* ApplyTheme() in DisplayWindow
+* live refresh after ReloadData()
+
+Theme files:
+```
+Themes/
+    DarkTheme.xaml
+    LightTheme.xaml
+    DarkHighContrastTheme.xaml
+    LightHighContrastTheme.xaml
+```
+
+Added semantic brushes:
+
+* `DisplayTextBrush`
+* `DisplayMutedTextBrush`
+* `DisplayAccentTextBrush`
+* `DisplayCardBrush`
+* `DisplayStrongCardBrush`
+* `DisplaySeparatorBrush`
+* `DisplayReadabilityOverlayBrush`
+* `DisplayCurrentEventBorderBrush`
+
+##### Current Event Highlight
+* Removed old converters
+* Replaced with DataTrigger-based border highlighting
+* Only active event shows border
+* Removed blue background tint for readability
+* Current event highlight now theme-aware
+
+Removed:
+
+* `ScheduleBackgroundConverter`
+* `ScheduleBorderConverter`
+
+##### Banner Improvements
+* Added `BannerPanelStyle`
+* Banner now sits inside themed panel
+* Improved readability in Light themes
+
+
+##### Background / Dirty Flag Fix
+* Clearing background image now calls:
+
+```c#
+MarkBoardChanged();
+```
+
+
+##### UV Badge Cleanup
+* Tightened UV label spacing using negative margins
+* Kept large readable font sizes
+
+##### Theme Dropdown Polish
+* Added `EnumDisplayNameConverter`
+* Displays:
+    * Dark High Contrast
+    * Light High Contrast
+    * instead of enum names
+
+#### Current Architecture State
+
+Display system now has:
+
+* semantic typography
+* semantic brushes
+* centralized panel styling
+* scalable font sizing
+* theme resource dictionaries
+* live theme switching
+* accessibility-ready structure
+
+The display architecture is now in a strong maintainable state.
+
+#### Next Likely Tasks
+##### High Priority
+* Field test at next weekend event
+* Observe:
+    * readability at distance
+    * preferred themes
+    * weather usefulness
+    * banner visibility
+    * current event highlighting
+    * schedule pacing
+
+##### Likely Next Feature
+
+Announcement templates/layout variants:
+
+* image-heavy
+* text-heavy
+* split layout
+* minimal alert
+* rotating styles
+
+##### Validation / Guardrails
+
+Start lightweight validation:
+
+* MaxLength
+* character counters
+* overflow protection
+
+First target:
+
+* photo caption max length = 100
+
+
+##### Possible Future Improvements
+* Theme fine tuning after real-world testing
+* Accessibility adjustments
+* Additional note metadata
+* Animation/transitions (low priority)
+* Outdoor/daylight optimized theme
+* Event-specific themes
+
+
+#### Important Implementation Notes
+
+##### Theme Refresh Order
+Must be:
+
+```c#
+ReloadData()
+RefreshTheme()
+RestartRotation()
+```
+
+##### DynamicResource
+
+Theme brushes MUST use:
+
+```xml
+{DynamicResource ...}
+```
+
+not `StaticResource`.
+
+
+##### Photo Caption Exception
+
+Photo captions intentionally remain white-based and are NOT theme-driven because they always render over a dark gradient overlay.
+
+
+
+---
 
 ## Additional Instructions
 * If you need to make changes in a file I haven't uploaded, don't guess; ask for it instead.
@@ -224,4 +385,4 @@ Potential next areas:
     * [X] Commonmark markdown support
     * [X] Display rendered text by default, but allow for edit
     * [X] Default is "No notes."
-
+* [ ] Input validation (max length to start with)

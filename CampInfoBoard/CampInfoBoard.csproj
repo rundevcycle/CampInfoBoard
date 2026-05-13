@@ -13,6 +13,20 @@
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <CopyDocumentationFilesFromPackages>false</CopyDocumentationFilesFromPackages>
+  </PropertyGroup>
+    
   <ItemGroup>
     <None Remove="Assets\WeatherIcons\clear-night.png" />
     <None Remove="Assets\WeatherIcons\cloudy.png" />
