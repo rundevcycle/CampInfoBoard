@@ -310,11 +310,13 @@
                                                     FontSize="14"
                                                     FontWeight="Bold"
                                                     Foreground="Black"
-                                                    HorizontalAlignment="Center"/>
+                                                    HorizontalAlignment="Center"
+                                                    Margin="0,2,0,-4"/>
                                                 <TextBlock Text="{Binding UVIndex}"
                                                     FontSize="32"
                                                     FontWeight="Bold"
                                                     Foreground="Black"
+                                                    Margin="0,-4,0,0"
                                                     HorizontalAlignment="Center"/>
                                             </StackPanel>
                                         </Border>
@@ -634,11 +636,13 @@
                                                                    FontSize="22"
                                                                    FontWeight="Bold"
                                                                    Foreground="Black"
-                                                                   HorizontalAlignment="Center"/>
+                                                                   HorizontalAlignment="Center"
+                                                                   Margin="0,2,0,-6"/>
                                                         <TextBlock Text="{Binding UVIndex}"
-                                                                   FontSize="46"
+                                                                   FontSize="48"
                                                                    FontWeight="Bold"
                                                                    Foreground="Black"
+                                                                   Margin="0,-4,0,0"
                                                                    HorizontalAlignment="Center"/>
                                                     </StackPanel>
                                                 </Border>
@@ -809,10 +813,12 @@
                         <TextBlock Text="{Binding CurrentPhoto.Caption}"
                                    Style="{StaticResource DisplayCaptionTextStyle}"
                                    TextWrapping="Wrap"
+                                   HorizontalAlignment="Center"
                                    Margin="0,0,0,4"/>
 
                         <TextBlock Text="{Binding CurrentPhoto.Credit}"
                                    Margin="0,8,0,0"
+                                   HorizontalAlignment="Center"
                                    TextWrapping="Wrap">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock"
