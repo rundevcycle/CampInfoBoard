@@ -35,11 +35,21 @@
             Margin="0,6,0,10"
             Stretch="Uniform"/>
         
-        <TextBlock Text="Caption:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="CaptionBox" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4"/>
+        <TextBlock Text="Caption:" 
+                   Grid.Row="2" Grid.Column="0" 
+                   VerticalAlignment="Center"/>
+        <TextBox x:Name="CaptionBox" 
+                 Grid.Row="2" Grid.Column="1" 
+                 Grid.ColumnSpan="2" 
+                 MaxLength="100"
+                 Margin="0,4"/>
 
         <TextBlock Text="Credit:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
-        <TextBox x:Name="CreditBox" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,4"/>
+        <TextBox x:Name="CreditBox" 
+                 Grid.Row="3" Grid.Column="1" 
+                 Grid.ColumnSpan="2" 
+                 MaxLength="100"
+                 Margin="0,4"/>
 
         <TextBlock Text="Expiry:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
         <DatePicker x:Name="ExpiryPicker" Grid.Row="4" Grid.Column="1" Margin="0,4"/>
