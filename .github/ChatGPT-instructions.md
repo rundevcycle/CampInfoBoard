@@ -307,27 +307,11 @@ Photo captions intentionally remain white-based and are NOT theme-driven because
     * [ ] English and French support to start
     * [ ] Primary language
     * [ ] Secondary language (optional)
-* [X] Review all font & panel styles in the Display Window for consistency
-    * [X] Create a list of all places where fonts are used, including size, colour, and opacity
-    * [X] Create a list of all places where background panels are used, including size, colour, opacity, and borders
-* [X] Version number
 * [ ] Menu 
-    * [X] Move file operations from buttons to menu
     * [ ] User preferences (preferred units)
-    * [X] Help > About
-* [X] Import and export an info board to copy to another computer
-* [X] Background image selection and save with board folder
-* [X] Group FM frequencies in Dashboard admin tab
-* [X] Move Display Settings to bottom of Dashboard admin tab
-* [X] Move Tides & Sun tab to end, since they won't change very often if I do a bulk insert
-* [X] Announcements admin tab:
-    * [X] Display image preview instead of path
-    * [X] Simplify buttons: Add, Copy, Edit, Delete
-    * [X] Delete multiple rows
+* [ ] Announcements admin tab:
+    * [ ] Move announcements of same priority up or down
 * [ ] Announcement Edit window
-    * [X] Add note or tooltip explaining that bigger number = higher priority
-    * [X] Display image preview
-    * [X] Copy images into the board folder
     * [ ] Template codes, similar to OpenSong's square brackets
     * [ ] Some basic formatting in announcements (Markdown?)
     * [ ] Predefined announcement templates 
@@ -336,53 +320,28 @@ Photo captions intentionally remain white-based and are NOT theme-driven because
         * [ ] 1 column, 2 column
 * [ ] Schedule Items
     * [ ] Include an optional image (use default if not provided?)
-    * [X] Larger and fewer in Details panel, with rotation
     * [ ] Allow tagging to group related events
     * [ ] Colour coding for location, series, or tags
     * [ ] Alternating colour or highlight in control table to visually group events on the same day
     * [ ] Filter by speaker, title, or series
-    * [X] Delete multiple rows
-    * [X] Allow for rapid entry with default focus and overwrite
-    * [X] Rapid entry of batches of events by keeping the window open and setting default times
-* [X] Photos admin tab:
-    * [X] Delete multiple rows
-* [X] Weather admin tab:
-    * [X] Simplify buttons: Add, Edit, Copy, Delete
-    * [X] Delete multiple rows
-* [X] Tides admin tab:
-    * [X] Simplify buttons: Add, Delete Old Entries
-* [X] Sun Times admin tab:
-    * [X] Simplify buttons: Add, Delete Old Entries
+    * [ ] Vertical divider or visual separation between day/time and title/details
 * [ ] Schedule admin tab:
     * [ ] Display description
-    * [X] Simplify labels: Add, Copy, Edit, Delete
-    * [X] Buttons in the same order as Weather & Announcements admin tab
-* [X] Windows icon
-* [X] Presentation
-    * [X] Banner (top or bottom), always visible, but stylistically distinct from the schedule and announcements
-    * [X] Don't need "Weather" label on weather details
-    * [X] Larger fonts throughout
-    * [X] Allow for custom font sizes
-    * [X] Dashboard widgets with borders, shading, or dividers
-    * [X] Larger text in weather widget
-    * [X] Larger text for date & time
-    * [X] Black outline for text?
-        * Addressed by high contrast themes.
-    * [X] Cleaner presentation of wind km/h vs mph in Weather Details
-    * [X] Featured Images go full screen, hiding the dashboard (help reduce screen burn-in)
-    * [X] Predefined themes
-    * [X] Allow for custom themes?
-        * No, we'll stick with the predefined themes.
-    * [X] Hide weather widget if there's no weather
-    * [X] Configure schedule for next X days instead of fixed at only 1 day.
+    * [ ] Need a way to remove end times in bulk
+    * [ ] Only show value in End column if it's different than the start
+* [ ] Presentation
+    * [ ] Assume meetings with no end time that started within the past hour are "current".  Show highlight.
+    * [ ] Add highlight back to current event, but complementary to secondary text colour (i.e. orange if text is blue)
+    * [ ] Shadow or border around announcement image
 * [ ] Create Demo board during installation
 * [ ] Create installer
-* [X] Control Window
-    * [X] Add indicator to clearly show if the board is presenting live
-    * [X] Separate Save from presentation buttons
-    * [X] Add indicator if the currently presenting board is out of sync with the saved board.  I can still save changes while a board is presented, but let me know in case I want to bring the presentation in sync with my saved changes.
-* [X] Add a notes tab for additional info, instructions when sharing, and links that are useful when populating a board (e.g. closest tide station, weather sources, event website with schedule, etc.).
-    * [X] Commonmark markdown support
-    * [X] Display rendered text by default, but allow for edit
-    * [X] Default is "No notes."
+* [ ] Add a notes tab for additional info, instructions when sharing, and links that are useful when populating a board (e.g. closest tide station, weather sources, event website with schedule, etc.).
+    * [ ] Notes are not refreshed after loading another board.  
 * [ ] Input validation (max length to start with)
+* [ ] Weather entry
+    * [ ] Spaces in dropdown for Day/Night
+    * [ ] Friendlier icon names in dropdown
+* [ ] Sunrise & sunset icons consistent with tides
+    * [ ] Arrow position & size
+    * [ ] Gradient on arrows
+    * [ ] Same dimensions as tide icons
