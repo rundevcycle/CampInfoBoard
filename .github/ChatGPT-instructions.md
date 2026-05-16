@@ -285,12 +285,28 @@ Photo captions intentionally remain white-based and are NOT theme-driven because
 * [X] Font scale pass
 * [X] Spacing / padding pass
 * [ ] Large-display distance test
+  * [ ] Most fonts are too small.  Event header is a decent size.
+  * [ ] Banner text is too small
+  * [ ] Widget icons are hard to tell which is high and low tide, or sunrise/sunset
+  * [ ] Widget font is too small from a distance
+  * [X] Light high contrast theme worked best
+  * [ ] Need to change the dashboard widgets - maybe rotate or animate away and show one at a time with larger text, or move to bottom with banner and use full horizontal width
+  * [ ] Announcement templates: center full width or L/R with text/image, image/text, text/text, or image/image
+  * [ ] Wind in weather details getting cut off by UV badge
+  * [ ] Weather detail one a time with full body
+  * [ ] Weather widget: temperature & icon
+  * [ ] Announcement body font should be larger (about title size)
+  * [ ] Image preview in announcement grid is cut off
+  * [ ] Shadow or background behind weather icons for better contrast on light themes
+  * [ ] Rounded square instead of circle for UV badges?
+  * [ ] UV badge text is hard to read from a distance (e.g. black 6 on yellow)
 * [X] Section grouping / visual separation
 * [X] Borders vs separators
 * [X] Background panels / cards
 * [X] Widget spacing hierarchy
 * [X] Heading necessity review
 * [X] Contrast / opacity pass
+  * [ ] Venue was set up 3 Epson projectors instead of the one good Optoma.  They are not as bright as the Optoma, so couldn't do a good contrast test. 
 * [X] Widget alignment
 * [X] Font hierarchy
 * [X] Icon scale consistency
