@@ -45,5 +45,19 @@ namespace CampInfoBoard
         {
             ApplyTheme();
         }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_PreviewKeyDown(object sender, WpfKeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Escape)
+            {
+                e.Handled = true;
+                Close();
+            }
+        }
     }
 }

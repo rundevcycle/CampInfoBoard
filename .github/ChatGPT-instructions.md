@@ -339,19 +339,20 @@ Photo captions intentionally remain white-based and are NOT theme-driven because
     * [ ] Allow tagging to group related events
     * [ ] Colour coding for location, series, or tags
     * [ ] Alternating colour or highlight in control table to visually group events on the same day
-    * [ ] Filter by speaker, title, or series
+    * [ ] Filter by speaker, title, or series, or time
     * [ ] Vertical divider or visual separation between day/time and title/details
 * [ ] Schedule admin tab:
     * [ ] Display description
     * [ ] Need a way to remove end times in bulk
     * [ ] Only show value in End column if it's different than the start
+    * [ ] Option in presentation settings to show or hide the end time
 * [ ] Presentation
     * [ ] Assume meetings with no end time that started within the past hour are "current".  Show highlight.
     * [ ] Add highlight back to current event, but complementary to secondary text colour (i.e. orange if text is blue)
     * [ ] Shadow or border around announcement image
 * [ ] Create Demo board during installation
 * [ ] Create installer
-* [ ] Add a notes tab for additional info, instructions when sharing, and links that are useful when populating a board (e.g. closest tide station, weather sources, event website with schedule, etc.).
+* [X] Add a notes tab for additional info, instructions when sharing, and links that are useful when populating a board (e.g. closest tide station, weather sources, event website with schedule, etc.).
     * [ ] Notes are not refreshed after loading another board.  
 * [ ] Input validation (max length to start with)
 * [ ] Weather entry

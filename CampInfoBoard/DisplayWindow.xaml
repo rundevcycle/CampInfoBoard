@@ -6,7 +6,8 @@
         WindowState="Maximized"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Background="Black">
+        Background="Black"
+        PreviewKeyDown="Window_PreviewKeyDown">
 
     <Window.Resources>
 
@@ -840,9 +841,55 @@
                 </Grid>
             </Border>
         </Grid>
+
+
+        <!-- ================= WINDOW CONTROLS ================= -->
+        <Button Width="52"
+                Height="52"
+                Margin="0,16,16,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="100"
+                Click="CloseButton_Click"
+                Content="×"
+                FontFamily="Segoe UI"
+                FontSize="34"
+                FontWeight="SemiBold"
+                Foreground="White"
+                ToolTip="Close presentation">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#55000000"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Opacity" Value="0.35"/>
+                    <Setter Property="Padding" Value="0,-5,0,0"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                        CornerRadius="8">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                                      Margin="0,-2,0,0"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#CCB00020"/>
+                            <Setter Property="Opacity" Value="1"/>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="#FFE00020"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
-
-
-
-
 </Window>
