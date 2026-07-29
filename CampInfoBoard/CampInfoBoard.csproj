@@ -121,6 +121,8 @@
 
   <ItemGroup>
     <Folder Include="images\backgrounds\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>

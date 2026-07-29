@@ -4,3 +4,4 @@ global using WpfOpenFileDialog = Microsoft.Win32.OpenFileDialog;
 global using WpfKeyEventArgs = System.Windows.Input.KeyEventArgs;
 global using WpfTextBox = System.Windows.Controls.TextBox;
 global using WpfBinding = System.Windows.Data.Binding;
+global using WpfUserControl = System.Windows.Controls.UserControl;
