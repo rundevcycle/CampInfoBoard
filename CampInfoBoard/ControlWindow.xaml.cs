@@ -62,6 +62,10 @@ namespace CampInfoBoard
             Enum.GetValues(typeof(DisplayTheme)).Cast<DisplayTheme>();
 
 
+        public IEnumerable<PresentationLayoutMode> PresentationLayouts =>
+            Enum.GetValues(typeof(PresentationLayoutMode))
+                .Cast<PresentationLayoutMode>();
+
 
 
         public ControlWindow()

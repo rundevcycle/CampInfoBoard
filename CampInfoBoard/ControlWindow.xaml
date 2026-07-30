@@ -726,6 +726,24 @@
                                   HorizontalAlignment="Stretch">
                             <StackPanel Margin="12">
 
+                                <TextBlock Text="Layout"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Margin="0,0,0,12"/>
+                        
+                                <ComboBox ItemsSource="{Binding PresentationLayouts}"
+                                    SelectedItem="{Binding Data.Settings.PresentationLayout,
+                                        Mode=TwoWay}"
+                                    HorizontalAlignment="Left"
+                                    Width="220"
+                                    Margin="0,0,0,20">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
                                 <TextBlock Text="Display Font Scale" Margin="0,10,0,4"/>
 
                                 <StackPanel Orientation="Horizontal">

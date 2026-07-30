@@ -1,5 +1,22 @@
 <UserControl x:Class="CampInfoBoard.Views.LargeRoomPresentationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid/>
+
+    <Grid Margin="40">
+        <Border Style="{StaticResource LargePanelCardStyle}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Padding="60">
+            <StackPanel>
+                <TextBlock Text="Large Room Presentation"
+                           Style="{StaticResource DisplayTitleTextStyle}"
+                           HorizontalAlignment="Center"/>
+
+                <TextBlock Text="The large-room layout will be built here."
+                           Style="{StaticResource DisplayBodyTextStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="0,16,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
 </UserControl>

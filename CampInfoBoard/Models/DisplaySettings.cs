@@ -17,6 +17,9 @@
         public int PhotoRotationSeconds { get; set; } = 15;
         public bool DisplayAlwaysOnTop { get; set; } = false;
 
+        public PresentationLayoutMode PresentationLayout { get; set; } =
+            PresentationLayoutMode.Standard;
+
         public string BackgroundColor { get; set; } = "#101820";
 
         public bool ShowBanner { get; set; }
