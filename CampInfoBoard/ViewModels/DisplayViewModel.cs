@@ -13,7 +13,26 @@ public class DisplayViewModel : INotifyPropertyChanged
     private readonly DispatcherTimer _clockTimer;
     private readonly DispatcherTimer _rotationTimer;
 
-    private DisplayMode _mode = DisplayMode.Schedule;
+
+    private DisplayMode _currentMode = DisplayMode.Schedule;
+    public DisplayMode CurrentMode
+    {
+        get => _currentMode;
+        private set
+        {
+            if (_currentMode == value)
+            {
+                return;
+            }
+
+            _currentMode = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsPhotoVisible));
+            OnPropertyChanged(nameof(IsPhotoFallbackVisible));
+        }
+    }
+
+
     private int _announcementIndex = 0;
     private int _photoIndex = 0;
     private int _schedulePageIndex = 0;
@@ -231,10 +250,7 @@ public class DisplayViewModel : INotifyPropertyChanged
     public string HighTideDisplay => NextHighTide == null ? "" : $"High {NextHighTide.Time:h:mm tt}";
     public string LowTideDisplay => NextLowTide == null ? "" : $"Low {NextLowTide.Time:h:mm tt}";
 
-    public bool IsScheduleVisible => _mode == DisplayMode.Schedule;
-    public bool IsWeatherVisible => _mode == DisplayMode.Weather;
-    public bool IsAnnouncementVisible => _mode == DisplayMode.Announcement;
-    public bool IsPhotoVisible => _mode == DisplayMode.Photo;
+    public bool IsPhotoVisible => CurrentMode == DisplayMode.Photo;
     public bool IsPhotoFallbackVisible => IsPhotoVisible && CurrentPhoto == null;
 
     public int ScheduleSeconds => Math.Max(1, Settings.ScheduleRotationSeconds);
@@ -303,7 +319,7 @@ public class DisplayViewModel : INotifyPropertyChanged
 
     private void AdvanceMode()
     {
-        if (_mode == DisplayMode.Schedule)
+        if (CurrentMode == DisplayMode.Schedule)
         {
             if (_schedulePageIndex < SchedulePageCount - 1)
             {
@@ -337,7 +353,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             return;
         }
 
-        if (_mode == DisplayMode.Weather)
+        if (CurrentMode == DisplayMode.Weather)
         {
             if (ActiveAnnouncements.Any())
             {
@@ -357,7 +373,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             return;
         }
 
-        if (_mode == DisplayMode.Announcement)
+        if (CurrentMode == DisplayMode.Announcement)
         {
             _announcementIndex++;
 
@@ -379,7 +395,7 @@ public class DisplayViewModel : INotifyPropertyChanged
             return;
         }
 
-        if (_mode == DisplayMode.Photo)
+        if (CurrentMode == DisplayMode.Photo)
         {
             _photoIndex++;
 
@@ -397,13 +413,8 @@ public class DisplayViewModel : INotifyPropertyChanged
 
     private void SetMode(DisplayMode mode, int seconds)
     {
-        _mode = mode;
+        CurrentMode = mode;
 
-        OnPropertyChanged(nameof(IsScheduleVisible));
-        OnPropertyChanged(nameof(IsWeatherVisible));
-        OnPropertyChanged(nameof(IsAnnouncementVisible));
-        OnPropertyChanged(nameof(IsPhotoVisible));
-        OnPropertyChanged(nameof(IsPhotoFallbackVisible));
         OnPropertyChanged(nameof(HasCurrentPhotoText));
         OnPropertyChanged(nameof(CurrentAnnouncement));
         OnPropertyChanged(nameof(CurrentPhoto));
@@ -480,7 +491,6 @@ public class DisplayViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(IsPhotoFallbackVisible));
         OnPropertyChanged(nameof(HasCurrentPhotoText));
         OnPropertyChanged(nameof(DisplayWeather));
-        OnPropertyChanged(nameof(IsWeatherVisible));
     }
 
 

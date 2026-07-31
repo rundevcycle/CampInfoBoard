@@ -1,7 +1,8 @@
 <UserControl x:Class="CampInfoBoard.Views.StandardPresentationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:converters="clr-namespace:CampInfoBoard.Converters">
+             xmlns:converters="clr-namespace:CampInfoBoard.Converters"
+             xmlns:models="clr-namespace:CampInfoBoard.Models">
 
 
     <UserControl.Resources>
@@ -270,7 +271,21 @@
 
         <Grid Grid.Row="1">
             <!-- ================= SCHEDULE ================= -->
-            <Grid Visibility="{Binding IsScheduleVisible, Converter={StaticResource BoolToVisibility}}">
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                Value="Collapsed"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentMode}"
+                         Value="{x:Static models:DisplayMode.Schedule}">
+                                <Setter Property="Visibility"
+                        Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <ItemsControl ItemsSource="{Binding FilteredSchedule}">
@@ -368,10 +383,25 @@
 
 
             <!-- ================= WEATHER ================= -->
-            <Grid Visibility="{Binding IsWeatherVisible, Converter={StaticResource BoolToVisibility}}">
-                <StackPanel VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Width="1100">
+            <Grid>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility"
+                    Value="Collapsed"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentMode}"
+                             Value="{x:Static models:DisplayMode.Weather}">
+                                    <Setter Property="Visibility"
+                            Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    
+                    <StackPanel VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Width="1100">
 
                     <ItemsControl ItemsSource="{Binding DisplayWeather}">
                         <ItemsControl.ItemTemplate>
@@ -454,7 +484,21 @@
 
 
             <!-- ================= ANNOUNCEMENTS ================= -->
-            <Grid Visibility="{Binding IsAnnouncementVisible, Converter={StaticResource BoolToVisibility}}">
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Visibility"
+                            Value="Collapsed"/>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentMode}"
+                            Value="{x:Static models:DisplayMode.Announcement}">
+                                <Setter Property="Visibility"
+                        Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
 
                 <Border Style="{StaticResource StrongPanelCardStyle}"
                         CornerRadius="18"
